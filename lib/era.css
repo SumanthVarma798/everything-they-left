@@ -1,0 +1,57 @@
+/* Time looks (v4) — see lib/era.js. Each era = an image filter + overlays. Present day (2150) = .sketch (notebook.js). */
+.era { position: relative; overflow: hidden; margin: 0; background: #000; isolation: isolate; container-type: inline-size; }
+.era img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.era > i { position: absolute; pointer-events: none; }
+.era-grain { inset: -50%; opacity: .22; mix-blend-mode: overlay; animation: era-grain .45s steps(4) infinite;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+@keyframes era-grain { 0% { transform: translate(0, 0); } 25% { transform: translate(-6%, 4%); } 50% { transform: translate(5%, -3%); } 75% { transform: translate(-3%, -6%); } 100% { transform: translate(4%, 5%); } }
+.era-fx { inset: 0; }
+/* sizes scale with the frame (container units) so thumbnails and full-screen cutscenes both read */
+.era-tag { position: absolute; right: 3%; top: 4%; z-index: 3; font: 600 clamp(7px, 3.6cqw, 11px)/1 var(--label, sans-serif); letter-spacing: .14em; color: #fff; background: rgba(0,0,0,.55); padding: .4em .6em; border-radius: 3px; }
+.era-stamp { position: absolute; z-index: 3; white-space: pre; }
+.era-live { position: absolute; left: 3%; bottom: 5%; z-index: 3; font: 700 clamp(8px, 4cqw, 13px)/1 system-ui, sans-serif; letter-spacing: .08em; color: #fff; background: #d4262b; padding: .35em .6em; border-radius: 3px; }
+
+/* ≤1899 — engraving: sepia, hard contrast, paper */
+.era-etching img { filter: grayscale(1) sepia(.85) contrast(1.45) brightness(1.06); }
+.era-etching .era-grain { opacity: .12; animation: none; }
+.era-etching .era-fx { background: radial-gradient(ellipse at center, transparent 55%, rgba(60,35,10,.45)); mix-blend-mode: multiply; }
+
+/* 1900–1965 — 16mm black & white: grain, scratches, flicker, gate weave, vignette */
+.era-film-bw img { filter: grayscale(1) contrast(1.22) brightness(.96); animation: era-weave 3s steps(12) infinite; }
+.era-film-bw .era-grain { opacity: .35; }
+.era-film-bw .era-fx { box-shadow: inset 0 0 80px rgba(0,0,0,.85);
+  background: repeating-linear-gradient(90deg, transparent 0 37%, rgba(255,255,255,.18) 37% 37.25%, transparent 37.25% 71%, rgba(255,255,255,.12) 71% 71.15%, transparent 71.15% 100%);
+  animation: era-scratch .9s steps(3) infinite, era-flicker .18s steps(2) infinite; }
+@keyframes era-weave { 0%, 100% { translate: 0 0; } 33% { translate: .4px -.6px; } 66% { translate: -.5px .4px; } }
+@keyframes era-scratch { 0% { background-position: 0 0; } 50% { background-position: 23% 0; } 100% { background-position: -17% 0; } }
+@keyframes era-flicker { 50% { opacity: .9; } }
+
+/* 1966–1979 — colour film: warm, faded, lifted blacks, light leak */
+.era-film img { filter: sepia(.28) saturate(.85) contrast(1.04) brightness(1.03); animation: era-weave 4s steps(12) infinite; }
+.era-film .era-grain { opacity: .26; }
+.era-film .era-fx { box-shadow: inset 0 0 70px rgba(20,8,0,.7);
+  background: radial-gradient(ellipse at 88% 12%, rgba(255,120,40,.35), transparent 45%), linear-gradient(rgba(255,170,90,.1), rgba(40,20,0,.12));
+  mix-blend-mode: screen; animation: era-leak 5s ease-in-out infinite; }
+@keyframes era-leak { 50% { opacity: .55; } }
+
+/* 1980–1999 — VHS / broadcast TV: colour bleed, scanlines, tracking band, PLAY date */
+.era-vhs img { filter: url(#era-vhs) saturate(1.35) contrast(1.12) blur(.35px); }
+.era-vhs .era-grain { opacity: .18; }
+.era-vhs .era-fx { background:
+    linear-gradient(transparent 0 46%, rgba(255,255,255,.14) 47%, rgba(255,255,255,.05) 50%, transparent 52%),
+    repeating-linear-gradient(0deg, rgba(0,0,0,.22) 0 1px, transparent 1px 3px);
+  background-size: 100% 220%, 100% 100%; animation: era-track 4s linear infinite; }
+@keyframes era-track { from { background-position: 0 -120%, 0 0; } to { background-position: 0 120%, 0 0; } }
+.era-vhs .era-stamp { left: 5%; bottom: 6%; font: 600 clamp(8px, 5cqw, 17px)/1 ui-monospace, 'SF Mono', Menlo, monospace; color: #fff; text-shadow: 2px 0 rgba(255,0,60,.6), -2px 0 rgba(0,220,255,.6); letter-spacing: .06em; }
+
+/* 2000–2012 — early digital: punchy, blown highlights, orange date imprint */
+.era-digicam img { filter: saturate(1.3) contrast(1.18) brightness(1.08); }
+.era-digicam .era-grain { opacity: .1; animation: none; }
+.era-digicam .era-stamp { right: 5%; bottom: 6%; font: 700 clamp(8px, 5cqw, 17px)/1 ui-monospace, Menlo, monospace; color: #ff9a2a; text-shadow: 0 0 4px rgba(255,120,0,.8); letter-spacing: .08em; }
+
+/* 2013+ — HD / livestream: clean, faint flare */
+.era-hd img { filter: contrast(1.03) saturate(1.06); }
+.era-hd .era-grain { display: none; }
+.era-hd .era-fx { background: radial-gradient(circle at 78% 22%, rgba(255,255,255,.14), transparent 30%); mix-blend-mode: screen; }
+
+@media (prefers-reduced-motion: reduce) { .era img, .era > i { animation: none !important; } }

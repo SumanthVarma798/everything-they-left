@@ -1,0 +1,5 @@
+.DS_Store
+.gstack/
+.lavish/
+node_modules/
+*.log

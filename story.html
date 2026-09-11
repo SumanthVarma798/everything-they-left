@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bhoomi — Story Sequence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,800;1,400&family=Barlow+Condensed:wght@500;600;700&family=Caveat:wght@500;700&display=swap">
+<link rel="stylesheet" href="lib/game.css">
+<link rel="stylesheet" href="lib/era.css">
+<style>
+  /* Design source: the product's own tokens (lib/game.css ← artemis3-dashboard index.css) */
+  body { background: var(--bg); }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 36px 24px 90px; }
+  .kick { font: 600 13px var(--label); letter-spacing: .2em; text-transform: uppercase; color: var(--accent2); }
+  h1 { font: 800 clamp(34px, 5vw, 56px)/1.02 var(--display); color: var(--hi); margin: 8px 0 10px; }
+  h1 em { font-style: italic; font-weight: 400; color: var(--gold); }
+  .lede { font: 18px/1.55 var(--display); color: var(--text); max-width: 72ch; }
+  h2 { font: 700 28px/1.2 var(--display); color: var(--hi); margin: 60px 0 6px; }
+  .sub { color: var(--dim); max-width: 80ch; margin: 0 0 18px; }
+  a { color: var(--accent); }
+  .rules { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; margin-top: 22px; }
+  .rule { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; }
+  .rule b { display: block; font: 700 17px var(--label); letter-spacing: .08em; color: var(--hi); text-transform: uppercase; margin-bottom: 6px; }
+  .rhythm { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+  .rhythm span { font: 600 13px var(--label); letter-spacing: .1em; padding: 6px 9px; border-radius: 5px; background: var(--bg3); color: var(--text); }
+  .rhythm .p { background: #eee7d8; color: #2d2c2a; font-family: 'Caveat', cursive; font-size: 17px; letter-spacing: 0; }
+  .rhythm .c { background: linear-gradient(90deg, #7a4a1c, #1e5a7a); color: #fff; }
+  .rhythm .d { background: rgba(255,68,68,.18); color: #ff9a9a; }
+  .ladder { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; }
+  .ladder .step { display: grid; gap: 6px; }
+  .ladder .era { aspect-ratio: 4 / 3; border-radius: 8px; }
+  .ladder .yrs { font: 700 15px var(--label); letter-spacing: .08em; color: var(--hi); }
+  .ladder .why { font-size: 12.5px; color: var(--dim); line-height: 1.35; }
+  .present { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 16px; align-items: center; margin-top: 16px; padding: 14px; border-radius: 12px; }
+  .present img { width: 100%; aspect-ratio: 4/3; object-fit: cover; }
+  .present p { margin: 0; font: 700 21px/1.3 'Caveat', cursive; }
+
+  /* chapters */
+  .ch { position: relative; margin-top: 26px; background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+  .ch-head { display: flex; gap: 14px; align-items: baseline; flex-wrap: wrap; padding: 16px 20px 12px; border-bottom: 1px solid var(--border); }
+  .ch-n { font: 800 15px var(--label); letter-spacing: .18em; color: var(--accent2); }
+  .ch-t { font: 700 26px/1.1 var(--display); color: var(--hi); margin: 0; }
+  .ch-place { font: 13px var(--mono); color: var(--dim); }
+  .ch-build { margin-left: auto; font: 700 12px var(--label); letter-spacing: .12em; padding: 4px 8px; border-radius: 4px; }
+  .ch-build.core { background: rgba(0,221,136,.15); color: var(--ok); } .ch-build.cheap { background: rgba(255,170,0,.14); color: var(--warn); } .ch-build.scene { background: var(--bg3); color: var(--dim); }
+  .ch-body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); }
+  .now { padding: 16px 20px 18px; border-right: 1px solid var(--border); }
+  .lbl { font: 600 11px var(--label); letter-spacing: .24em; text-transform: uppercase; color: var(--dim); margin: 0 0 6px; }
+  .danger { font: 15px/1.5 var(--mono); color: #ffb3b3; margin: 0 0 14px; }
+  .danger::before { content: '▲ '; color: var(--danger); }
+  .finds { border-radius: 10px; padding: 12px 14px 8px; margin-bottom: 14px; }
+  .finds ul { margin: 0; padding: 0; list-style: none; }
+  .finds li { font: 600 18px/1.25 'Caveat', cursive; margin: 0 0 8px; padding-left: 18px; position: relative; }
+  .finds li::before { content: '→'; position: absolute; left: 0; color: #b0392b; }
+  .finds li small { font: 11px var(--mono); color: #6b655a; }
+  .finds .sk { display: flex; gap: 10px; margin: 4px 0 8px; }
+  .finds .sk img { width: 50%; aspect-ratio: 4/3; object-fit: cover; rotate: -1deg; box-shadow: 0 2px 6px rgba(0,0,0,.15); }
+  .act { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; align-items: start; background: var(--bg3); border-radius: 8px; padding: 10px 12px; }
+  .act .verb { font: 700 13px var(--label); letter-spacing: .14em; color: #002a22; background: var(--accent2); padding: 3px 8px; border-radius: 4px; }
+  .act p { margin: 0; font-size: 14px; }
+  .past { padding: 16px 20px 18px; }
+  .frames { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .frames figure.era { aspect-ratio: 16 / 10; border-radius: 8px; }
+  .scene p { margin: 6px 0 0; font-size: 13.5px; line-height: 1.45; color: var(--text); }
+  .scene p b { color: var(--hi); font-weight: 600; }
+  .scene.textonly { background: var(--bg3); border-radius: 8px; padding: 12px; display: grid; align-content: center; }
+  .scene.textonly .yr { font: 700 13px var(--label); letter-spacing: .14em; color: var(--gold); }
+  .payoff { margin: 0; font: 14px/1.5 var(--mono); color: var(--ok); }
+  .aud { font: 600 11px var(--label); letter-spacing: .12em; color: var(--accent2); }
+  ul.decided { margin: 0 0 16px; padding-left: 18px; } ul.decided li { margin: 4px 0; }
+  .wonder { margin: 16px 0 0; font: italic 20px/1.45 var(--display); color: var(--hi); border-left: 3px solid var(--gold); padding-left: 14px; }
+  .hook { margin: 12px 0 0; font: 13.5px var(--mono); color: var(--accent2); }
+  .src { padding: 8px 20px 12px; border-top: 1px solid var(--border); font-size: 12px; color: var(--dim); }
+  .src a { color: var(--dim); margin-right: 10px; }
+  .arc-line { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 4px; margin-top: 18px; }
+  .arc-line a { text-decoration: none; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 8px; font: 600 12px/1.25 var(--label); letter-spacing: .06em; color: var(--text); }
+  .arc-line a b { display: block; color: var(--accent2); font-size: 11px; letter-spacing: .16em; }
+  form.decide { margin-top: 44px; background: var(--bg2); border: 1px solid var(--accent2); border-radius: 14px; padding: 20px 22px; }
+  form.decide h3 { font: 700 22px var(--display); color: var(--hi); margin: 0 0 12px; }
+  fieldset { border: 0; padding: 0; margin: 0 0 16px; }
+  legend { font: 700 14px var(--label); letter-spacing: .12em; text-transform: uppercase; color: var(--hi); margin-bottom: 6px; }
+  label.opt { display: flex; gap: 8px; align-items: flex-start; margin: 5px 0; font-size: 14.5px; cursor: pointer; }
+  textarea { width: 100%; min-height: 70px; background: #03050a; color: var(--text); border: 1px solid var(--border); border-radius: 8px; padding: 8px; font: 14px system-ui, sans-serif; }
+  .btn { font: 700 14px var(--label); letter-spacing: .1em; text-transform: uppercase; padding: 10px 16px; border-radius: 6px; border: 1px solid var(--accent2); background: var(--accent2); color: #002a22; cursor: pointer; }
+  .queued { color: var(--ok); font: 600 13px var(--label); letter-spacing: .08em; margin-left: 10px; }
+  @media (max-width: 900px) { .rules, .ch-body, .present { grid-template-columns: minmax(0, 1fr); } .now { border-right: 0; border-bottom: 1px solid var(--border); } .ladder { grid-template-columns: repeat(3, minmax(0, 1fr)); } .arc-line { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { .frames, .ladder { grid-template-columns: minmax(0, 1fr); } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="kick">Hold Your Breath · story v4 · rendered live from content.js</div>
+  <h1>Bhoomi <em>(“the Earth”)</em> never cared about Earth. Now her life depends on it.</h1>
+  <p class="lede">2150. A solar superstorm kills every chip on the Moon in eleven minutes. Everyone who could help is on Mars. To survive long enough to call Earth, Bhoomi has to learn how Earth got here: the fixes, the failures, and the people. She finds all of it in the junk and the records they left behind.</p>
+
+  <div class="rules">
+    <div class="rule"><b>Rule 1 · Danger first, wonder after</b>
+      People don’t daydream in danger. They act. It’s only once they’re safe that they start to wonder how it was for the people before them. Every chapter runs:
+      <div class="rhythm"><span class="d">DANGER · 2150 HUD</span><span class="p">search · her notebook</span><span>ACT · the interaction</span><span>BREATH · safe for now</span><span class="c">WONDER · the past, in colour</span></div>
+    </div>
+    <div class="rule"><b>Rule 2 · Each time has its own camera</b>
+      Anything she finds or works out in 2150 is a pencil sketch in her notebook. Anything she <i>relives</i> plays in colour through the camera of its own era. The looks below are the real CSS (<code>lib/era.css</code>) on real photos.
+    </div>
+  </div>
+
+  <div class="ladder" id="ladder" aria-label="Era looks"></div>
+  <div class="present paper"><img class="sketch" src="assets/img/air-co2-mailbox.jpg" alt="Apollo 13 CO2 adapter as a pencil sketch"><p>2150 · the present. What Bhoomi finds, reads and plans is pencil on paper. The screens are dead.</p></div>
+
+
+  <h2>The sequence</h2>
+  <p class="sub">A prologue, six chapters and an epilogue, all rendered from <code>content.js</code>, so this page and the game can't drift apart. Every historical event is real and sourced; the fiction is Bhoomi, her family, the storm and the rescue. The route: Shackleton → Malapert A (the library) → Mons Mouton (the drill) → Vikram (the mirror).</p>
+  <nav class="arc-line" id="arcline"></nav>
+  <div id="chapters"></div>
+
+  <form class="decide" id="decide" data-lavish-question="story-v4-notes">
+    <h3>Decided</h3>
+    <ul class="decided">
+      <li><b>Eras:</b> true to each era's camera. Engraving → 16mm B&amp;W → colour film → VHS (1980–99) → early digital → HD.</li>
+      <li><b>Build:</b> all 6 chapters for Saturday.</li>
+      <li><b>Indian thread:</b> one Indian achievement or sacrifice in every chapter, always after the danger has passed.</li>
+      <li><b>Her roots:</b> revealed by the last plaque. Her great-grandmother Chandrika Devi (“moonlight”, fictional) was on India's first crew to live at Shackleton.</li>
+      <li><b>Nambi Narayanan:</b> one factual line, inside the cryogenic-engine story.</li>
+      <li><b>Ending:</b> she goes to Earth to study, at PRL Ahmedabad, Sarabhai's lab, and keeps the Mars dream. “Mars isn't cancelled. It's rescheduled.”</li>
+    </ul>
+    <fieldset><legend>Anything to change?</legend><textarea name="notes" placeholder="Lines that don't sound like her, facts to cut, beats to move…"></textarea></fieldset>
+    <button class="btn" type="submit">Queue notes</button><span class="queued" id="q" hidden>✓ Queued, press Send to Agent</span>
+  </form>
+</div>
+
+<script type="module">
+import { CONTENT as C } from './content.js';
+import { eraFrame } from './lib/era.js';
+import { ensurePencil } from './lib/notebook.js';
+ensurePencil();
+const $ = s => document.querySelector(s);
+
+// ── the ladder: one real photo per era ──
+const LADDER = [
+  ['assets/img/era-1859-carrington-sketch.jpg', 1859, 'Carrington’s own sunspot drawing, the day of the great storm', '≤1899'],
+  ['assets/img/era-1962-katherine-johnson.jpg', 1962, 'Newsreel grain, scratches, flicker', '1900–1965'],
+  ['assets/img/finale-earthrise.jpg', 1968, 'Apollo’s own film stock: warm, faded', '1966–1979'],
+  ['assets/img/era-1984-soyuz-t11-crew.jpg', 1984, 'Colour bleed, scanlines, tracking, PLAY date', '1980–1999', { date: '1984-04-03' }],
+  ['assets/img/era-2009-lcross-team.jpg', 2009, 'Punchy colour, orange date imprint', '2000–2012', { date: '2009-10-09' }],
+  ['assets/img/cold-chandrayaan3-vikram.jpg', 2023, 'Clean, a livestream “LIVE” bug for control-room moments', '2013–2026', { live: true }],
+];
+for (const [src, y, why, yrs, o = {}] of LADDER) {
+  const d = document.createElement('div'); d.className = 'step';
+  d.append(eraFrame(src, y, { alt: why, ...o }));
+  d.insertAdjacentHTML('beforeend', `<div class="yrs">${yrs}</div><div class="why">${why}</div>`);
+  $('#ladder').append(d);
+}
+
+// ── chapters: rendered straight from content.js (the single source of truth) ──
+const VERB = { drag: 'DRAG', balance: 'BALANCE', focus: 'FOCUS', morse: 'MORSE', hold: 'HOLD' };
+const links = src => (src || []).map(([t, u]) => `<a href="${u}" target="_blank" rel="noopener">${t}</a>`).join('');
+const CH = [
+  { id: 'prologue', n: 'PROLOGUE', t: 'Eleven Minutes', place: C.narrator.base, danger: C.prologue.lines.slice(1).join(' '), finds: [],
+    act: ['HOLD', 'Hold your breath while she clears the regulator. The audience holds theirs too.'], payoff: C.opener.lines, relive: C.opener.relive,
+    wonder: C.opener.wonder, hook: C.motivation.join(' '), src: C.opener.sources },
+  ...C.crises.map(c => ({ id: c.id, n: `CHAPTER ${c.chapter} · ${c.name}`, t: c.title, place: c.objective, status: c.alarm.status, danger: c.alarm.log,
+    finds: c.finds, act: [VERB[c.interaction.verb] || c.interaction.verb.toUpperCase(), c.interaction.label], payoff: c.payoff.lines, solved: c.payoff.solvedBefore,
+    relive: c.relive, wonder: c.wonder, hook: c.hook, src: c.sources })),
+  { id: 'epilogue', n: 'EPILOGUE', t: 'Bhoomi', place: 'the reply', danger: C.finale.reply.join(' '), finds: [{ text: C.finale.plaque.lead }, { text: C.finale.plaque.text }],
+    act: ['—', 'No interaction. The plaque, her choice, the closing line, the memorial.'], payoff: [...C.finale.plaque.after, ...C.finale.choice], relive: C.finale.relive,
+    wonder: 'They came all this way to find the Moon, and found the Earth. So did I.', hook: C.finale.closing, src: C.finale.sources },
+];
+$('#arcline').innerHTML = CH.map(c => `<a href="#${c.id}"><b>${c.n.split(' · ')[0]}</b>${c.t}</a>`).join('');
+for (const c of CH) {
+  const el = document.createElement('article'); el.className = 'ch'; el.id = c.id;
+  el.innerHTML = `<header class="ch-head"><span class="ch-n">${c.n}</span><h3 class="ch-t">${c.t}</h3><span class="ch-place">${c.place}</span>${c.solved ? `<span class="ch-build core">SOLVED BEFORE · ${c.solved}</span>` : ''}</header>
+    <div class="ch-body">
+      <section class="now"><p class="lbl">2150 · danger${c.status ? ' · ' + c.status : ''}</p><p class="danger">${c.danger}</p>
+        ${c.finds.length ? `<p class="lbl">What she finds · her notebook</p><div class="finds paper"><ul>${c.finds.map(f => `<li>${f.text} ${f.year ? `<small>${f.year}</small>` : ''}${f.img ? `<div class="sk"><img class="sketch" src="${f.img}" alt=""></div>` : ''}</li>`).join('')}</ul></div>` : ''}
+        <div class="act"><span class="verb">${c.act[0]}</span><p>${c.act[1]}</p></div>
+        ${c.payoff?.length ? `<p class="lbl" style="margin-top:14px">Breath · safe for now</p><p class="payoff">${c.payoff.join(' ')}</p>` : ''}</section>
+      <section class="past"><p class="lbl">Wonder · relived in colour</p><div class="frames"></div>
+        <p class="wonder">“${c.wonder}”</p>${c.hook ? `<p class="hook">${c.hook}</p>` : ''}</section>
+    </div><div class="src">Sources: ${links(c.src)}</div>`;
+  const frames = el.querySelector('.frames');
+  for (const r of c.relive || []) {
+    const s = document.createElement('div'); s.className = 'scene' + (r.img ? '' : ' textonly');
+    if (r.img) { s.append(eraFrame(r.img, r.year, { alt: '', date: r.date, live: r.live })); s.insertAdjacentHTML('beforeend', `<p>${r.text}${r.audio ? ' <span class="aud">♪ real audio</span>' : ''}</p>`); }
+    else s.innerHTML = `<div class="yr">${r.year}</div><p>${r.text}</p>`;
+    frames.append(s);
+  }
+  $('#chapters').append(el);
+}
+
+// ── discussion notes → one prompt ──
+$('#decide').addEventListener('submit', e => {
+  e.preventDefault();
+  const notes = (new FormData(e.currentTarget).get('notes') || '').trim(); if (!notes) return;
+  if (window.lavish?.queuePrompt) { window.lavish.queuePrompt('Story v4 notes: ' + notes, { tag: 'story-v4-notes', text: 'Story notes', element: e.currentTarget, queueKey: 'story-v4-notes', data: { notes } }); $('#q').hidden = false; }
+  else alert('Open this page through lavish to send notes.\n\n' + notes);
+});
+</script>
+</body>
+</html>
