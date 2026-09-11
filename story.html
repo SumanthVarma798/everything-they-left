@@ -32,7 +32,7 @@
   .ladder .era { aspect-ratio: 4 / 3; border-radius: 8px; }
   .ladder .yrs { font: 700 15px var(--label); letter-spacing: .08em; color: var(--hi); }
   .ladder .why { font-size: 12.5px; color: var(--dim); line-height: 1.35; }
-  .present { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 16px; align-items: center; margin-top: 16px; padding: 14px; border-radius: 12px; }
+  .present { display: grid; grid-template-columns: 320px minmax(0, 1fr); gap: 16px; align-items: center; margin-top: 16px; padding: 14px; border-radius: 12px; }
   .present img { width: 100%; aspect-ratio: 4/3; object-fit: cover; }
   .present p { margin: 0; font: 700 21px/1.3 'Caveat', cursive; }
 
@@ -57,7 +57,7 @@
   .finds li::before { content: '→'; position: absolute; left: 0; color: #b0392b; }
   .finds li small { font: 11px var(--mono); color: #6b655a; }
   .finds .sk { display: flex; gap: 10px; margin: 4px 0 8px; }
-  .finds .sk img { width: 50%; aspect-ratio: 4/3; object-fit: cover; rotate: -1deg; box-shadow: 0 2px 6px rgba(0,0,0,.15); }
+  .finds .sk img { width: 100%; aspect-ratio: 16/10; object-fit: cover; rotate: -.6deg; box-shadow: 0 2px 6px rgba(0,0,0,.15); }
   .act { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; align-items: start; background: var(--bg3); border-radius: 8px; padding: 10px 12px; }
   .act .verb { font: 700 13px var(--label); letter-spacing: .14em; color: #002a22; background: var(--accent2); padding: 3px 8px; border-radius: 4px; }
   .act p { margin: 0; font-size: 14px; }
@@ -102,7 +102,7 @@
       <div class="rhythm"><span class="d">DANGER · 2150 HUD</span><span class="p">search · her notebook</span><span>ACT · the interaction</span><span>BREATH · safe for now</span><span class="c">WONDER · the past, in colour</span></div>
     </div>
     <div class="rule"><b>Rule 2 · Each time has its own camera</b>
-      Anything she finds or works out in 2150 is a pencil sketch in her notebook. Anything she <i>relives</i> plays in colour through the camera of its own era. The looks below are the real CSS (<code>lib/era.css</code>) on real photos.
+      Anything she finds or works out in 2150 is a pencil sketch in her notebook. (The pencil is real lunar plumbing: the base's Bosch CO₂ reactor grows solid carbon on regolith; she presses it with regolith fines. The paper is greenhouse trimmings.) Anything she <i>relives</i> plays in colour through the camera of its own era. The looks below are the real CSS (<code>lib/era.css</code>) on real photos.
     </div>
   </div>
 
@@ -157,9 +157,9 @@ for (const [src, y, why, yrs, o = {}] of LADDER) {
 const VERB = { drag: 'DRAG', balance: 'BALANCE', focus: 'FOCUS', morse: 'MORSE', hold: 'HOLD' };
 const links = src => (src || []).map(([t, u]) => `<a href="${u}" target="_blank" rel="noopener">${t}</a>`).join('');
 const CH = [
-  { id: 'prologue', n: 'PROLOGUE', t: 'Eleven Minutes', place: C.narrator.base, danger: C.prologue.lines.slice(1).join(' '), finds: [],
+  { id: 'prologue', n: 'PROLOGUE', t: 'Eleven Minutes', place: C.narrator.base, danger: C.prologue.lines.slice(1).join(' '), finds: C.notebook.lines.map(text => ({ text })),
     mood: C.prologue.mood, act: ['HOLD', 'Hold your breath while she clears the regulator. The audience holds theirs too.'], payoff: C.opener.lines, relive: C.opener.relive,
-    wonder: C.opener.wonder, hook: C.motivation.join(' '), src: C.opener.sources },
+    wonder: C.opener.wonder, hook: C.motivation.join(' '), src: [...C.opener.sources, ...C.notebook.sources] },
   ...C.crises.map(c => ({ id: c.id, n: `CHAPTER ${c.chapter} · ${c.name}`, t: c.title, mood: c.mood, place: c.objective, status: c.alarm.status, danger: c.alarm.log,
     finds: c.finds, act: [VERB[c.interaction.verb] || c.interaction.verb.toUpperCase(), c.interaction.label], payoff: c.payoff.lines, solved: c.payoff.solvedBefore,
     relive: c.relive, wonder: c.wonder, hook: c.hook, src: c.sources })),

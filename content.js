@@ -68,6 +68,21 @@ export const CONTENT = {
     'My name literally means Earth. I always assumed that was my family’s idea of a joke.',
   ],
 
+  // ── THE NOTEBOOK — shown once, as the first paper card (after motivation, before chapter 1) ─────────
+  // REAL: NASA’s Bosch CO₂ reactor (in development at MSFC since the 1960s) turns exhaled CO₂ + H₂ into water and
+  // solid carbon; NASA has tested lunar regolith simulant as the catalyst bed the carbon grows on. Graphite does
+  // occur natively on the Moon (Apollo 17 sample 72255, graphite whiskers, Science 2010) but only in traces.
+  notebook: {
+    lines: [
+      'From here on, everything goes in the notebook.',
+      'The pencil is ours. The scrubber’s carbon reactor pulls the carbon out of what we exhale and grows it, solid, on a bed of regolith. Scrape it off, press it with regolith fines, and it writes.',
+      'There is graphite on the Moon, by the way. Apollo 17 brought some home: whiskers of it, cooked by an impact. Not enough to write with.',
+      'The paper is greenhouse trimmings. Neither cares about solar storms.',
+      'Every line in this book is something I breathed out.',
+    ],
+    sources: [['The Bosch Process (NASA NTRS)', 'https://ntrs.nasa.gov/api/citations/20100033001/downloads/20100033001.pdf'], ['Series Bosch, regolith catalyst (ICES 2021)', 'https://ntrs.nasa.gov/api/citations/20210015118/downloads/ICES-2021-50_Series%20Bosch%20Carbon%20Formation%20Reactor%20Trade%20Study%20and%20Down-Select_Final.pdf'], ['Graphite in Apollo 17 sample 72255 (Science)', 'https://www.science.org/doi/10.1126/science.1190541']],
+  },
+
   // ── THE SALVAGE MAP — unlocked in chapter 4, once she can read the Lunar Library ─────────────
   // Data: data/missions.json (Wikipedia “List of missions to the Moon”; 139 Moon-bound, 1958–2026:
   // 72 success · 11 partial · 56 failed). `node check.mjs` verifies these numbers against the data. Beats with `salvage` drop a pin on her map.

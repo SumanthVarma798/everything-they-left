@@ -73,7 +73,7 @@ salvage radar bottom-left · power/water bottom-right. Fail = red edge pulse, ne
 
 ### Screen flow (the engine plays this list top to bottom)
 ```
-title → prologue → opener(HOLD) → relive×2 → wonder → motivation
+title → prologue → opener(HOLD) → relive×2 → wonder → motivation → notebook (first paper card: CONTENT.notebook)
   → [chapter ×6: fly → alarm(+plan sketch) → finds → act → payoff(+SOLVED BEFORE) → relive×2–3 → wonder → hook]
       (after chapter 4: salvage map — paper page → "Look up ▸" → cinematic)
   → epilogue: reply → montage(4 × 4 s) → impossible-things page → plaque → choice → closing → credits
@@ -84,7 +84,7 @@ title → prologue → opener(HOLD) → relive×2 → wonder → motivation
 | `title` | 3D Moon slowly spinning, “EVERYTHING THEY LEFT” + “Bhoomi, 2150”, then “Hold your breath.” [PRESS & HOLD SPACE] | the hold (also unlocks audio) |
 | `line` | letterbox bars; mono text typed at 45 ch/s | click / Enter / Space, or auto after text + 1.5 s |
 | `alarm` | HUD objective + red status, 3-beep Web Audio alarm, log typed, plan sketch draws itself (`drawPlan`) | click |
-| `finds` | paper card slides up; handwriting (Caveat); photos with `.sketch` pencil filter | click |
+| `finds` | paper card slides up; handwriting (Caveat); photos with `.sketch` pencil filter, **rendered ≥ 320 px wide** (the hatching is in CSS px and turns to noise smaller) | click |
 | `act` | `mountInteraction(hud.panel, interaction)` | win (miss → `hud.fail()`, checkpoint replay, toast on 3rd miss) |
 | `payoff` | green mono lines + stamp “SOLVED BEFORE · APOLLO 13 · 1970”; `hud.unlock(hudUnlock)` | click |
 | `relive` | full-bleed `eraFrame(img, year)`, slow Ken Burns, caption, audio clip (first 5 s) | auto 8 s, or click; **Esc / ⏭ skips all** |
@@ -100,6 +100,7 @@ Phone: same flow; interaction panel full-width; HUD shrinks (container units).
 
 ## 3. Visual system
 - **Present (2150):** HUD (cyan `#6ff3ff`, thin, translucent) + **pencil notebook** (paper `#eee7d8`, graphite `#2d2c2a`, Caveat).
+  The pencil has a real origin (`CONTENT.notebook`): the base's Bosch CO₂ reactor grows solid carbon on a regolith bed; carbon + regolith fines writes; paper is greenhouse trimmings. The `#pencil` filter draws outline + tone hatching + cross-hatch in the shadows, with a hand wobble.
 - **Past (relived):** `lib/era.js` picks the camera by year: ≤1899 **engraving** · ≤1965 **16mm B&W** · ≤1979
   **colour film** · ≤1999 **VHS** (PLAY + date) · ≤2012 **early digital** (orange date) · 2013+ **HD** (● LIVE for control rooms).
 - **Type:** Spectral (story/display) · Barlow Condensed (HUD labels) · mono (logs) · Caveat (notebook).
@@ -141,6 +142,7 @@ README.md · RUNBOOK.md · PLAN.md · CREDITS.md · .cursor/rules/everything-the
 CONTENT.prologue   { mood, img, lines[] }
 CONTENT.opener     { prompt, result, lines[], audio, hudUnlock[], relive[], wonder, sources[] }
 CONTENT.motivation [ lines ]
+CONTENT.notebook   { lines[], sources[] }   the first paper card: where the pencil and paper come from
 CONTENT.salvageMap { intro, scrubHint, beats[{year, match, log, sketch?, img?, salvage?}], summary, handoff }
 CONTENT.crises[6]  { id, name, chapter, title, mood, objective, waypoint{lat,lon,alt,sunLon,showEarth?},
                      alarm{status, log, plan?}, finds[{text, year?, img?}], interaction{verb, label, seconds, …},
