@@ -276,18 +276,9 @@ phone portrait · every relive frame shows its era tag · credits list the CC BY
 2. **Play** `prototypes.html` tabs; note anything that bugs you in `RUNBOOK.md §9`.
 3. **Optional:** listen to the 7 clips in `assets/audio/`; if a clip's best moment isn't in its first 5 s, add
    `audioStart: <seconds>` to that relive entry in `content.js`.
-4. **Put it on GitHub + Pages (so the live URL exists before you arrive).** The folder is already a git repo
-   with a first commit; if the GitHub repo isn't created yet:
-   ```bash
-   cd ~/myWorkshop/Projects/hold-your-breath-app
-   ```
-   ```bash
-   gh repo create hold-your-breath --public --source . --push
-   ```
-   ```bash
-   gh api -X POST repos/{owner}/hold-your-breath/pages -f "source[branch]=main" -f "source[path]=/"
-   ```
-   Live at `https://<your-github-username>.github.io/hold-your-breath/story.html` in about a minute.
+4. **GitHub + Pages: done.** Repo: https://github.com/SumanthVarma798/everything-they-left · Pages (from `main`, root):
+   https://sumanthvarma798.github.io/everything-they-left/ (`story.html` and `prototypes.html` are live now; the
+   root URL shows the game once `index.html` exists). Every `git push` redeploys in about a minute.
 5. **Cursor:** open the folder; confirm it picks up `.cursor/rules/everything-they-left.mdc`; pick your strongest model.
 6. Charger, phone hotspot, leave by 11:15 (Jubilee Hills on a Saturday).
 
