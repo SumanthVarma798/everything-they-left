@@ -16,9 +16,12 @@ const check = (ok, msg) => { if (!ok) bad.push(msg); };
 for (const p of new Set(JSON.stringify(C).match(/assets\/[^"]+/g))) check(existsSync(p), `missing asset: ${p}`);
 
 // 2. relive scenes: year + text, and a plausible era
+// anything after Sept 2026 must be flagged projected with a dated basis, and must not carry a photo
+const future = (x, where) => { if ((x.year || 0) > 2026) { check(x.projected === true && typeof x.basis === 'string' && x.basis.length > 20, `${where}: year ${x.year} needs projected:true + basis`); check(!x.img, `${where}: projected items get no photo`); } };
 const relive = (part, name) => (part.relive || []).forEach((r, i) => {
   check(Number.isInteger(r.year) && r.year >= 1800 && r.year <= 2150, `${name} relive[${i}]: bad year ${r.year}`);
   check(typeof r.text === 'string' && r.text.length > 20, `${name} relive[${i}]: no text`);
+  future(r, `${name} relive[${i}]`);
 });
 relive(C.opener, 'opener'); relive(C.finale, 'finale');
 
@@ -38,6 +41,7 @@ for (const c of C.crises) {
   check(Array.isArray(c.payoff?.lines) && c.payoff.lines.length, `${n}: payoff.lines empty`);
   check(Array.isArray(c.sources) && c.sources.length, `${n}: no sources`);
   for (const k of c.hudUnlock || []) check(HUD.includes(k), `${n}: unknown hudUnlock "${k}"`);
+  (c.finds || []).forEach((f, i) => future(f, `${n} finds[${i}]`));
   relive(c, n);
 }
 check(C.crises.length === 6, `expected 6 chapters, got ${C.crises.length}`);
@@ -51,6 +55,8 @@ for (const b of C.salvageMap.beats) {
 }
 check(C.salvageMap.summary.includes(`${tries} tries`) && C.salvageMap.summary.includes(`${fails} failures`),
   `salvageMap.summary says "${C.salvageMap.summary.slice(0, 30)}…" but data has ${tries} tries · ${fails} failures`);
+
+C.finale.rows.forEach((r, i) => { const y = +(r.real.match(/^(\d{4})/) || [])[1]; if (y > 2026 && y < 2150) check(r.projected && r.basis, `finale row ${i}: "${r.real.slice(0, 40)}" needs projected:true + basis`); });
 
 // 5. finale shape
 for (const k of ['reply', 'relive', 'rows', 'plaque', 'choice', 'closing', 'last', 'sources']) check(C.finale[k] != null, `finale: missing ${k}`);

@@ -56,6 +56,8 @@
   .finds li { font: 600 18px/1.25 'Caveat', cursive; margin: 0 0 8px; padding-left: 18px; position: relative; }
   .finds li::before { content: '→'; position: absolute; left: 0; color: #b0392b; }
   .finds li small { font: 11px var(--mono); color: #6b655a; }
+  .proj { display: inline-block; margin-left: 6px; font: 700 10px var(--label); letter-spacing: .14em; color: #8a5a1a; border: 1px solid #c7801a; border-radius: 3px; padding: 1px 5px; vertical-align: middle; }
+  .basis { margin: 4px 0 0; font: 11px var(--mono); color: var(--warn); }
   .finds .sk { display: flex; gap: 10px; margin: 4px 0 8px; }
   .finds .sk img { width: 100%; aspect-ratio: 16/10; object-fit: cover; rotate: -.6deg; box-shadow: 0 2px 6px rgba(0,0,0,.15); }
   .act { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; align-items: start; background: var(--bg3); border-radius: 8px; padding: 10px 12px; }
@@ -102,7 +104,7 @@
       <div class="rhythm"><span class="d">DANGER · 2150 HUD</span><span class="p">search · her notebook</span><span>ACT · the interaction</span><span>BREATH · safe for now</span><span class="c">WONDER · the past, in colour</span></div>
     </div>
     <div class="rule"><b>Rule 2 · Each time has its own camera</b>
-      Anything she finds or works out in 2150 is a pencil sketch in her notebook. (The pencil is real lunar plumbing: the base's Bosch CO₂ reactor grows solid carbon on regolith; she presses it with regolith fines. The paper is greenhouse trimmings.) Anything she <i>relives</i> plays in colour through the camera of its own era. The looks below are the real CSS (<code>lib/era.css</code>) on real photos.
+      Anything she finds or works out in 2150 is a pencil sketch in her notebook. (The pencil is real lunar plumbing: the base's Bosch CO₂ reactor grows solid carbon on regolith; she presses it with regolith fines. The paper is greenhouse trimmings.) Anything she <i>relives</i> plays in colour through the camera of its own era. <b>We don't fake the future:</b> anything after September 2026 is a projection from a real, dated plan (NASA's 2030 reactor, Artemis IV in 2028, SpaceX's 2026 Moon-first pivot). It's drawn, never “photographed”, and tagged PROJECTED with its basis. The looks below are the real CSS (<code>lib/era.css</code>) on real photos.
     </div>
   </div>
 
@@ -173,7 +175,7 @@ for (const c of CH) {
   el.innerHTML = `<header class="ch-head"><span class="ch-n">${c.n}</span><h3 class="ch-t">${c.t}</h3><span class="ch-place">${c.place}</span>${c.mood ? `<span class="mood ${c.mood}">${c.mood}</span>` : ''}${c.solved ? `<span class="ch-build core">SOLVED BEFORE · ${c.solved}</span>` : ''}</header>
     <div class="ch-body">
       <section class="now"><p class="lbl">2150 · danger${c.status ? ' · ' + c.status : ''}</p><p class="danger">${c.danger}</p>
-        ${c.finds.length ? `<p class="lbl">What she finds · her notebook</p><div class="finds paper"><ul>${c.finds.map(f => `<li>${f.text} ${f.year ? `<small>${f.year}</small>` : ''}${f.img ? `<div class="sk"><img class="sketch" src="${f.img}" alt=""></div>` : ''}</li>`).join('')}</ul></div>` : ''}
+        ${c.finds.length ? `<p class="lbl">What she finds · her notebook</p><div class="finds paper"><ul>${c.finds.map(f => `<li>${f.text} ${f.year ? `<small>${f.year}</small>` : ''}${f.projected ? `<span class="proj" title="${f.basis}">PROJECTED · from ${f.basis.split(':')[0]}</span>` : ''}${f.img ? `<div class="sk"><img class="sketch" src="${f.img}" alt=""></div>` : ''}</li>`).join('')}</ul></div>` : ''}
         <div class="act"><span class="verb">${c.act[0]}</span><p>${c.act[1]}</p></div>
         ${c.payoff?.length ? `<p class="lbl" style="margin-top:14px">Breath · safe for now</p><p class="payoff">${c.payoff.join(' ')}</p>` : ''}</section>
       <section class="past"><p class="lbl">Wonder · relived in colour</p><div class="frames"></div>
@@ -183,7 +185,7 @@ for (const c of CH) {
   for (const r of c.relive || []) {
     const s = document.createElement('div'); s.className = 'scene' + (r.img ? '' : ' textonly');
     if (r.img) { s.append(eraFrame(r.img, r.year, { alt: '', date: r.date, live: r.live })); s.insertAdjacentHTML('beforeend', `<p>${r.text}${r.audio ? ' <span class="aud">♪ real audio</span>' : ''}</p>`); }
-    else s.innerHTML = `<div class="yr">${r.year}</div><p>${r.text}</p>`;
+    else s.innerHTML = `<div class="yr">${r.year}${r.projected ? ' · PROJECTED' : ''}</div><p>${r.text}</p>${r.projected ? `<p class="basis">Basis: ${r.basis}</p>` : ''}`;
     frames.append(s);
   }
   $('#chapters').append(el);

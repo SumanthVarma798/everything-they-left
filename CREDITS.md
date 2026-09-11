@@ -40,6 +40,8 @@ Show the media credits on the site's credits screen. Facts are sourced inline in
 | era-1963-thumba-nike-apache.jpg | Nike-Apache launch, Thumba | via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:TERLS_Nike_Apache_launch.png) | Public domain |
 | era-2014-mangalyaan.jpg | Mars Orbiter Mission launch, PSLV-C25, 2013 | Department of Space, via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Mars_Orbitor_Mission_Launch.jpg) | GODL-India |
 | era-2025-shubhanshu-shukla.jpg | Shubhanshu Shukla aboard the ISS, Axiom-4 | NASA, iss073e0252429, via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Axiom_Mission_4_Mission_Specialist_Shubhanshu_Shukla_poses_for_a_portrait_(iss073e0252429).jpg) | Public domain |
+| era-2024-starship-catch.jpg | Super Heavy caught by the launch tower, Starship flight 5, 13 Oct 2024 | Steve Jurvetson, via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Starship_Booster_Landing_on_Mechzilla_(54064036815).jpg) | **CC BY 2.0: credit “Steve Jurvetson”** |
+| era-2025-crew9-splashdown.jpg | Crew-9 Dragon splashdown with Wilmore and Williams, 18 Mar 2025 | NASA/Keegan Barber, via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:NASA%E2%80%99s_SpaceX_Crew-9_Splashdown_(NHQ202503180021).jpg) | Public domain |
 | era-2019-chandrayaan2-liftoff.jpg | GSLV Mk III M1 lifting off with Chandrayaan-2 | ISRO, via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:GSLV_Mk_III_M1,_Chandrayaan-2_Lifting_off_04.jpg) | GODL-India |
 
 ## Audio (`assets/audio/`) — NASA, public domain ([nasa.gov/historical-sounds](https://www.nasa.gov/historical-sounds/))

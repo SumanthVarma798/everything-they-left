@@ -15,6 +15,10 @@
 // ARC: despair (prologue, ch1) → curiosity (ch2–4) → inspiration (ch5, ch6, epilogue). `mood` on each part.
 // Her Mars dream dies in the prologue and comes back “rescheduled” in the last line.
 //
+// PROJECTED: anything after Sept 2026 that hasn't happened yet is `projected: true` with a `basis` (the real,
+// dated plan it extrapolates). Projected items never get a photo: they render as her pencil notes, tagged PROJECTED.
+// VOICE FOR THE 2020s: it's ~125 years ago to her. “Ancient history, even to Earth.” First-generation Starships.
+//
 // HUD: after the storm her visor is dead; each chapter she survives brings pieces back (hudUnlock).
 // `plan` names one of her self-drawing notebook plans (lib/notebook.js).
 
@@ -54,11 +58,13 @@ export const CONTENT = {
     relive: [
       // Space.com / History: 1 Sep 1859 flare seen by Carrington while sketching; telegraph fires; Boston–Portland on “auroral current”
       { year: 1859, img: 'assets/img/era-1859-carrington-sketch.jpg', text: 'September 1859. Richard Carrington is sketching sunspots when he sees the flare. Hours later telegraph paper catches fire, and operators between Boston and Portland keep talking with their batteries unplugged, running on the storm’s own current.' },
+      // JSWSC 2022 / Space Weather 2024: 3 Feb 2022, 38 of 49 Starlink satellites lost to drag from a G1–G2 storm
+      { year: 2022, text: 'February 2022. Ancient history, even to Earth. A mild storm puffs up the upper air, and 38 brand-new Starlink satellites, a week old, drag down and burn. They launched the next batch three weeks later.' },
       // ISRO: Aditya-L1 launched 2 Sep 2023, halo orbit at L1 6 Jan 2024; Sep 2026: early-warning brightenings before flares
       { year: 2024, img: 'assets/img/era-2023-aditya-l1.jpg', text: 'January 2024. India parks Aditya-L1, its first Sun-watcher, at the L1 point to watch for storms coming at Earth. Its descendants gave us those eleven minutes.' },
     ],
     wonder: 'Earth got warned. More than once. It was in every school module I skipped.',
-    sources: [['Carrington (Space.com)', 'https://www.space.com/the-carrington-event'], ['Carrington telegraphs (History)', 'https://www.history.com/articles/a-perfect-solar-superstorm-the-1859-carrington-event'], ['Aditya-L1 (ISRO)', 'https://www.isro.gov.in/Aditya_L1_Catches_the_Suns_Early_Warning_Signs.html']],
+    sources: [['Carrington (Space.com)', 'https://www.space.com/the-carrington-event'], ['Carrington telegraphs (History)', 'https://www.history.com/articles/a-perfect-solar-superstorm-the-1859-carrington-event'], ['Starlink storm loss, Feb 2022 (JSWSC)', 'https://www.swsc-journal.org/articles/swsc/full_html/2022/01/swsc220018/swsc220018.html'], ['Aditya-L1 (ISRO)', 'https://www.isro.gov.in/Aditya_L1_Catches_the_Suns_Early_Warning_Signs.html']],
   },
 
   motivation: [
@@ -113,6 +119,8 @@ export const CONTENT = {
       { year: 2023, match: 'Chandrayaan-3', log: 'India came back and landed near the south pole. On board: a NASA laser mirror the size of a biscuit. Closest mirror to me.', salvage: 'reflector-ch3' },
       { year: 2024, match: 'IM-1', log: 'The lander that tipped over carrying the library I’m reading this in.' },
       { year: 2024, match: 'SLIM', log: 'Japan landed within 100 metres of its target. Upside down. It worked anyway.' },
+      { year: 2024, match: 'Chang\'e 6', log: 'China brought back the first rocks from the far side. Nobody had touched that side before.' },
+      { year: 2025, match: 'Blue Ghost', log: 'The first landing that went entirely right for a company instead of a country. That became normal.' },
       // IM-2 Athena, Mons Mouton, 6 Mar 2025: tipped over; PRIME-1 drill deployed
       { year: 2025, match: 'IM-2', log: 'A company landed an ice drill near the pole. The lander fell over before it could drill in. The drill is still there.', salvage: 'drill-im2' },
       { year: 2026, match: 'Artemis II', log: 'Four of them flew around the Moon, farther from Earth than anyone ever had. The next era started here.' },
@@ -184,6 +192,8 @@ export const CONTENT = {
         { year: 1972, text: 'Apollo 17’s rover lost a fender. Houston designed a new one overnight: four maps, two clamps, duct tape.', img: 'assets/img/era-1972-a17-fender.jpg' },
         // Wikipedia (APPLE): tested on a bullock cart for a non-magnetic antenna range; ₹150, ~5 hours
         { year: 1981, text: 'APPLE, India’s first communications satellite, was tested on a bullock cart, because wood doesn’t interfere with an antenna. The cart cost ₹150.' },
+        // SpaceX: first booster landing 21 Dec 2015; individual Falcon 9 boosters passed 20+ flights by 2024–25
+        { year: 2015, text: 'By the 2010s they had stopped throwing rockets away. Falcon boosters landed themselves and flew again, some more than twenty times. Reuse was a religion by the time my great-grandmother flew.' },
       ],
       interaction: {
         verb: 'drag', label: 'FIX THE FENDER', seconds: 12,
@@ -195,17 +205,18 @@ export const CONTENT = {
       },
       payoff: { lines: ['Fender holds. Dust stays down. 212 kilometres to go.', 'I give the motors five minutes to cool. Five minutes is enough to read.'], solvedBefore: 'APOLLO 17 · 1972' },
       relive: [
-        { year: 1962, img: 'assets/img/era-1962-katherine-johnson.jpg',
-          text: 'Langley, 1962. Katherine Johnson checks the orbit equations on a desk calculator. Her numbers match the IBM, so Glenn flies.' },
-        // Wikipedia (Tracy’s Rock): Cernan traced TDC, 14 Dec 1972
-        { year: 1972, img: 'assets/img/era-1972-a17-rover.jpg',
-          text: 'Taurus-Littrow, December 1972. Before leaving, Gene Cernan kneels and traces his daughter’s initials, TDC, in the dust. No wind here. They’re probably still there.' },
         // Wikipedia (TERLS): first launch 21 Nov 1963 from Thumba; church as office; parts moved by bicycle
         { year: 1963, img: 'assets/img/era-1963-thumba-nike-apache.jpg',
           text: 'Thumba, November 1963. India’s first rocket is put together in a church. The nose cone gets to the pad on a bicycle.' },
+        // Wikipedia (Tracy’s Rock): Cernan traced TDC, 14 Dec 1972
+        { year: 1972, img: 'assets/img/era-1972-a17-rover.jpg',
+          text: 'Taurus-Littrow, December 1972. Before leaving, Gene Cernan kneels and traces his daughter’s initials, TDC, in the dust. No wind here. They’re probably still there.' },
+        // SpaceX Starship flight 5, 13 Oct 2024: Super Heavy caught by the tower arms on the first attempt
+        { year: 2024, img: 'assets/img/era-2024-starship-catch.jpg', live: true,
+          text: 'Texas, October 2024. A booster the height of a twenty-storey building flies back to its own launch tower and is caught out of the air by two steel arms. First try. The crowd screams like it’s a cup final. First-generation Starship. Ancient.' },
       ],
-      wonder: 'They checked the machine with a person. They tested a satellite on a bullock cart. I’m navigating with a pencil. I’m in good company.',
-      sources: [['“Get the girl” (Space.com)', 'https://www.space.com/35218-hidden-figures-when-did-john-glenn-ask-for-the-girl-to-check-the-numbers.html'], ['Map fender (Smithsonian)', 'https://airandspace.si.edu/stories/editorial/duct-tape-auto-repair-moon'], ['APPLE bullock cart', 'https://en.wikipedia.org/wiki/Ariane_Passenger_Payload_Experiment'], ['Thumba', 'https://en.wikipedia.org/wiki/Thumba_Equatorial_Rocket_Launching_Station'], ['Tracy’s Rock', 'https://en.wikipedia.org/wiki/Tracy%27s_Rock']],
+      wonder: 'They checked the machine with a person. They tested a satellite on a bullock cart. They caught a rocket with a tower. I’m navigating with a pencil. I’m in good company.',
+      sources: [['“Get the girl” (Space.com)', 'https://www.space.com/35218-hidden-figures-when-did-john-glenn-ask-for-the-girl-to-check-the-numbers.html'], ['Booster catch, Oct 2024 (Space.com)', 'https://www.space.com/spacex-starship-flight-5-launch-super-heavy-booster-catch'], ['Falcon 9 reuse', 'https://en.wikipedia.org/wiki/Falcon_9_booster_B1067'], ['Map fender (Smithsonian)', 'https://airandspace.si.edu/stories/editorial/duct-tape-auto-repair-moon'], ['APPLE bullock cart', 'https://en.wikipedia.org/wiki/Ariane_Passenger_Payload_Experiment'], ['Thumba', 'https://en.wikipedia.org/wiki/Thumba_Equatorial_Rocket_Launching_Station'], ['Tracy’s Rock', 'https://en.wikipedia.org/wiki/Tracy%27s_Rock']],
       hudUnlock: ['compass'],
     },
 
@@ -224,6 +235,8 @@ export const CONTENT = {
         { year: 1970, text: 'Apollo 13’s power-down: oxygen first, heat second, everything else off.', img: 'assets/img/cold-apollo13-sm.jpg' },
         // Wikipedia (Jack Garman) / AGC: 1201/1202 overload; priority scheduling shed low-priority jobs
         { year: 1969, text: 'Apollo 11’s 1202 alarms. The landing computer was overloaded. Margaret Hamilton’s software dropped the low-priority jobs and kept flying.' },
+        // PROJECTED from NASA’s Aug 2025 directive: ≥100 kW fission reactor on the Moon by early 2030
+        { year: 2030, projected: true, basis: 'NASA directive, August 2025: a 100-kilowatt reactor on the lunar surface by 2030', text: 'They put the first reactor on the Moon around 2030, a hundred kilowatts, exactly for nights like this. Ours is the fourth generation of it. Its brain is as dead as everything else. The core is fine. The core doesn’t have a brain.' },
       ],
       interaction: {
         verb: 'balance', label: 'SURVIVE THE NIGHT', seconds: 12,
@@ -246,7 +259,7 @@ export const CONTENT = {
           text: 'India’s cryogenic engine. The deal to buy one was killed in 1993; India got seven engines and no drawings. It built its own. The first one failed after a second and a half, in 2010. It flew in 2014. Five years later it lifted Chandrayaan-2, in this picture. Along the way one of its scientists, Nambi Narayanan, was falsely accused of spying and spent years clearing his name. The courts later called the case concocted.' },
       ],
       wonder: 'When they couldn’t buy the part, they built it. When it failed after a second and a half, they built it again.',
-      sources: [['1202 & Garman', 'https://en.wikipedia.org/wiki/Jack_Garman'], ['Insurance covers', 'https://en.wikipedia.org/wiki/Apollo_insurance_covers'], ['Cryogenic GSLV (Planetary Society)', 'https://www.planetary.org/articles/20130729-india-prepares-to-return'], ['1993 deal (The Week)', 'https://www.theweek.in/news/defence/2026/06/03/opinion-the-indo-soviet-cryogenic-engine-deal-and-mtcr-the-tale-of-a-failed-partnership.amp.html'], ['Nambi Narayanan (Science)', 'https://www.science.org/content/article/indian-court-offers-final-vindication-innocent-space-scientist-who-was-arrested-and']],
+      sources: [['1202 & Garman', 'https://en.wikipedia.org/wiki/Jack_Garman'], ['Lunar reactor by 2030 (Astronomy)', 'https://www.astronomy.com/science/sean-duffy-accelerates-plan-for-lunar-nuclear-reactor/'], ['Insurance covers', 'https://en.wikipedia.org/wiki/Apollo_insurance_covers'], ['Cryogenic GSLV (Planetary Society)', 'https://www.planetary.org/articles/20130729-india-prepares-to-return'], ['1993 deal (The Week)', 'https://www.theweek.in/news/defence/2026/06/03/opinion-the-indo-soviet-cryogenic-engine-deal-and-mtcr-the-tale-of-a-failed-partnership.amp.html'], ['Nambi Narayanan (Science)', 'https://www.science.org/content/article/indian-court-offers-final-vindication-innocent-space-scientist-who-was-arrested-and']],
       hudUnlock: ['power-bar'],
     },
 
@@ -306,6 +319,8 @@ export const CONTENT = {
         { year: 2025, text: 'IM-2 Athena carried an ice drill to the pole, landed in a crater, fell on its side and never drilled.', img: 'assets/img/era-2025-im2-region.jpg' },
         // Chandrayaan-1 MIP (14 Nov 2008) + NASA M3 (2009); LCROSS (9 Oct 2009, ~5.6% water); ISS 98% recovery (NASA 2023)
         { year: 2008, text: 'Chandrayaan-1 and LCROSS found where the ice is. On their old space station they reused 98% of their water, because every drop had been flown up from Earth.', img: 'assets/img/water-ice-poles.jpg' },
+        // PROJECTED from SpaceX’s stated plan (Feb 2026: Mars paused, Moon city first; “Starship will build Moonbase Alpha”)
+        { year: 2035, projected: true, basis: 'SpaceX, February 2026: Mars plans paused to build a Moon city first; Musk: “Starship will build Moonbase Alpha”', text: 'The ice is why the first Starships landed here at all. Moonbase Alpha started as a fuel stop: split the ice, fill the tanks, go anywhere. Every water plant on the Moon, mine included, is descended from that one.' },
       ],
       interaction: {
         verb: 'drag', label: 'FINISH ITS JOB', seconds: 8,
@@ -320,7 +335,7 @@ export const CONTENT = {
         { year: 1999, text: 'July 1999. Gene Shoemaker trained the Apollo crews to read rocks, but Addison’s disease kept him from flying. His ashes rode Lunar Prospector into a crater near the south pole. He is the only person buried on the Moon.' },
       ],
       wonder: 'He taught them how to read rocks and never got to come. He’s a few craters from my ice now. I think he’d like it.',
-      sources: [['IM-2 tipped (Space.com)', 'https://www.space.com/the-universe/moon/private-intuitive-machines-moon-lander-fell-over-inside-crater-at-lunar-south-pole-photo-reveals'], ['IM-2 site', 'https://en.wikipedia.org/wiki/IM-2'], ['LCROSS (Science)', 'https://www.science.org/doi/10.1126/science.1186986'], ['Shoemaker (EarthDate)', 'https://www.earthdate.org/episodes/the-man-on-the-moon'], ['Shoemaker & Addison’s', 'https://www.planetary.org/profiles/eugene-shoemaker']],
+      sources: [['Moon city first (Euronews, Feb 2026)', 'https://euronews.com/2026/02/11/spacex-puts-mars-mission-plans-on-ice-and-u-turns-for-moon-city-instead'], ['Moonbase Alpha (TechCrunch)', 'https://techcrunch.com/2026/02/12/musk-needed-a-new-vision-for-spacex-and-xai-he-landed-on-moonbase-alpha/'], ['IM-2 tipped (Space.com)', 'https://www.space.com/the-universe/moon/private-intuitive-machines-moon-lander-fell-over-inside-crater-at-lunar-south-pole-photo-reveals'], ['IM-2 site', 'https://en.wikipedia.org/wiki/IM-2'], ['LCROSS (Science)', 'https://www.science.org/doi/10.1126/science.1186986'], ['Shoemaker (EarthDate)', 'https://www.earthdate.org/episodes/the-man-on-the-moon'], ['Shoemaker & Addison’s', 'https://www.planetary.org/profiles/eugene-shoemaker']],
       hudUnlock: ['water-bar'],
     },
 
@@ -341,6 +356,8 @@ export const CONTENT = {
         { year: 2010, text: 'Lunokhod 1’s mirror was lost for nearly 40 years, found in 2010, and bounced back brighter than expected.' },
         // Space.com/NASA: LRO’s LOLA pinged Vikram’s LRA, 12 Dec 2023; great-circle Mons Mouton→Vikram ≈ 468 km; hop test 3–4 Sep 2023
         { year: 2023, text: 'The closest mirror: a biscuit-sized one on India’s Vikram lander, about 470 km from here. Vikram even hopped 40 cm once, to prove a lander could take off again.', img: 'assets/img/cold-chandrayaan3-vikram.jpg' },
+        // SpaceX, Jan 2024: >9,000 inter-satellite lasers, 42 PB/day
+        { year: 2024, text: 'By 2024 they had nine thousand lasers talking between satellites, forty million gigabytes a day. Light was already the language. I have one mirror and one hand. Same language, slower.' },
       ],
       interaction: {
         verb: 'morse', label: 'SEND SOS', seconds: 15,
@@ -362,7 +379,7 @@ export const CONTENT = {
       ],
       wonder: 'Every one of them failed in public first. Then came back.',
       hook: 'A faint green flicker on the dust, from 384,400 km away. Short, long, short. “R.” Received.',
-      sources: [['Lunokhod 1 found (Space.com)', 'https://www.space.com/8295-lost-soviet-reflecting-device-rediscovered-moon.html'], ['LRO pings Vikram (Space.com)', 'https://www.space.com/laser-communications-moon-lro-india-vikram-chandrayaan-3-lander'], ['Vikram hop', 'https://en.wikipedia.org/wiki/Chandrayaan-3'], ['SLV-3 & Dhawan', 'https://en.wikipedia.org/wiki/Satellite_Launch_Vehicle'], ['Shiv Shakti (Space.com)', 'https://www.space.com/india-chandrayaan-3-moon-landing-site-name']],
+      sources: [['Starlink lasers (Hackaday)', 'https://hackaday.com/2024/02/05/starlinks-inter-satellite-laser-links-are-setting-new-record-with-42-million-gb-per-day/'], ['Lunokhod 1 found (Space.com)', 'https://www.space.com/8295-lost-soviet-reflecting-device-rediscovered-moon.html'], ['LRO pings Vikram (Space.com)', 'https://www.space.com/laser-communications-moon-lro-india-vikram-chandrayaan-3-lander'], ['Vikram hop', 'https://en.wikipedia.org/wiki/Chandrayaan-3'], ['SLV-3 & Dhawan', 'https://en.wikipedia.org/wiki/Satellite_Launch_Vehicle'], ['Shiv Shakti (Space.com)', 'https://www.space.com/india-chandrayaan-3-moon-landing-site-name']],
       hudUnlock: ['all', 'link-earth'],
     },
   ],
@@ -386,7 +403,11 @@ export const CONTENT = {
         text: 'April 1984. Asked how India looks from space, Rakesh Sharma answers: “Saare jahan se achha.” Better than the whole world.' },
       // CNN: Shukla, Axiom-4, docked 26 Jun 2025; first Indian on the ISS, 41 years after Sharma
       { year: 2025, img: 'assets/img/era-2025-shubhanshu-shukla.jpg',
-        text: 'June 2025. Forty-one years later, Shubhanshu Shukla becomes the second Indian in space, and the first on a space station.' },
+        // CNN; SpaceX deorbit-vehicle contract, June 2024 (station to be brought down ~2030)
+        text: 'June 2025. Forty-one years after Sharma, Shubhanshu Shukla rides a Dragon capsule to their old space station: the first Indian aboard. Ancient stuff. They had already hired SpaceX to push the whole station into the sea when its time came.' },
+      // NASA: Wilmore and Williams, launched June 2024 for ~8 days, came home on Crew-9’s Dragon 18 Mar 2025 after 286 days
+      { year: 2025, img: 'assets/img/era-2025-crew9-splashdown.jpg', live: true,
+        text: 'March 2025. Two of them went up for eight days and stayed nine months, waiting for a ride. A Dragon came. I know exactly how that feels.' },
       // CNN: MOM entered Mars orbit 24 Sep 2014, first attempt, ~$74M (< Gravity’s $100M); women scientists in the control room
       { year: 2014, img: 'assets/img/era-2014-mangalyaan.jpg', live: true,
         text: 'September 2014. India reaches Mars on its first try, for less than it cost to make the film Gravity. The photo everyone remembers: the women scientists in the control room, in saris, cheering.' },
@@ -399,6 +420,9 @@ export const CONTENT = {
       { img: 'assets/img/finale-goddard-1926.jpg', imagined: '1920 · The New York Times mocks Robert Goddard: rockets can’t work in a vacuum', real: '1969 · The day after Apollo 11 launches, the Times prints a correction: “The Times regrets the error.”', gap: '49 years' },
       { imagined: '1963 · A rocket carried to its launch pad on a bicycle', real: '2014 · The same country reaches Mars on its first try', gap: '51 years' },
       { img: 'assets/img/finale-falcon9-landing.jpg', imagined: '1950s · Every sci-fi cover shows rockets landing on their tails', real: '2015 · A Falcon 9 booster lands itself', gap: '~60 years' },
+      // Artemis IV: first crewed south-pole landing, planned early 2028, on a Starship HLS
+      { imagined: '1972 · The last people leave the Moon', real: '2028 · Artemis IV: the first crew back, on a Starship', gap: '56 years', projected: true, basis: 'NASA, March 2026: Artemis IV targeted for early 2028' },
+      { imagined: '2017 · A slide at a conference: “Moon Base Alpha”', real: '2030s · Starships on the ice fields. Moonbase Alpha.', gap: 'projected', projected: true, basis: 'SpaceX, February 2026: Moon city first; “Starship will build Moonbase Alpha”' },
       { imagined: '2026 · “A Moon base is science fiction.”', real: '2150 · I was born in one.', gap: 'Bhoomi' },
     ],
     // FICTION: the plaque. Real anchor: India’s stated goal of an Indian on the Moon by 2040.
@@ -417,8 +441,10 @@ export const CONTENT = {
       // PRL founded by Vikram Sarabhai, 11 Nov 1947, Ahmedabad
       'So: Earth first. The Physical Research Laboratory in Ahmedabad, the lab Sarabhai started in 1947. Twenty years of plaques to catch up on.',
       'They went to the Moon before Mars. I was born on the Moon. Earth is the step I skipped. Mars isn’t cancelled. It’s rescheduled.',
+      // Euronews / TechCrunch, Feb 2026: SpaceX pauses Mars for a Moon city first
+      'The people who built the first Starships said the same thing in 2026: Moon first, Mars after. They got there in the end. So will I.',
     ],
-    sources: [['Anders (NASA)', 'https://science.nasa.gov/missions/landsat/remembering-bill-anders/'], ['Rakesh Sharma', 'https://en.wikipedia.org/wiki/Rakesh_Sharma'], ['Shubhanshu Shukla (CNN)', 'https://www.cnn.com/2025/06/26/india/india-shubhanshu-shukla-axiom-space-mission-intl-hnk'], ['Mangalyaan (CNN)', 'https://www.cnn.com/2014/09/25/news/india-mars-cost'], ['India’s 2035/2040 goals (Tribune)', 'https://www.tribuneindia.com/news/india/space-station-by-2035-man-on-moon-by-2040-pm-modi-sets-lofty-space-mission-goals-554095']],
+    sources: [['Anders (NASA)', 'https://science.nasa.gov/missions/landsat/remembering-bill-anders/'], ['Crew-9 return (NASA)', 'https://www.nasa.gov/centers-and-facilities/johnson/back-to-earth-forward-to-the-future-nasas-spacex-crew-9-returns/'], ['ISS deorbit vehicle (SpaceNews)', 'https://spacenews.com/nasa-awards-spacex-contract-for-space-station-deorbit-vehicle/'], ['Artemis IV', 'https://en.wikipedia.org/wiki/Artemis_IV'], ['Moon first (Euronews)', 'https://euronews.com/2026/02/11/spacex-puts-mars-mission-plans-on-ice-and-u-turns-for-moon-city-instead'], ['Rakesh Sharma', 'https://en.wikipedia.org/wiki/Rakesh_Sharma'], ['Shubhanshu Shukla (CNN)', 'https://www.cnn.com/2025/06/26/india/india-shubhanshu-shukla-axiom-space-mission-intl-hnk'], ['Mangalyaan (CNN)', 'https://www.cnn.com/2014/09/25/news/india-mars-cost'], ['India’s 2035/2040 goals (Tribune)', 'https://www.tribuneindia.com/news/india/space-station-by-2035-man-on-moon-by-2040-pm-modi-sets-lofty-space-mission-goals-554095']],
     closing: 'Everything I needed, they left here for me: their footprints, their failures, their junk. What will you leave?',
     // “they” for the whole story, “we” only here: the pronoun shift is the ending. Keep it.
     last: 'We’ve done harder things.',

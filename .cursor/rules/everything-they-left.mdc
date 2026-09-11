@@ -21,6 +21,8 @@ A static, single-page story game. The full plan is `RUNBOOK.md`: read it before 
 - Every real-world fact needs a source (a comment in `content.js` and/or the chapter's `sources`). The only fiction
   is Bhoomi, Chandrika Devi, their family, the 2150 storm and the rescue.
 - The notebook beat (`CONTENT.notebook`) is shown once, after motivation and before chapter 1, as the first paper card.
+- We don't fake the future: anything dated after Sept 2026 must have `projected: true` and a dated `basis`, gets no photo,
+  renders as a pencil note tagged PROJECTED. `node check.mjs` enforces this.
 - Visual rule: things Bhoomi finds in 2150 are pencil (`<img class="sketch">`, `ensurePencil()`); things she
   relives use `eraFrame(img, year)` — never pick an era look by hand.
 
