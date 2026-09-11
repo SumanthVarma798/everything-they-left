@@ -11,7 +11,7 @@ Nothing here needs deciding. If something isn't in this file, the answer is in `
 A single-page web experience. **2150: Bhoomi (“the Earth”), born on the Moon, has ignored Earth her whole life.**
 A solar superstorm kills every chip on the Moon; she has to survive long enough to call Earth, and the only
 manual left is the history of how Earth got there: plaques she never read, a real Lunar Library on a tipped-over
-lander, and the 55 failed missions that are now her spare parts. She goes from **despair → curiosity → inspiration**,
+lander, and the 56 failed missions that are now her spare parts. She goes from **despair → curiosity → inspiration**,
 ends by choosing Earth (PRL, Ahmedabad, to study), and keeps Mars “rescheduled”. Every historical fact is real
 and sourced. The present is **pencil sketches**; the past she relives plays **in colour through each era's camera**.
 
@@ -48,7 +48,7 @@ People don't daydream in danger. They only wonder once they're safe.
 | 3 | **Night Falls** · POWER | Sunset, 31%, old computer flashing 1202 | Apollo 13 power-down · Apollo 11 1202 / Hamilton | **BALANCE** power as it falls | Apollo 11 MCC + insurance envelopes 1969 (film) · India's cryogenic engine 1993→2010→2014, one line on Nambi Narayanan (HD) | “When they couldn’t buy the part, they built it…” |
 | 4 | **The Library** · KNOW | Odysseus on its side, library under dust, night, earthshine | How Odysseus fell (the switch) · Lunar Library, 30M pages on nickel | **FOCUS** the magnifier | IM-1 2024 (HD LIVE) · Chandrayaan-2 → “Welcome, buddy!” 2023 (HD LIVE) | “…I read until the battery warning. Then I read some more.” → **SALVAGE MAP** |
 | 5 | **Finish Its Job** · WATER | 9 L left, recycler dead | IM-2’s tipped drill 2025 · Chandrayaan-1 + LCROSS ice | **DRAG** the drill into the dark crater | LCROSS team + Chandrayaan-1 2009 (digicam) · Gene Shoemaker 1999 | “…He’s a few craters from my ice now.” |
-| 6 | **Call Earth** · SIGNAL | No radio, 384,400 km | Lasers since 1969 · Lunokhod mirror lost & found · Vikram’s biscuit mirror (627 km) + the 40 cm hop | **MORSE** SOS on the mirror | Sputnik 1957 (B&W) · Dhawan & Kalam 1979 · Chandrayaan-3 / Shiv Shakti 2023 (HD LIVE) | “Every one of them failed in public first. Then came back.” → green flicker “R” |
+| 6 | **Call Earth** · SIGNAL | No radio, 384,400 km | Lasers since 1969 · Lunokhod mirror lost & found · Vikram’s biscuit mirror (~470 km) + the 40 cm hop | **MORSE** SOS on the mirror | Sputnik 1957 (B&W) · Dhawan & Kalam 1979 · Chandrayaan-3 / Shiv Shakti 2023 (HD LIVE) | “Every one of them failed in public first. Then came back.” → green flicker “R” |
 | E | **Bhoomi** | “WHO ARE YOU?” … “MARS OR EARTH?” → “Earth. I skipped a lot of homework.” | The last plaque: **2041 · Chandrika Devi** | — | **Montage:** Earthrise 1968 · Rakesh Sharma 1984 (VHS) · Shubhanshu Shukla 2025 · Mangalyaan 2014 | Chandrika (“moonlight”), born on Earth, named for the Moon; Bhoomi, born on the Moon, named for the Earth. “It wasn’t a joke. It was a reminder.” → PRL Ahmedabad → “Mars isn’t cancelled. It’s rescheduled.” → **“Everything I needed, they left here for me… What will you leave?”** |
 
 Fiction: Bhoomi, Chandrika Devi, the family, the storm, the rescue. Real: everything else (38 source links in `content.js`).
@@ -112,7 +112,7 @@ Phone: same flow; interaction panel full-width; HUD shrinks (container units).
 - **Libraries (vendored, work offline):** `vendor/three.module.min.js` (r170, via import map `"three"`),
   `vendor/rough.js` (4.6.6, classic `<script>`, global `rough`). Fonts from Google Fonts (fallbacks defined).
 - **Content = data:** `content.js` exports `CONTENT` (story, facts, interactions, waypoints, HUD unlocks, sources).
-  `data/missions.json` = 145 missions (136 Moon-bound).
+  `data/missions.json` = 145 missions (139 Moon-bound).
 
 ### File tree
 ```
@@ -120,10 +120,11 @@ index.html            ← BUILD THIS SATURDAY (the game)
 lib/engine.js         ← BUILD THIS SATURDAY (beat list + renderers + router)
 content.js            story + facts + configs (single source of truth)
 data/missions.json    every Moon mission, outcome-normalised
+check.mjs             `node check.mjs` — validates content.js + data (assets exist, verbs/icons known, counts match)
 lib/stage3d.js        createStage(canvas, {moon, earth, stars}) → { flyTo(wp, s), snap(wp), destroy } | null
 lib/hud.js            mountHud(frame, { waypoints, onTimer }) → { panel, unlock(keys), setObjective, setPower, fail, toast, timer, destroy }
 lib/interactions.js   mountInteraction(root, spec, { onWin, onMiss, timerOn }) → { setTimer, restart, destroy }
-                      verbs: drag · balance · focus · morse · hold · ratio · sequence;  wireTimerSwitch(btn, onChange)
+                      verbs: drag · balance · focus · morse;  wireTimerSwitch(btn, onChange)
 lib/notebook.js       ensurePencil() · drawPlan(svg, name) → Promise   (plans: scrubber-adapter, power-budget, athena-tipped, drill, morse)
 lib/era.js/.css       eraOf(year) · eraFrame(src, year, { date, live, stamp, tag }) → <figure>
 lib/archive-map.js    mountSalvageMap(root, cfg) → { lift, destroy }   (paper page → cinematic)
@@ -249,7 +250,7 @@ focus lands on each interaction; prefers-reduced-motion disables Ken Burns/grain
 ---
 
 ## 7. Testing
-**Every slot:** paste the self-check (it's in `.cursor/rules`): open each direct link with `&debug=1`, read the
+**Every slot:** run `node check.mjs` (content and data sanity, no browser needed), then paste the self-check (it's in `.cursor/rules`): open each direct link with `&debug=1`, read the
 console, screenshot, compare with `story.html` / `prototypes.html`, list mismatches as `beat · element · expected → actual`, fix, repeat.
 
 **Bug reports are one line:** `c=night&beat=act · power bar · expected red over available → stays cyan`.
@@ -286,7 +287,7 @@ phone portrait · every relive frame shows its era tag · credits list the CC BY
 
 ## 9. Demo (≈ 2 minutes)
 1. Title on the big screen: *“Everyone, take a breath and hold it.”* → hold SPACE together → the result line.
-2. `?screen=map` → ▶ Play from 1958 → the tally climbs to **55 failed** → *“to her, a parts catalogue”* → **Look up ▸**.
+2. `?screen=map` → ▶ Play from 1958 → the tally climbs to **56 failed** → *“to her, a parts catalogue”* → **Look up ▸**.
 3. `?c=signal&beat=act` → tap SOS on Vikram’s mirror → the green flicker, **“R”**.
 4. `?screen=epilogue` → the plaque: **Chandrika Devi** → *“Mars isn’t cancelled. It’s rescheduled.”*
 5. Close with the line: *“Everything I needed, they left here for me. What will you leave?”*

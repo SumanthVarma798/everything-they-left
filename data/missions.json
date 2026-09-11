@@ -711,7 +711,7 @@
   "kind": "flyby",
   "result": "fail",
   "outcome": "Spacecraft failure",
-  "transit": true,
+  "transit": false,
   "note": "Technology demonstration for planned crewed missions. Failed to reach orbit after a blocked propellant line caused one of the first-stage engines to not ignite."
  },
  {
@@ -1295,7 +1295,7 @@
   "operator": "ISAS",
   "kind": "orbiter",
   "result": "partial",
-  "outcome": "Success / style=\"background: #FFE3E3; color: black; vertical-align: middle; text-align: center; \" class=\"table-no2\" |Spacecraft failure",
+  "outcome": "Success / Spacecraft failure (Hagoromo)",
   "transit": false,
   "note": "Designed for flyby, placed into selenocentric orbit during extended mission after failure of Hagoromo. Deorbited and impacted in USGS quadrangle LQ27 on 10 April 1993. Hagoromo was deployed from Hiten. The impact made Japan the 3rd country to impact the surfac"
  },
@@ -1491,7 +1491,7 @@
   "kind": "orbiter",
   "result": "success",
   "outcome": "Success",
-  "transit": true,
+  "transit": false,
   "note": "Following completion of six month Lunar mission, departed selenocentric orbit for Earth–Sun L2 Lagrangian point and subsequently flew by asteroid 4179 Toutatis for a close encounter with the asteroid at a distance of 3.2 kilometres and a relative velocity of 1"
  },
  {
@@ -1569,7 +1569,7 @@
   "kind": "orbiter",
   "result": "partial",
   "outcome": "Operational / Spacecraft failure / Success",
-  "transit": true,
+  "transit": false,
   "note": "Launched on the same rocket as Queqiao. Longjiang-1 never entered Moon orbit, while Longjiang-2 operated in lunar orbit until 31 July 2019, when it impacted the lunar surface. Queqiao entered designated Earth–Moon L2 orbit on 14 June in preparation of Chang'e "
  },
  {
@@ -1658,7 +1658,7 @@
   "country": "USA",
   "operator": "NASA",
   "kind": "flyby",
-  "result": "partial",
+  "result": "success",
   "outcome": "Success / Spacecraft failure / Spacecraft failure / Spacecraft failure / Spacecraft failure / Success / Spacecraft failure / Success / Success / Spacecraft failure / Success",
   "transit": false,
   "note": "Uncrewed test of Orion spacecraft in lunar flyby and lunar Distant retrograde orbit."

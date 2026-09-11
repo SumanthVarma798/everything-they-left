@@ -47,6 +47,7 @@ A static, single-page story game. The full plan is `RUNBOOK.md`: read it before 
 · `&timer=off` · `&misses=N` · `&speed=4` · `&debug=1` (label every element with its name)
 
 ## Self-check (run after every change, before showing me anything)
+Run `node check.mjs` first: it validates content.js and data/missions.json (missing assets, unknown verbs or icons, wrong counts). Fix anything it lists.
 Open each direct link above that the change touches, with `&debug=1`. Read the console first: zero errors.
 Screenshot each. Compare with `story.html` (story/content) and `prototypes.html` (components).
 List every mismatch as `link · element · expected → actual`. Fix them all, re-check, repeat until the list is empty.

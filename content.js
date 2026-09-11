@@ -45,6 +45,7 @@ export const CONTENT = {
     result: '{s} seconds.',
     lines: [
       'Got it. Regulator’s clear. Breathing again. You can too.',
+      'Not bad, by the way. On Earth that’s a party trick. Up here it’s a life skill.',
       // NASA Bioastronautics Data Book: time of useful consciousness in vacuum ~9–12 s
       'If my suit had failed instead of the regulator, I’d have had about 9 to 12 seconds.',
     ],
@@ -61,15 +62,15 @@ export const CONTENT = {
   },
 
   motivation: [
-    'Nobody on the Moon is coming. Everyone who could help is on Mars, eight months away.',
+    'The other outposts went dark with mine. Everyone who could fix this is on Mars, eight months away.',
     'That leaves Earth.',
     'I’ve never cared about Earth. It’s where history happened. Ancient stuff, like Rome.',
     'My name literally means Earth. I always assumed that was my family’s idea of a joke.',
   ],
 
   // ── THE SALVAGE MAP — unlocked in chapter 4, once she can read the Lunar Library ─────────────
-  // Data: data/missions.json (Wikipedia “List of missions to the Moon”; 136 Moon-bound, 1958–2026:
-  // 70 success · 11 partial · 55 failed). Beats with `salvage` drop a pin on her map.
+  // Data: data/missions.json (Wikipedia “List of missions to the Moon”; 139 Moon-bound, 1958–2026:
+  // 72 success · 11 partial · 56 failed). `node check.mjs` verifies these numbers against the data. Beats with `salvage` drop a pin on her map.
   salvageMap: {
     img: 'assets/img/watcher-earthset-orion.jpg',
     intro: 'The library lists every machine Earth ever threw at the Moon. I’m reading it for spare parts.',
@@ -101,7 +102,7 @@ export const CONTENT = {
       { year: 2025, match: 'IM-2', log: 'A company landed an ice drill near the pole. The lander fell over before it could drill in. The drill is still there.', salvage: 'drill-im2' },
       { year: 2026, match: 'Artemis II', log: 'Four of them flew around the Moon, farther from Earth than anyone ever had. The next era started here.' },
     ],
-    summary: '136 tries. 55 failures. To them, every failure was a disaster. To me, it’s a parts catalogue.',
+    summary: '139 tries. 56 failures. To them, every failure was a disaster. To me, it’s a parts catalogue.',
     handoff: 'Two problems left between me and a rescue: water, and a way to call Earth. They solved both before. Time to copy their homework.',
   },
 
@@ -141,13 +142,13 @@ export const CONTENT = {
           text: 'Mission Control, April 1970. Engineers tip the same scraps the crew has onto a table and build the fix. Ken Mattingly, pulled from the crew over measles he never caught, helps bring the dead command module back to life.' },
         // NASA: Columbia broke up on re-entry 1 Feb 2003, 16 min before landing; Chawla born in Karnal, flew STS-87 (1997) and STS-107
         { year: 2003, img: 'assets/img/era-2003-kalpana-chawla.jpg',
-          text: 'The memorial plaque. Kalpana Chawla, born in Karnal, India. Flew twice. Died with six crewmates when Columbia broke apart sixteen minutes from home.' },
+          text: 'Kalpana Chawla, born in Karnal, India. Flew twice. On 1 February 2003, sixteen minutes from home, Columbia broke apart with all seven aboard.' },
         // Britannica: Sarabhai died 30 Dec 1971, aged 52; Aryabhata launched 1975
         { year: 1951, img: 'assets/img/era-1951-vikram-sarabhai.jpg',
           text: 'Vikram Sarabhai. He started India’s space programme in a church by the sea. He died at 52, four years before India’s first satellite reached orbit.' },
       ],
       wonder: 'Twenty years I walked past their names. Some of them never saw it fly. Some of them never got home.',
-      hook: 'The newest plaque: 2024, the Moon’s first library. Thirty million pages etched on nickel, on a lander near Malapert A. Three hundred kilometres away. Everything they ever knew, on metal. Storm-proof.',
+      hook: 'The last plaque before the wall turns the corner: 2024, the Moon’s first library. Thirty million pages etched on nickel, on a lander near Malapert A. Three hundred kilometres away. Everything they ever knew, on metal. Storm-proof.',
       sources: [['Apollo 13 (NASA)', 'https://www.nasa.gov/missions/apollo/apollo-13-mission-details/'], ['John Aaron & Mattingly', 'https://en.wikipedia.org/wiki/John_Aaron'], ['Kalpana Chawla', 'https://en.wikipedia.org/wiki/Kalpana_Chawla'], ['Vikram Sarabhai (Britannica)', 'https://www.britannica.com/biography/Vikram-Sarabhai'], ['Lunar Library (Arch Mission)', 'https://medium.com/arch-mission-foundation/third-times-a-charm-lunar-library-successfully-lands-on-the-moon-backup-of-human-civilization-1ef424ebe4f2']],
       hudUnlock: ['o2-bar', 'objective'],
     },
@@ -177,7 +178,7 @@ export const CONTENT = {
         ],
         target: { id: 'fender', label: 'Broken fender' },
       },
-      payoff: { lines: ['Fender holds. Dust stays down. 212 kilometres to go.'], solvedBefore: 'APOLLO 17 · 1972' },
+      payoff: { lines: ['Fender holds. Dust stays down. 212 kilometres to go.', 'I give the motors five minutes to cool. Five minutes is enough to read.'], solvedBefore: 'APOLLO 17 · 1972' },
       relive: [
         { year: 1962, img: 'assets/img/era-1962-katherine-johnson.jpg',
           text: 'Langley, 1962. Katherine Johnson checks the orbit equations on a desk calculator. Her numbers match the IBM, so Glenn flies.' },
@@ -219,15 +220,15 @@ export const CONTENT = {
         ],
         winWhen: 'sum <= available && every load >= its min',
       },
-      payoff: { lines: ['Heaters at minimum. Radio off. Oxygen first. Same order Apollo 13 chose. The alarms stop.'], solvedBefore: 'APOLLO 13 · 1970 · APOLLO 11 · 1969' },
+      payoff: { lines: ['Heaters at minimum. Radio off. Oxygen first. Same order Apollo 13 chose. The alarms stop.', 'Fourteen days of dark ahead. Nothing to do in the dark but read.'], solvedBefore: 'APOLLO 13 · 1970 · APOLLO 11 · 1969' },
       relive: [
         { year: 1969, img: 'assets/img/era-1969-mcc-apollo11.jpg', audio: 'assets/audio/home-eagle-landed-extended.mp3',
           // Wikipedia (Apollo insurance covers)
           text: 'Mission Control, July 1969. Jack Garman has every alarm code on a handwritten list. Steve Bales says go. The crew had signed hundreds of envelopes for their families to sell, because nobody would insure them.' },
         // Planetary Society / The Week: 1993 Russian deal cancelled under US/MTCR pressure; GSLV-D3 cryo stage failed ~1.5 s in 2010; GSLV-D5 flew 5 Jan 2014
         // Science (AAAS) 2018: Nambi Narayanan arrested 1994; CBI closure 1996; Supreme Court called the case concocted, awarded compensation
-        { year: 2014, img: 'assets/img/era-2019-chandrayaan2-liftoff.jpg',
-          text: 'India’s cryogenic engine. The deal to buy one was killed in 1993; India got seven engines and no drawings. It built its own. The first one failed after a second and a half, in 2010. It flew in 2014. Along the way one of its scientists, Nambi Narayanan, was falsely accused of spying and spent years clearing his name. The courts later called the case concocted.' },
+        { year: 2019, img: 'assets/img/era-2019-chandrayaan2-liftoff.jpg',
+          text: 'India’s cryogenic engine. The deal to buy one was killed in 1993; India got seven engines and no drawings. It built its own. The first one failed after a second and a half, in 2010. It flew in 2014. Five years later it lifted Chandrayaan-2, in this picture. Along the way one of its scientists, Nambi Narayanan, was falsely accused of spying and spent years clearing his name. The courts later called the case concocted.' },
       ],
       wonder: 'When they couldn’t buy the part, they built it. When it failed after a second and a half, they built it again.',
       sources: [['1202 & Garman', 'https://en.wikipedia.org/wiki/Jack_Garman'], ['Insurance covers', 'https://en.wikipedia.org/wiki/Apollo_insurance_covers'], ['Cryogenic GSLV (Planetary Society)', 'https://www.planetary.org/articles/20130729-india-prepares-to-return'], ['1993 deal (The Week)', 'https://www.theweek.in/news/defence/2026/06/03/opinion-the-indo-soviet-cryogenic-engine-deal-and-mtcr-the-tale-of-a-failed-partnership.amp.html'], ['Nambi Narayanan (Science)', 'https://www.science.org/content/article/indian-court-offers-final-vindication-innocent-space-scientist-who-was-arrested-and']],
@@ -289,14 +290,14 @@ export const CONTENT = {
         // Space.com: IM-2 Athena landed 6 Mar 2025 near Mons Mouton, tipped in a crater; PRIME-1 drill deployed
         { year: 2025, text: 'IM-2 Athena carried an ice drill to the pole, landed in a crater, fell on its side and never drilled.', img: 'assets/img/era-2025-im2-region.jpg' },
         // Chandrayaan-1 MIP (14 Nov 2008) + NASA M3 (2009); LCROSS (9 Oct 2009, ~5.6% water); ISS 98% recovery (NASA 2023)
-        { year: 2008, text: 'Chandrayaan-1 and LCROSS found where the ice is. On their space station, they reused 98% of their water.', img: 'assets/img/water-ice-poles.jpg' },
+        { year: 2008, text: 'Chandrayaan-1 and LCROSS found where the ice is. On their old space station they reused 98% of their water, because every drop had been flown up from Earth.', img: 'assets/img/water-ice-poles.jpg' },
       ],
       interaction: {
         verb: 'drag', label: 'FINISH ITS JOB', seconds: 8,
         items: [{ id: 'drill', label: 'Athena’s drill', icon: 'drill' }],
         target: { id: 'psr', label: 'Permanently shadowed crater', glow: '#7fd4ff' },
       },
-      payoff: { lines: ['It fell over in 2025 before it could drill a single hole. I just finished its job.', 'Ice. Dig it, melt it, filter it.'], solvedBefore: 'CHANDRAYAAN-1 · 2008 · LCROSS · 2009' },
+      payoff: { lines: ['It fell over in 2025 before it could drill a single hole. I just finished its job.', 'Ice. Dig it, melt it, filter it. The first litre takes an hour. I sit with the drill and its dead lander and wait.'], solvedBefore: 'CHANDRAYAAN-1 · 2008 · LCROSS · 2009' },
       relive: [
         { year: 2009, date: '2009-10-09', img: 'assets/img/era-2009-lcross-team.jpg', audio: 'assets/audio/water-lcross-found-water.mp3',
           text: 'NASA Ames, October 2009. The LCROSS team watches a spent rocket stage hit Cabeus: about 5.6% of what it throws up is water. A year earlier, India’s first Moon mission had dropped a probe carrying its flag right beside Shackleton.' },
@@ -323,8 +324,8 @@ export const CONTENT = {
         { year: 1969, text: 'Apollo 11 left a panel of 100 small mirrors. Observatories still aim lasers at it.', img: 'assets/img/signal-a11-reflector.jpg' },
         // Space.com: Lunokhod 1 reflector found with LRO’s help, ranged 22 Apr 2010, brighter than Lunokhod 2
         { year: 2010, text: 'Lunokhod 1’s mirror was lost for nearly 40 years, found in 2010, and bounced back brighter than expected.' },
-        // Space.com/NASA: LRO’s LOLA pinged Vikram’s LRA, 12 Dec 2023; great-circle Shackleton→Vikram ≈ 627 km; hop test 3–4 Sep 2023
-        { year: 2023, text: 'The closest mirror: a biscuit-sized one on India’s Vikram lander, 627 km away. Vikram even hopped 40 cm once, to prove a lander could take off again.', img: 'assets/img/cold-chandrayaan3-vikram.jpg' },
+        // Space.com/NASA: LRO’s LOLA pinged Vikram’s LRA, 12 Dec 2023; great-circle Mons Mouton→Vikram ≈ 468 km; hop test 3–4 Sep 2023
+        { year: 2023, text: 'The closest mirror: a biscuit-sized one on India’s Vikram lander, about 470 km from here. Vikram even hopped 40 cm once, to prove a lander could take off again.', img: 'assets/img/cold-chandrayaan3-vikram.jpg' },
       ],
       interaction: {
         verb: 'morse', label: 'SEND SOS', seconds: 15,
@@ -387,22 +388,24 @@ export const CONTENT = {
     ],
     // FICTION: the plaque. Real anchor: India’s stated goal of an Indian on the Moon by 2040.
     plaque: {
-      lead: 'Before the ship comes, I read the last plaque on the Heritage Wall. The small one by the floor that I never bothered with.',
+      lead: 'Before the ship comes, I go back to the wall. Round the corner, low by the floor, there’s one more plaque I never bothered with.',
       text: '2041 · FIRST INDIAN CREW TO LIVE AT SHACKLETON · Mission specialist Chandrika Devi',
       after: [
-        'Chandrika Devi. I know that name. It’s on the first page of our family book, the paper one nobody reads.',
-        'My great-grandmother. Chandrika means moonlight. She was born on Earth and named after the Moon, and she came to live on it.',
+        'Chandrika Devi. That name is on the first page of our family book. I always assumed she came up in the sixties, with everyone else.',
+        'She was on the first crew. She was here before there was a here.',
+        'Chandrika means moonlight. Born on Earth, named after the Moon, and she came to live on it.',
         'She named the first girl born up here after the planet she left. Every first daughter since has been called Bhoomi.',
         'It wasn’t a joke. It was a reminder. I think she planned this.',
       ],
     },
     choice: [
       // PRL founded by Vikram Sarabhai, 11 Nov 1947, Ahmedabad
-      'So: Earth first. The Physical Research Laboratory in Ahmedabad, the lab Sarabhai started in 1947. I have a lot of reading to do.',
-      'They did the Moon, then Mars. Same order for me. Mars isn’t cancelled. It’s rescheduled.',
+      'So: Earth first. The Physical Research Laboratory in Ahmedabad, the lab Sarabhai started in 1947. Twenty years of plaques to catch up on.',
+      'They went to the Moon before Mars. I was born on the Moon. Earth is the step I skipped. Mars isn’t cancelled. It’s rescheduled.',
     ],
     sources: [['Anders (NASA)', 'https://science.nasa.gov/missions/landsat/remembering-bill-anders/'], ['Rakesh Sharma', 'https://en.wikipedia.org/wiki/Rakesh_Sharma'], ['Shubhanshu Shukla (CNN)', 'https://www.cnn.com/2025/06/26/india/india-shubhanshu-shukla-axiom-space-mission-intl-hnk'], ['Mangalyaan (CNN)', 'https://www.cnn.com/2014/09/25/news/india-mars-cost'], ['India’s 2035/2040 goals (Tribune)', 'https://www.tribuneindia.com/news/india/space-station-by-2035-man-on-moon-by-2040-pm-modi-sets-lofty-space-mission-goals-554095']],
     closing: 'Everything I needed, they left here for me: their footprints, their failures, their junk. What will you leave?',
+    // “they” for the whole story, “we” only here: the pronoun shift is the ending. Keep it.
     last: 'We’ve done harder things.',
     audio: 'assets/audio/finale-jfk-we-choose.mp3',
     img: 'assets/img/watcher-earthset-limb.jpg',

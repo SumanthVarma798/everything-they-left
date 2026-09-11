@@ -42,6 +42,8 @@
   .ch-n { font: 800 15px var(--label); letter-spacing: .18em; color: var(--accent2); }
   .ch-t { font: 700 26px/1.1 var(--display); color: var(--hi); margin: 0; }
   .ch-place { font: 13px var(--mono); color: var(--dim); }
+  .mood { font: 700 11px var(--label); letter-spacing: .18em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; }
+  .mood.despair { background: rgba(255,68,68,.14); color: #ff9a9a; } .mood.curiosity { background: rgba(0,170,255,.14); color: #7fd4ff; } .mood.inspiration { background: rgba(245,200,66,.16); color: var(--gold); }
   .ch-build { margin-left: auto; font: 700 12px var(--label); letter-spacing: .12em; padding: 4px 8px; border-radius: 4px; }
   .ch-build.core { background: rgba(0,221,136,.15); color: var(--ok); } .ch-build.cheap { background: rgba(255,170,0,.14); color: var(--warn); } .ch-build.scene { background: var(--bg3); color: var(--dim); }
   .ch-body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); }
@@ -156,19 +158,19 @@ const VERB = { drag: 'DRAG', balance: 'BALANCE', focus: 'FOCUS', morse: 'MORSE',
 const links = src => (src || []).map(([t, u]) => `<a href="${u}" target="_blank" rel="noopener">${t}</a>`).join('');
 const CH = [
   { id: 'prologue', n: 'PROLOGUE', t: 'Eleven Minutes', place: C.narrator.base, danger: C.prologue.lines.slice(1).join(' '), finds: [],
-    act: ['HOLD', 'Hold your breath while she clears the regulator. The audience holds theirs too.'], payoff: C.opener.lines, relive: C.opener.relive,
+    mood: C.prologue.mood, act: ['HOLD', 'Hold your breath while she clears the regulator. The audience holds theirs too.'], payoff: C.opener.lines, relive: C.opener.relive,
     wonder: C.opener.wonder, hook: C.motivation.join(' '), src: C.opener.sources },
-  ...C.crises.map(c => ({ id: c.id, n: `CHAPTER ${c.chapter} · ${c.name}`, t: c.title, place: c.objective, status: c.alarm.status, danger: c.alarm.log,
+  ...C.crises.map(c => ({ id: c.id, n: `CHAPTER ${c.chapter} · ${c.name}`, t: c.title, mood: c.mood, place: c.objective, status: c.alarm.status, danger: c.alarm.log,
     finds: c.finds, act: [VERB[c.interaction.verb] || c.interaction.verb.toUpperCase(), c.interaction.label], payoff: c.payoff.lines, solved: c.payoff.solvedBefore,
     relive: c.relive, wonder: c.wonder, hook: c.hook, src: c.sources })),
-  { id: 'epilogue', n: 'EPILOGUE', t: 'Bhoomi', place: 'the reply', danger: C.finale.reply.join(' '), finds: [{ text: C.finale.plaque.lead }, { text: C.finale.plaque.text }],
+  { id: 'epilogue', n: 'EPILOGUE', t: 'Bhoomi', mood: C.finale.mood, place: 'the reply', danger: C.finale.reply.join(' '), finds: [{ text: C.finale.plaque.lead }, { text: C.finale.plaque.text }],
     act: ['—', 'No interaction. The plaque, her choice, the closing line, the memorial.'], payoff: [...C.finale.plaque.after, ...C.finale.choice], relive: C.finale.relive,
     wonder: 'They came all this way to find the Moon, and found the Earth. So did I.', hook: C.finale.closing, src: C.finale.sources },
 ];
 $('#arcline').innerHTML = CH.map(c => `<a href="#${c.id}"><b>${c.n.split(' · ')[0]}</b>${c.t}</a>`).join('');
 for (const c of CH) {
   const el = document.createElement('article'); el.className = 'ch'; el.id = c.id;
-  el.innerHTML = `<header class="ch-head"><span class="ch-n">${c.n}</span><h3 class="ch-t">${c.t}</h3><span class="ch-place">${c.place}</span>${c.solved ? `<span class="ch-build core">SOLVED BEFORE · ${c.solved}</span>` : ''}</header>
+  el.innerHTML = `<header class="ch-head"><span class="ch-n">${c.n}</span><h3 class="ch-t">${c.t}</h3><span class="ch-place">${c.place}</span>${c.mood ? `<span class="mood ${c.mood}">${c.mood}</span>` : ''}${c.solved ? `<span class="ch-build core">SOLVED BEFORE · ${c.solved}</span>` : ''}</header>
     <div class="ch-body">
       <section class="now"><p class="lbl">2150 · danger${c.status ? ' · ' + c.status : ''}</p><p class="danger">${c.danger}</p>
         ${c.finds.length ? `<p class="lbl">What she finds · her notebook</p><div class="finds paper"><ul>${c.finds.map(f => `<li>${f.text} ${f.year ? `<small>${f.year}</small>` : ''}${f.img ? `<div class="sk"><img class="sketch" src="${f.img}" alt=""></div>` : ''}</li>`).join('')}</ul></div>` : ''}

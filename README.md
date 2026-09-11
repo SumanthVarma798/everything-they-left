@@ -23,7 +23,8 @@ direct links and the self-check.
 | File | What |
 |---|---|
 | `content.js` | the whole story, facts, interaction configs, waypoints, sources: **the single source of truth** |
-| `data/missions.json` | 145 Moon missions (136 Moon-bound), outcomes normalised |
+| `check.mjs` | `node check.mjs`: validates `content.js` and the data (missing assets, unknown verbs, wrong counts) |
+| `data/missions.json` | 145 Moon missions (139 Moon-bound), outcomes normalised |
 | `lib/` | pre-built, tested modules: `stage3d` · `hud` · `interactions` · `notebook` · `era` · `archive-map` · `attempt-map` · `game.css` |
 | `vendor/` | three.js r170, rough.js 4.6.6 (offline) |
 | `assets/` | photos, textures, NASA audio (all licensed: `CREDITS.md`) |

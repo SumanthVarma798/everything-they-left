@@ -14,7 +14,7 @@ The event is a casual build session (no rules, no judging), so the risky parts a
 A solar superstorm kills every chip on the Moon in eleven minutes. Everyone who could help is on Mars.
 To survive long enough to call Earth, she has to learn how Earth got here, from the plaques she never
 read, the Lunar Library on IM-1 Odysseus (30 million pages on nickel, real, near Malapert A) and the
-junk and failures humanity left behind. The 55 failed missions become her parts catalogue.
+junk and failures humanity left behind. The 56 failed missions become her parts catalogue.
 
 Fiction: Bhoomi, the storm, the rescue. Real: every mission, date, object, distance and number.
 
@@ -78,11 +78,11 @@ interaction panel, lower third. Boot animation per element, driven by `hudUnlock
 - **hold-breath**: pointer/Space hold, counts in tenths; under 1 s → "Take a real breath."
 
 ### Salvage map (lib/archive-map.js → `mountSalvageMap`: paper page, then “Look up ▸” lifts into lib/attempt-map.js)
-136 Moon-bound missions from `data/missions.json`, rough.js arcs Earth→Moon: red failed (✕),
+139 Moon-bound missions from `data/missions.json`, rough.js arcs Earth→Moon: red failed (✕),
 amber partial, graphite success, ochre crewed (dashed return). Named sites at **real near-side
 coordinates** (orthographic); salvage pins for the A11 mirror, A12 nuclear battery, IM-2 drill,
 Vikram mirror; "me (Bhoomi)" at Shackleton. Year slider + Play (lingers 2.6 s on beat years).
-Tally counts up to "136 tries · 55 failed".
+Tally counts up to "139 tries · 56 failed".
 
 ### 3D stage (lib/stage3d.js → `createStage`)
 three.js r170 from `vendor/` (works offline). Moon `SphereGeometry(1,192,192)`, 4k map,
@@ -110,14 +110,14 @@ LROC polar maps when NASA SVS is back.
 | 14:45–15:00 | Freeze, deploy, rehearse the demo |
 
 **Demo (~90 s):** title → "hold your breath" (everyone holds) → map: Play from 1958 (tally
-climbing to 55 failed) → Crisis 4 via `?c=signal&beat=move` (tap SOS) → the green flicker →
+climbing to 56 failed) → Crisis 4 via `?c=signal&beat=move` (tap SOS) → the green flicker →
 closing line.
 
 ## Files
 - **`RUNBOOK.md`: the Saturday execution plan (story, layout, tech, assets, schedule, Cursor prompts, tests). Start there.**
 - `.cursor/rules/everything-they-left.mdc`: always-on Cursor rules (stack, content rules, traps, direct links, self-check).
 - `content.js`: all story text, facts with sources, interaction configs, HUD unlocks.
-- `data/missions.json`: 145 missions (136 Moon-bound), parsed from Wikipedia's list.
+- `data/missions.json`: 145 missions (139 Moon-bound), parsed from Wikipedia's list.
 - `lib/` + `vendor/` + `prototypes.html`: modular
   `mountInteraction` (hold/drag/balance/ratio/sequence), `createStage` (three.js r170, local, kill switch),
   `mountAttemptMap` (view-from-the-Moon arcs), `game.css`. **The base for Saturday.**
