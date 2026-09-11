@@ -1,4 +1,4 @@
-# HOLD YOUR BREATH — Saturday Runbook
+# EVERYTHING THEY LEFT — Saturday Runbook
 
 Everything you need to **execute, test, improve** on Sat 12 Sep 2026, 12:00–15:00 IST (Cafe Cursor Hyderabad).
 Nothing here needs deciding. If something isn't in this file, the answer is in `content.js` (story), `PLAN.md`
@@ -17,7 +17,7 @@ and sourced. The present is **pencil sketches**; the past she relives plays **in
 
 **Start tomorrow with:**
 ```bash
-cd ~/myWorkshop/Projects/hold-your-breath-app && python3 -m http.server 8765
+cd ~/myWorkshop/Projects/everything-they-left && python3 -m http.server 8765
 ```
 then open `http://localhost:8765/prototypes.html` (working pieces) and `http://localhost:8765/story.html` (the whole story).
 
@@ -81,7 +81,7 @@ title → prologue → opener(HOLD) → relive×2 → wonder → motivation
 ### Beat renderers (what each beat looks like)
 | Beat | Looks like | Advances on |
 |---|---|---|
-| `title` | 3D Moon slowly spinning, “HOLD YOUR BREATH” + “Bhoomi, 2150”, [PRESS & HOLD SPACE] | the hold (also unlocks audio) |
+| `title` | 3D Moon slowly spinning, “EVERYTHING THEY LEFT” + “Bhoomi, 2150”, then “Hold your breath.” [PRESS & HOLD SPACE] | the hold (also unlocks audio) |
 | `line` | letterbox bars; mono text typed at 45 ch/s | click / Enter / Space, or auto after text + 1.5 s |
 | `alarm` | HUD objective + red status, 3-beep Web Audio alarm, log typed, plan sketch draws itself (`drawPlan`) | click |
 | `finds` | paper card slides up; handwriting (Caveat); photos with `.sketch` pencil filter | click |
@@ -132,7 +132,7 @@ lib/game.css          tokens + every component style
 prototypes.html       working test bench: ?p=stage|notebook|map|air|move|night|library|water|signal
 story.html            the story rendered from content.js (review surface)
 assets/               img 7.5 MB · textures 7.2 MB · audio 2.0 MB   (≈18 MB total)
-README.md · RUNBOOK.md · PLAN.md · CREDITS.md · .cursor/rules/hold-your-breath.mdc · .gitignore
+README.md · RUNBOOK.md · PLAN.md · CREDITS.md · .cursor/rules/everything-they-left.mdc · .gitignore
 ```
 
 ### content.js shape (what the engine reads)
@@ -288,7 +288,7 @@ phone portrait · every relive frame shows its era tag · credits list the CC BY
    gh api -X POST repos/{owner}/hold-your-breath/pages -f "source[branch]=main" -f "source[path]=/"
    ```
    Live at `https://<your-github-username>.github.io/hold-your-breath/story.html` in about a minute.
-5. **Cursor:** open the folder; confirm it picks up `.cursor/rules/hold-your-breath.mdc`; pick your strongest model.
+5. **Cursor:** open the folder; confirm it picks up `.cursor/rules/everything-they-left.mdc`; pick your strongest model.
 6. Charger, phone hotspot, leave by 11:15 (Jubilee Hills on a Saturday).
 
 ---

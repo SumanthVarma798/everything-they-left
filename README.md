@@ -1,4 +1,4 @@
-# Hold Your Breath
+# Everything They Left
 
 *Bhoomi (“the Earth”) was born on the Moon and never cared about Earth. In 2150 a solar storm kills every
 machine on the Moon, and the only manual left is the history of how Earth got there.*
@@ -16,7 +16,7 @@ python3 -m http.server 8765
 
 ## Build it
 Open this folder in Cursor and follow **[RUNBOOK.md](RUNBOOK.md) §6**: five paste-ready prompts (A → E), each with a
-“done when” check. `.cursor/rules/hold-your-breath.mdc` loads automatically with the stack rules, known traps,
+“done when” check. `.cursor/rules/everything-they-left.mdc` loads automatically with the stack rules, known traps,
 direct links and the self-check.
 
 ## Where things are

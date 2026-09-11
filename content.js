@@ -1,4 +1,4 @@
-// Hold Your Breath — all story content (v4: “Bhoomi”). Pure data: the page reads this, nothing else does.
+// Everything They Left — all story content (v4: “Bhoomi”). Pure data: the page reads this, nothing else does.
 // Every real-world fact carries its source in a comment; CREDITS.md lists media licences.
 // FICTION: Bhoomi, her family, the 2150 storm, the rescue. REAL: every mission, date, object, number she finds.
 //
@@ -19,7 +19,7 @@
 // `plan` names one of her self-drawing notebook plans (lib/notebook.js).
 
 export const CONTENT = {
-  title: 'HOLD YOUR BREATH',
+  title: 'EVERYTHING THEY LEFT',
   subtitle: 'Bhoomi, 2150',
   // FICTION: her great-grandmother came up with India’s lunar programme (the real goal: an Indian on the Moon
   // by 2040 — PM’s 2023 target, reaffirmed by ISRO 2026). Revealed only by the last plaque in the epilogue.

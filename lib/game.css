@@ -1,4 +1,4 @@
-/* Hold Your Breath — shared game styles. Tokens from artemis3-dashboard web-sim/index.css:5-19. */
+/* Everything They Left — shared game styles. Tokens from artemis3-dashboard web-sim/index.css:5-19. */
 [hidden] { display: none !important; }            /* trap #2: display:grid/flex beats [hidden] */
 *, *::before, *::after { box-sizing: border-box; }
 :root {

@@ -1,10 +1,10 @@
 ---
-description: Hold Your Breath — stack, story and testing rules (always on)
+description: Everything They Left — stack, story and testing rules (always on)
 globs:
 alwaysApply: true
 ---
 
-# Hold Your Breath
+# Everything They Left
 
 A static, single-page story game. The full plan is `RUNBOOK.md`: read it before building anything.
 
