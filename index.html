@@ -6,7 +6,7 @@
 <title>Everything They Left</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,800;1,400&family=Barlow+Condensed:wght@300;400;500;600;700&family=Caveat:wght@500;700&display=swap">
-<link rel="stylesheet" href="lib/game.css">
+<link rel="stylesheet" href="lib/game.css?v=6cb459c">
 <link rel="stylesheet" href="lib/era.css">
 <script src="vendor/rough.js"></script>
 <script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js" } }</script>
@@ -194,7 +194,7 @@
 
 <script type="module">
   import { CONTENT } from './content.js';
-  import { boot } from './lib/engine.js';
+  import { boot } from './lib/engine.js?v=6cb459c';
 
   const Q = new URLSearchParams(location.search);
   const $ = s => document.querySelector(s);
@@ -270,7 +270,7 @@
   if (jumpPlay && 'scrollRestoration' in history) history.scrollRestoration = 'manual';
 
   let leftPlay = false;
-  game.onPause(() => { leftPlay = true; showContinue(); });
+  game.onPause?.(() => { leftPlay = true; showContinue(); });
   $('#play-cta').addEventListener('click', () => {
     leftPlay = false;
     $('#play-cta').hidden = true;
