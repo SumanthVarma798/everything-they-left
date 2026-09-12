@@ -121,6 +121,8 @@ index.html            ← BUILD THIS SATURDAY (the game)
 lib/engine.js         ← BUILD THIS SATURDAY (beat list + renderers + router)
 content.js            story + facts + configs (single source of truth)
 data/missions.json    every Moon mission, outcome-normalised
+storyboard.html       v1 frames + feel lab (10 Sep). Specs still apply; the story there is superseded by story.html
+data/archive.js       the Lunar Library: 31 real events outside the six chapters, for the hangar
 HANDOFF.md            two-person split: who owns which files, the unlock contract, B's brief
 lib/progress.js       shared unlock contract between the game and the hangar (PROGRESS.unlock / .entries / 'etl:unlock')
 check.mjs             `node check.mjs` — validates content.js + data (assets exist, verbs/icons known, counts match)

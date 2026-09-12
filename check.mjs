@@ -4,6 +4,7 @@
 import { readFileSync, existsSync } from 'node:fs';
 
 const { CONTENT: C } = await import('./content.js');
+const { ARCHIVE } = await import('./data/archive.js');
 const M = JSON.parse(readFileSync('data/missions.json', 'utf8'));
 const VERBS = ['drag', 'balance', 'focus', 'morse'];
 const ICONS = ['card', 'bag', 'hose', 'tape', 'map', 'clamp', 'drill'];
@@ -58,8 +59,23 @@ check(C.salvageMap.summary.includes(`${tries} tries`) && C.salvageMap.summary.in
 
 C.finale.rows.forEach((r, i) => { const y = +(r.real.match(/^(\d{4})/) || [])[1]; if (y > 2026 && y < 2150) check(r.projected && r.basis, `finale row ${i}: "${r.real.slice(0, 40)}" needs projected:true + basis`); });
 
-// 5. finale shape
+// 5. the Lunar Library archive: unique ids, every `with` resolves to a real unlock id, sourced, no photos
+const { PROGRESS } = await import('./lib/progress.js');
+const known = new Set(PROGRESS.entries(C, M).map(e => e.id));
+const aIds = new Set();
+for (const e of ARCHIVE) {
+  const n = `archive "${e.id}"`;
+  check(!aIds.has(e.id), `${n}: duplicate id`); aIds.add(e.id);
+  for (const k of ['title', 'text', 'why', 'with', 'org']) check(typeof e[k] === 'string' && e[k].length > 2, `${n}: missing ${k}`);
+  check(known.has(e.with), `${n}: with "${e.with}" is not a real unlock id`);
+  check(Array.isArray(e.sources) && e.sources.length, `${n}: no sources`);
+  check(!e.img, `${n}: the library has no photographs`);
+  future(e, n);
+}
+check(ARCHIVE.length >= 24, `archive is thin: ${ARCHIVE.length} events`);
+
+// 6. finale shape
 for (const k of ['reply', 'relive', 'rows', 'plaque', 'choice', 'closing', 'last', 'sources']) check(C.finale[k] != null, `finale: missing ${k}`);
 
 if (bad.length) { console.error(`✗ ${bad.length} problem(s):\n- ` + bad.join('\n- ')); process.exit(1); }
-console.log(`✓ content.js ok · ${C.crises.length} chapters · ${[C.opener, ...C.crises, C.finale].reduce((a, p) => a + (p.relive?.length || 0), 0)} relive scenes · ${tries} Moon-bound missions (${fails} failed)`);
+console.log(`✓ content.js ok · ${C.crises.length} chapters · ${ARCHIVE.length} library events · ${[C.opener, ...C.crises, C.finale].reduce((a, p) => a + (p.relive?.length || 0), 0)} relive scenes · ${tries} Moon-bound missions (${fails} failed)`);

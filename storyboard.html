@@ -1,0 +1,680 @@
+<meta charset="utf-8">
+<title>Everything They Left — Storyboard (v1 reference)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;600;800&family=Barlow+Condensed:wght@500;600;700&display=swap">
+<style>
+  /* Design source: artemis3-dashboard web-sim/index.css:5-19 — the product's own tokens */
+  :root {
+    --bg: #080c12; --bg2: #0d1420; --bg3: #111c2e; --border: #1e3050;
+    --accent: #00aaff; --accent2: #00ffcc; --warn: #ffaa00; --danger: #ff4444; --ok: #00dd88;
+    --gold: rgb(245,200,66); --text: #c8d8f0; --dim: #6b82a3; --hi: #fff;
+    --mono: ui-monospace, 'SF Mono', Menlo, 'Courier New', monospace;
+    --display: 'Spectral', Georgia, serif;
+    --label: 'Barlow Condensed', 'Helvetica Neue', Arial, sans-serif;
+    color-scheme: dark;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html, body { background: var(--bg); color: var(--text); margin: 0; }
+  body { font: 15px/1.55 system-ui, -apple-system, sans-serif; }
+  :where(.grid, .flex) > * { min-width: 0; }
+  :where(p, li, td, th, h1, h2, h3) { overflow-wrap: anywhere; }
+  img { max-width: 100%; }
+  code { font-family: var(--mono); font-size: .86em; background: var(--bg3); border: 1px solid var(--border); border-radius: 4px; padding: .05em .35em; color: var(--accent2); }
+  a { color: var(--accent); }
+
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 32px 24px 80px; }
+  header.top h1 { font: 800 clamp(30px, 5vw, 48px)/1.05 var(--display); color: var(--hi); margin: 0 0 6px; }
+  .kicker { font: 600 13px/1 var(--label); letter-spacing: .18em; text-transform: uppercase; color: var(--accent2); }
+  .lede { max-width: 72ch; color: var(--text); }
+  h2 { font: 700 26px/1.2 var(--display); color: var(--hi); margin: 56px 0 6px; }
+  h2 .kicker { display: block; margin-bottom: 8px; }
+  .sub { color: var(--dim); margin: 0 0 20px; max-width: 80ch; }
+
+  .loop { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 22px; }
+  .loop > div { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+  .loop b { display: block; color: var(--hi); font: 600 17px/1.2 var(--label); letter-spacing: .04em; margin-bottom: 4px; }
+  .loop .was { color: var(--danger); font-size: 13px; }
+  .loop .now { color: var(--ok); font-size: 13px; }
+
+  .toolbar { position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(6px); border-bottom: 1px solid var(--border); }
+  .toolbar .wrap { padding-top: 10px; padding-bottom: 10px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .toolbar a { font: 600 14px var(--label); letter-spacing: .08em; text-transform: uppercase; text-decoration: none; color: var(--dim); }
+  .toolbar a:hover { color: var(--hi); }
+  .toolbar label { margin-left: auto; font: 600 14px var(--label); letter-spacing: .06em; color: var(--warn); display: flex; gap: 6px; align-items: center; cursor: pointer; }
+
+  /* ───────── Game components (these class names = the real build's names) ───────── */
+  .stage { position: relative; aspect-ratio: 16 / 9; background: #03050a; overflow: hidden; border-radius: 8px; container-type: inline-size; color: var(--text); isolation: isolate; }
+  .stage.phone { aspect-ratio: 9 / 19.5; max-width: 300px; margin: 0 auto; border-radius: 26px; border: 2px solid var(--border); }
+  .stars { position: absolute; inset: 0; background: url('assets/textures/stars_milky_way.jpg') center / cover; opacity: .35; z-index: -2; }
+  .moon { position: absolute; border-radius: 50%; background: url('assets/textures/moon_2k.jpg') 30% 50% / 200% 100%; box-shadow: inset -14cqw -4cqw 14cqw rgba(0,0,0,.92), 0 0 5cqw rgba(160,190,255,.08); z-index: -1; }
+  .moon.full { width: 42cqw; height: 42cqw; right: 8cqw; top: 50%; translate: 0 -50%; }
+  .moon.pole { width: 150cqw; height: 150cqw; left: -25cqw; top: 38cqw; background-position: 50% 100%; box-shadow: inset 0 22cqw 22cqw rgba(0,0,0,.2), inset -40cqw -10cqw 40cqw rgba(0,0,0,.9); }
+  .moon.night { box-shadow: inset 0 22cqw 22cqw rgba(0,0,0,.2), inset 60cqw -10cqw 50cqw rgba(0,0,0,.97); }
+  .moon.far { width: 22cqw; height: 22cqw; left: 50%; top: 50%; translate: -50% -50%; }
+  .earth { position: absolute; width: 7cqw; height: 7cqw; border-radius: 50%; background: url('assets/textures/earth_day.jpg') 40% 50% / 200% 100%; box-shadow: inset -2.2cqw -.6cqw 2.4cqw rgba(0,0,0,.9); right: 12cqw; top: 14cqw; z-index: -1; }
+
+  .letterbox { position: absolute; left: 0; right: 0; height: 7.5cqw; background: #000; z-index: 5; }
+  .letterbox.top { top: 0; } .letterbox.bottom { bottom: 0; }
+
+  .hud-switch { position: absolute; right: 2.2cqw; top: 9.5cqw; z-index: 12; /* above .flash: must stay clickable while failing */ width: 3.6cqw; height: 6.4cqw; border-radius: 2cqw; background: var(--ok); border: 0; padding: 0; cursor: pointer; transition: background .2s; }
+  .hud-switch .knob { position: absolute; left: .3cqw; top: .3cqw; width: 3cqw; height: 3cqw; border-radius: 50%; background: #fff; box-shadow: 0 .2cqw .6cqw rgba(0,0,0,.4); display: grid; place-items: center; transition: translate .22s cubic-bezier(.3,1.4,.6,1); }
+  .hud-switch .knob svg { width: 70%; height: 70%; }
+  .hud-switch .knob::after { content: ''; position: absolute; inset: 0; margin: auto; width: 82%; height: 12%; border-radius: 1cqw; background: #d11; rotate: -45deg; opacity: 0; transition: opacity .15s; }
+  .hud-switch[aria-checked="false"] { background: var(--danger); }
+  .hud-switch[aria-checked="false"] .knob { translate: 0 2.8cqw; }
+  .hud-switch[aria-checked="false"] .knob::after { opacity: 1; }
+  .hud-switch:focus-visible { outline: .3cqw solid var(--accent); outline-offset: .3cqw; }
+
+  .checkpoints { position: absolute; top: 9.6cqw; left: 50%; translate: -50% 0; display: flex; gap: 1.4cqw; z-index: 8; }
+  .checkpoints i { position: relative; display: block; width: 1.3cqw; height: 1.3cqw; border-radius: 50%; border: .2cqw solid var(--dim); }
+  .checkpoints i.done { background: var(--accent2); border-color: var(--accent2); }
+  .checkpoints i.now { border-color: var(--hi); box-shadow: 0 0 1cqw var(--hi); }
+
+  .status { position: absolute; left: 4cqw; top: 10cqw; font: 700 2.4cqw/1 var(--label); letter-spacing: .14em; color: var(--danger); z-index: 7; }
+  .status.blink { animation: blink 1s steps(2) infinite; }
+  @keyframes blink { 50% { opacity: .35; } }
+  .log { position: absolute; left: 4cqw; right: 30cqw; bottom: 10.5cqw; font: 1.9cqw/1.5 var(--mono); color: var(--text); z-index: 7; }
+  .log .caret { display: inline-block; width: .9cqw; height: 2cqw; background: var(--accent2); vertical-align: -.3cqw; animation: blink .8s steps(2) infinite; }
+
+  .photo { position: absolute; left: 4cqw; top: 13cqw; width: 50cqw; bottom: 10.5cqw; overflow: hidden; border-radius: .6cqw; z-index: 6; box-shadow: 0 0 0 .15cqw rgba(255,255,255,.08); }
+  .photo img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(.25) contrast(1.05); scale: 1.12; }
+  .photo .tag { position: absolute; left: 1cqw; top: 1cqw; font: 600 1.4cqw var(--label); letter-spacing: .12em; color: var(--gold); background: rgba(0,0,0,.6); padding: .3cqw .8cqw; border-radius: .3cqw; }
+  .caption { position: absolute; left: 57cqw; right: 8cqw; top: 13cqw; bottom: 10.5cqw; display: flex; flex-direction: column; justify-content: center; gap: 1.2cqw; z-index: 6; }
+  .caption .eyebrow { font: 600 1.5cqw var(--label); letter-spacing: .16em; color: var(--gold); text-transform: uppercase; }
+  .caption p { margin: 0; font: 400 1.9cqw/1.45 var(--display); color: var(--hi); }
+  .caption p.dim { color: var(--text); opacity: .75; }
+  .audio-chip { position: absolute; left: 4cqw; bottom: 8.5cqw; z-index: 7; font: 600 1.3cqw var(--label); letter-spacing: .1em; color: var(--accent2); }
+
+  .qte { position: absolute; left: 50%; top: 58%; translate: -50% -50%; z-index: 9; padding: 1.8cqw 3.6cqw; font: 700 2.8cqw/1 var(--label); letter-spacing: .14em; color: var(--hi); background: rgba(0,20,30,.55); border: 0; border-radius: .8cqw; cursor: pointer; white-space: nowrap; }
+  .qte-border { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+  /* no vector-effect:non-scaling-stroke here — in Chrome it breaks pathLength-based dashes (border never looks full) */
+  .qte-border rect { fill: none; stroke: var(--accent2); stroke-width: 2; stroke-dasharray: 100; stroke-dashoffset: 0; }
+  .qte-border rect.track { stroke: rgba(255,255,255,.12); }
+  .qte.running .qte-border rect.fuse { animation: drain var(--qte-s, 7s) linear forwards; }
+  /* @keyframes drain is generated in JS from the "turns red at" knob */
+  .qte-hint { position: absolute; left: 50%; top: 70%; translate: -50% 0; font: 600 1.4cqw var(--label); letter-spacing: .12em; color: var(--dim); z-index: 9; white-space: nowrap; }
+
+  .flash { position: absolute; inset: 0; background: radial-gradient(circle, rgba(255,40,40,.15), rgba(255,0,0,.55)); z-index: 10; display: grid; place-items: center; text-align: center; }
+  .flash b { display: block; font: 800 6cqw/1 var(--label); letter-spacing: .12em; color: #fff; text-shadow: 0 0 3cqw var(--danger); }
+  .flash span { display: block; margin-top: 1.6cqw; font: 1.9cqw var(--mono); color: #fff; }
+  .flash a { font: 600 1.5cqw var(--label); letter-spacing: .1em; color: #fff; }
+
+  .toast { position: absolute; right: 7cqw; top: 9.5cqw; z-index: 11; max-width: 30cqw; background: var(--bg3); border: .15cqw solid var(--warn); border-radius: .8cqw; padding: 1.2cqw 1.6cqw; font: 1.7cqw/1.35 system-ui, sans-serif; color: var(--hi); }
+  .toast::after { content: ''; position: absolute; right: -1.2cqw; top: 1.6cqw; border: .7cqw solid transparent; border-left-color: var(--warn); }
+  .toast small { display: block; color: var(--dim); margin-top: .4cqw; }
+
+  .meter { position: absolute; left: 57cqw; right: 8cqw; bottom: 11.5cqw; z-index: 7; }
+  .meter .bar { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .4cqw; }
+  .meter .bar span { height: 1cqw; background: var(--bg3); border-radius: .2cqw; }
+  .meter .bar span.on { background: var(--accent2); box-shadow: 0 0 1cqw rgba(0,255,204,.4); }
+  .meter .names { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); font: 600 1.25cqw var(--label); letter-spacing: .1em; color: var(--dim); margin-top: .5cqw; }
+  .meter .names .on { color: var(--accent2); }
+  .meter .note { font: 1.35cqw/1.4 var(--mono); color: var(--text); margin-top: .6cqw; }
+  .stamp { position: absolute; left: 57cqw; top: 13cqw; z-index: 7; font: 800 2.2cqw var(--label); letter-spacing: .14em; color: var(--accent2); border: .25cqw solid var(--accent2); padding: .4cqw 1.2cqw; rotate: -4deg; }
+
+  .title-block { position: absolute; left: 7cqw; top: 50%; translate: 0 -50%; z-index: 6; }
+  .title-block h3 { margin: 0; font: 800 7cqw/.95 var(--display); color: var(--hi); letter-spacing: -.01em; }
+  .title-block .kick { font: 600 1.6cqw var(--label); letter-spacing: .24em; color: var(--accent2); text-transform: uppercase; }
+  .hold { display: inline-flex; align-items: center; gap: 1.2cqw; margin-top: 3cqw; font: 700 2cqw var(--label); letter-spacing: .14em; color: var(--hi); border: .2cqw solid var(--hi); border-radius: 5cqw; padding: 1.2cqw 2.8cqw; }
+  .hold kbd { font: 1.5cqw var(--mono); border: .15cqw solid var(--dim); border-radius: .4cqw; padding: .1cqw .6cqw; }
+  .breath { position: absolute; inset: 0; z-index: 6; display: grid; place-items: center; text-align: center; background: radial-gradient(circle, transparent 20%, rgba(0,0,0,.85) 75%); }
+  .breath .count { font: 800 14cqw/1 var(--display); color: var(--hi); }
+  .breath .count small { font-size: .3em; color: var(--dim); }
+  .breath p { margin: 1cqw 0 0; font: 1.8cqw var(--mono); color: var(--dim); }
+  .ring { position: absolute; width: 36cqw; height: 36cqw; border-radius: 50%; border: .3cqw solid rgba(0,255,204,.35); box-shadow: 0 0 5cqw rgba(0,255,204,.15); }
+  .lines { position: absolute; left: 7cqw; right: 40cqw; top: 50%; translate: 0 -50%; z-index: 6; }
+  .lines .big { font: 800 6cqw/1 var(--display); color: var(--hi); }
+  .lines p { font: 1.85cqw/1.5 var(--display); color: var(--text); margin: 1.2cqw 0 0; }
+  .lines p.hi { color: var(--hi); }
+
+  .gap { position: absolute; left: 4cqw; right: 4cqw; top: 13cqw; bottom: 10.5cqw; z-index: 6; display: grid; grid-template-rows: auto repeat(6, minmax(0, 1fr)); gap: .5cqw; }
+  .gap h4 { margin: 0 0 .5cqw; font: 700 2.4cqw var(--label); letter-spacing: .2em; color: var(--accent2); }
+  .gap .row { display: grid; grid-template-columns: 38fr 38fr 14fr; gap: 1.5cqw; align-items: center; font: 1.35cqw/1.3 system-ui, sans-serif; border-top: .1cqw solid var(--border); }
+  .gap .row b { font: 700 1.9cqw var(--label); color: var(--gold); text-align: right; }
+  .gap .row.last { color: var(--hi); font-weight: 600; }
+  .gap .row.last b { color: var(--accent2); }
+  .gap .row.pending { opacity: .18; }
+  .year { position: absolute; left: 50%; top: 46%; translate: -50% -50%; z-index: 6; font: 800 13cqw/1 var(--display); color: var(--hi); text-align: center; }
+  .year small { display: block; font: 600 1.8cqw var(--label); letter-spacing: .2em; color: var(--accent2); margin-bottom: 1cqw; }
+  .closing { position: absolute; left: 12cqw; right: 12cqw; bottom: 10.5cqw; z-index: 6; text-align: center; font: 1.8cqw/1.45 var(--display); color: var(--text); }
+  .credits { position: absolute; inset: 9cqw 8cqw; z-index: 6; columns: 2; column-gap: 4cqw; font: 1.3cqw/1.5 system-ui, sans-serif; color: var(--dim); }
+  .credits h5 { font: 700 1.8cqw var(--label); letter-spacing: .16em; color: var(--hi); margin: 0 0 .6cqw; }
+  .credits p { margin: 0 0 .5cqw; }
+
+  /* debug overlay preview = the real build's ?debug=1 */
+  .show-names [data-el] { outline: 1px dashed var(--warn); outline-offset: -1px; }
+  .show-names [data-el]::before { content: attr(data-el); position: absolute; left: 0; top: 0; z-index: 30; font: 600 10px/1 var(--mono); color: #000; background: var(--warn); padding: 2px 4px; white-space: nowrap; pointer-events: none; translate: 0 -100%; }
+  .show-names .stage { overflow: visible; }
+
+  /* ───────── Feel lab ───────── */
+  .lab { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 18px; align-items: start; }
+  .panel { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .panel h3 { margin: 0 0 4px; font: 700 18px var(--label); letter-spacing: .08em; color: var(--hi); text-transform: uppercase; }
+  .panel .hint { color: var(--dim); font-size: 13px; margin: 0 0 12px; }
+  .knob-row { display: grid; grid-template-columns: 150px minmax(0, 1fr) 64px; gap: 10px; align-items: center; margin: 10px 0; }
+  .knob-row label { font: 600 14px var(--label); letter-spacing: .06em; color: var(--text); }
+  .knob-row output { font: 13px var(--mono); color: var(--accent2); text-align: right; }
+  input[type=range] { width: 100%; accent-color: var(--accent2); }
+  .btns { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+  .btn { font: 700 14px var(--label); letter-spacing: .1em; text-transform: uppercase; padding: 9px 14px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg3); color: var(--hi); cursor: pointer; }
+  .btn.primary { background: var(--accent2); color: #002a22; border-color: var(--accent2); }
+  .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .readout { font: 13px/1.5 var(--mono); color: var(--dim); margin-top: 10px; min-height: 3em; }
+  .readout b { color: var(--hi); font-weight: 600; }
+  .type-demo { font: 15px/1.6 var(--mono); background: #03050a; border: 1px solid var(--border); border-radius: 8px; padding: 14px; min-height: 108px; color: var(--text); }
+  textarea { width: 100%; min-height: 70px; background: #03050a; color: var(--text); border: 1px solid var(--border); border-radius: 6px; padding: 8px; font: 14px system-ui, sans-serif; }
+  .queued { color: var(--ok); font: 600 13px var(--label); letter-spacing: .08em; }
+
+  /* ───────── Frames ───────── */
+  .act { font: 600 14px var(--label); letter-spacing: .2em; color: var(--gold); text-transform: uppercase; margin: 34px 0 12px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+  .frames { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
+  .frame { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 12px; }
+  .frame header { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; margin-bottom: 10px; }
+  .fid { font: 800 20px var(--label); color: var(--accent2); letter-spacing: .04em; }
+  .fname { font: 600 16px var(--label); letter-spacing: .06em; color: var(--hi); text-transform: uppercase; }
+  .frame header code { margin-left: auto; }
+  .frame .body { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .done { margin: 0; padding: 0; list-style: none; font-size: 13.5px; }
+  .done li { padding-left: 20px; position: relative; margin: 3px 0; }
+  .done li::before { content: '☐'; position: absolute; left: 0; color: var(--accent2); }
+  .note { font-size: 13px; color: var(--dim); margin: 0; }
+  .note b { color: var(--warn); font-weight: 600; }
+
+  /* ───────── Contract ───────── */
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { font: 600 13px var(--label); letter-spacing: .12em; text-transform: uppercase; color: var(--dim); }
+  .table-wrap { overflow-x: auto; background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; }
+  pre { white-space: pre-wrap; background: #03050a; border: 1px solid var(--border); border-radius: 8px; padding: 14px; font: 13px/1.55 var(--mono); color: var(--text); margin: 0; }
+  .two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+
+  @media (max-width: 860px) {
+    .loop, .lab, .frames, .two { grid-template-columns: minmax(0, 1fr); }
+    .knob-row { grid-template-columns: 120px minmax(0, 1fr) 56px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .status.blink, .log .caret { animation: none; } }
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-timer" viewBox="0 0 24 24"><circle cx="12" cy="13.5" r="7.5" fill="none" stroke="#111" stroke-width="2"/><path d="M12 13.5V9.5M10 2.5h4M18.5 6.5l1.5-1.5" stroke="#111" stroke-width="2" stroke-linecap="round"/></symbol>
+</svg>
+
+<nav class="toolbar"><div class="wrap">
+  <a href="#why">Why</a><a href="#story">Story v2</a><a href="#lab">Feel lab</a><a href="#frames">Frames</a><a href="#contract">Build contract</a>
+  <label><input type="checkbox" id="names"> Show element names (preview of <code>?debug=1</code>)</label>
+</div></nav>
+
+<div class="wrap">
+<header class="top" id="why">
+  <div class="kicker">Everything They Left · storyboard v1 · prep for Sat 12 Sep</div>
+  <h1>Settle every frame now, so Saturday is only building.</h1>
+  <p class="lede">Each frame below is one state of the game, with an ID, element names that match the real build, a direct link to that state, and "done when" checks. Click anything to annotate it. Tune the timing in the feel lab and lock the numbers in.</p>
+  <div class="loop">
+    <div><b>Feel is decided at 1:40pm</b><span class="was">Before: "7 s feels too short" comes up during the build</span><br><span class="now">Now: tune it in the feel lab and lock the numbers today</span></div>
+    <div><b>Feedback is fuzzy</b><span class="was">Before: "the red thing near the top is weird"</span><br><span class="now">Now: "F5b · qte-border · goes red too early"</span></div>
+    <div><b>Reaching a bug takes 3 minutes</b><span class="was">Before: replay the opening and 2 crises to see one screen</span><br><span class="now">Now: <code>?c=air&amp;beat=move</code> jumps straight there, for you and for Cursor</span></div>
+  </div>
+</header>
+
+<!-- ═════════════════ STORY v2 ═════════════════ -->
+<style>
+  .v2 { display: grid; gap: 14px; }
+  .beat-row { display: grid; grid-template-columns: 56px minmax(0, 1.25fr) minmax(0, 1fr); gap: 16px; align-items: start; background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 14px; }
+  .beat-row .n { font: 800 26px var(--label); color: var(--accent2); }
+  .beat-row img { width: 100%; border-radius: 8px; display: block; }
+  .beat-row h4 { margin: 0 0 6px; font: 700 18px var(--label); letter-spacing: .1em; color: var(--hi); text-transform: uppercase; }
+  .beat-row blockquote { margin: 0 0 8px; padding-left: 12px; border-left: 2px solid var(--gold); font: 16px/1.5 var(--display); color: var(--hi); }
+  .beat-row .meta { font-size: 13px; color: var(--dim); }
+  .shots { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .reveal-q { font: 17px/1.6 var(--display); color: var(--hi); }
+  .reveal-q span { display: block; opacity: .55; } .reveal-q span.k { opacity: 1; color: var(--gold); }
+  @media (max-width: 860px) { .beat-row { grid-template-columns: minmax(0, 1fr); } }
+</style>
+<h2 id="story"><span class="kicker">Part 0 · new</span>Story v2: “the watcher” is a child born on the Moon</h2>
+<p class="sub">Asha narrates everything. She calls humans “them” and Earth “the blue one”, so it reads like an alien watching. She's only revealed at the very last beat. Every screenshot below comes from the working prototypes: <a href="prototypes.html">open prototypes.html</a> (tabs across the top; add <code>?speed=4</code> to fast-forward).</p>
+<div class="v2">
+  <div class="beat-row"><span class="n">1</span><img src="assets/img/watcher-farside-peek.jpg" alt="Earth peeking over the lunar far side, Artemis II, April 2026">
+    <div><h4>Intro · the watcher</h4><blockquote>That’s them. The blue one. They live at the bottom of an ocean of air so deep they never even think about it. I’ve never felt rain. They get it for free.</blockquote><p class="meta">Real photo: Artemis II crew, April 2026 (NASA). In the 3D stage, Earth rises over the limb.</p></div></div>
+  <div class="beat-row"><span class="n">2</span><div class="stage"><div class="stars"></div><div class="moon full" style="opacity:.25"></div><div class="breath"><div class="ring"></div><div><div class="count">41<small>.2 s</small></div><p>Most of them can hold their breath for less than a minute. Try it.</p></div></div></div>
+    <div><h4>Hold your breath · HOLD</h4><blockquote>Outside their air, they’d get about 9 to 12 seconds before blacking out.</blockquote><p class="meta">Then Leonov's spacewalk: “And still, they kept trying to reach the Moon.”</p></div></div>
+  <div class="beat-row"><span class="n">3</span><img src="shots/attempt-map-1969.png" alt="Attempt Map at 1969: 75 tries, 44 failed">
+    <div><h4>The Attempt Map · DRAG the years</h4><blockquote>1969 · Two of them walked on it.</blockquote><p class="meta">Every arc is a real mission (136, from 1958 to 2026, in <code>data/missions.json</code>). By 1969 there had already been 75 tries and 44 failures. 19 moments pause the scrub, including the 14-year silence, Chandrayaan-2 → 3 and SLIM landing upside down. It ends: “136 tries. 55 failures. Every one of them was somebody’s life’s work. They kept coming.”</p></div></div>
+  <div class="beat-row"><span class="n">4</span><div class="shots"><img src="shots/int-air.png" alt="Hold to heat the furnace"><img src="shots/int-cold.png" alt="Balance power as night falls"><img src="shots/int-water.png" alt="Drag the drill into the shadowed crater"><img src="shots/int-home-mix.png" alt="Mix hydrogen and oxygen 2 to 1"></div>
+    <div><h4>The game · you play her great-grandmother</h4><blockquote>You’ll play the first one who stayed: a commander at the south pole.</blockquote><p class="meta"><b>Air</b>: hold to heat the furnace and let go in the melt zone (1,600–2,000 °C). <b>Cold</b>: balance heaters, oxygen and radio as the power falls. <b>Water</b>: drag the drill into the dark crater. <b>Food</b>: plant 3 seedlings. <b>Way Home</b>: push the felt-tip pen into the breaker, then mix the fuel to exactly 2:1. After each crisis Asha adds one line: “They made air out of rock. I think about that more than I should.”</p></div></div>
+  <div class="beat-row"><span class="n">5</span><img src="assets/img/watcher-earthset-limb.jpg" alt="Earth over the lunar limb">
+    <div><h4>The reveal</h4><p class="reveal-q"><span>You’re probably wondering who I am.</span><span>My name is Asha. I’m twelve.</span><span>I was born at Shackleton Base in 2089. I’ve never been to Earth.</span><span class="k">To me, that’s the alien planet.</span><span>The commander you just played was my great-grandmother. This is what they teach us in school.</span><span>You wanted to know when. Moon base: 20__?</span><span class="k">For me, it’s history. For you, it’s a choice.</span></p>
+      <p class="meta">The 3D shot: standing at Shackleton, Earth sitting on the horizon. That's real, because from the south pole Earth never rises or sets. It's the same shot as Way Home, so the ending mirrors the game.</p></div></div>
+</div>
+
+<!-- ═════════════════ FEEL LAB ═════════════════ -->
+<h2 id="lab"><span class="kicker">Part 1</span>Feel lab: tune the numbers you'd otherwise argue about at 1:40pm</h2>
+<p class="sub">These are working versions of the timer, the switch and the checkpoint logic. Play a round, miss on purpose three times, flip the switch, and adjust until it feels right. Then press <b>Lock these values</b>.</p>
+
+<div class="lab">
+  <div class="panel">
+    <h3>Live: YOUR MOVE beat</h3>
+    <p class="hint">Click the action before the border runs out. Let it run out 3 times to see the checkpoint and the prompt suggesting the timer switch.</p>
+    <div class="stage" id="lab-stage">
+      <div class="stars"></div><div class="moon pole"></div>
+      <div class="letterbox top" data-el="letterbox"></div><div class="letterbox bottom"></div>
+      <div class="checkpoints" data-el="checkpoints"><i class="now"></i><i></i><i></i><i></i><i></i></div>
+      <button class="hud-switch" id="lab-switch" role="switch" aria-checked="true" aria-label="Timer" data-el="hud-switch"><span class="knob"><svg><use href="#i-timer"/></svg></span></button>
+      <div class="status" data-el="status">OXYGEN GENERATOR: OFFLINE</div>
+      <button class="qte" id="lab-qte" data-el="qte"><svg class="qte-border" data-el="qte-border" preserveAspectRatio="none" viewBox="0 0 100 30"><rect class="track" x="0" y="0" width="100" height="30" rx="4" pathLength="100"/><rect class="fuse" x="0" y="0" width="100" height="30" rx="4" pathLength="100"/></svg>COOK THE ROCKS</button>
+      <div class="qte-hint" id="lab-hint">CLICK · ENTER · TAP</div>
+      <div class="flash" id="lab-flash" hidden><div><b>O₂ DEPLETED</b><span>Restoring checkpoint…</span></div></div>
+      <div class="toast" id="lab-toast" hidden>Want to read at your own pace? Turn off the timer.<small>Shows once, on the 3rd miss</small></div>
+    </div>
+    <div class="btns"><button class="btn primary" id="lab-run">▶ Play round</button><button class="btn" id="lab-reset">Reset misses</button></div>
+    <div class="readout" id="lab-readout">Misses: <b>0</b> · Timer: <b>ON</b> · Press Play.</div>
+  </div>
+
+  <form class="panel" id="feel-form" data-lavish-question="feel-values">
+    <h3>Knobs</h3>
+    <p class="hint">Changes apply live to the demo on the left and the typing sample below.</p>
+    <div class="knob-row"><label for="k-secs">Action timer</label><input type="range" id="k-secs" min="3" max="12" step="0.5" value="7"><output id="o-secs">7.0 s</output></div>
+    <div class="knob-row"><label for="k-warn">Turns red at</label><input type="range" id="k-warn" min="50" max="90" step="5" value="70"><output id="o-warn">70 %</output></div>
+    <div class="knob-row"><label for="k-cps">Typing speed</label><input type="range" id="k-cps" min="15" max="90" step="5" value="45"><output id="o-cps">45 ch/s</output></div>
+    <div class="knob-row"><label for="k-miss">Prompt after</label><input type="range" id="k-miss" min="1" max="5" step="1" value="3"><output id="o-miss">3 miss</output></div>
+    <div class="type-demo" id="type-demo" aria-live="off"></div>
+    <div class="btns"><button type="button" class="btn" id="type-run">↻ Retype</button></div>
+    <label for="feel-notes" style="display:block;margin-top:12px;font:600 14px var(--label);letter-spacing:.06em">Anything else about the feel?</label>
+    <textarea id="feel-notes" placeholder="e.g. the border should drain from the top-centre, not the corner"></textarea>
+    <div class="btns"><button type="submit" class="btn primary">Lock these values</button><span class="queued" id="feel-queued" hidden>✓ Queued, press Send to Agent</span></div>
+  </form>
+</div>
+
+<!-- ═════════════════ FRAMES ═════════════════ -->
+<h2 id="frames"><span class="kicker">Part 2</span>Frames: every state the build has to hit</h2>
+<p class="sub">Frames use the Air crisis. The other 4 crises reuse the same frames with their text from <code>content.js</code>. The Moon is a flat stand-in here; in the build it's the 3D stage. Click any element to annotate it, e.g. "F5b · qte-border · …".</p>
+
+<div class="act">Opening</div>
+<div class="frames">
+
+  <article class="frame">
+    <header><span class="fid">F0</span><span class="fname">Title</span><code>?screen=title</code></header>
+    <div class="body">
+      <div class="stage"><div class="stars"></div><div class="moon full"></div><div class="earth" style="right:3cqw;top:5cqw"></div>
+        <div class="title-block" data-el="title"><div class="kick">Sol 1 at Shackleton</div><h3>HOLD<br>YOUR<br>BREATH</h3><div class="hold" data-el="hold-btn">PRESS &amp; HOLD <kbd>SPACE</kbd></div></div>
+      </div>
+      <ul class="done"><li>The 3D Moon spins slowly, lit from the side, with Earth visible</li><li>Hold button works with mouse, touch, and a held spacebar</li><li>No sound yet (the browser blocks audio until the first hold)</li></ul>
+    </div>
+  </article>
+
+  <article class="frame">
+    <header><span class="fid">F1a</span><span class="fname">Opener · holding</span><code>?screen=opener</code></header>
+    <div class="body">
+      <div class="stage"><div class="stars"></div><div class="moon full" style="opacity:.25"></div>
+        <div class="breath" data-el="breath"><div class="ring"></div><div><div class="count" data-el="breath-count">23<small>.4 s</small></div><p>keep holding…</p></div></div>
+      </div>
+      <ul class="done"><li>Counter ticks in tenths while held; the ring pulses slowly like breathing</li><li>Releasing before 1 s doesn't count, and shows "Take a real breath"</li><li>The first hold unlocks audio; the Sputnik beep plays on release</li></ul>
+    </div>
+  </article>
+
+  <article class="frame">
+    <header><span class="fid">F1b</span><span class="fname">Opener · result</span><code>?screen=result&amp;s=41</code></header>
+    <div class="body">
+      <div class="stage"><div class="stars"></div><div class="moon full"></div>
+        <div class="lines" data-el="result-lines"><div class="big">41 seconds.</div><p>Not bad. On Earth, that’s a party trick.</p><p class="hi">In a vacuum, you’d get about 9 to 12 seconds of useful consciousness.</p><p>18 March 1965. Alexei Leonov…</p></div>
+      </div>
+      <ul class="done"><li>The number is the visitor's real hold time</li><li>Lines appear one at a time; any click or key skips ahead</li><li>Ends on "Sol 1. Everything is going great." then cuts to F2</li></ul>
+    </div>
+  </article>
+</div>
+
+<div class="act">One crisis = 7 frames (Air shown)</div>
+<div class="frames">
+
+  <article class="frame">
+    <header><span class="fid">F2</span><span class="fname">Alarm</span><code>?c=air&amp;beat=alarm</code></header>
+    <div class="body">
+      <div class="stage"><div class="stars"></div><div class="moon pole"></div>
+        <div class="letterbox top" data-el="letterbox"></div><div class="letterbox bottom"></div>
+        <div class="checkpoints" data-el="checkpoints"><i class="now"></i><i></i><i></i><i></i><i></i></div>
+        <button class="hud-switch" role="switch" aria-checked="true" aria-label="Timer" data-el="hud-switch"><span class="knob"><svg><use href="#i-timer"/></svg></span></button>
+        <div class="status blink" data-el="status">OXYGEN GENERATOR: OFFLINE</div>
+        <div class="log" data-el="log">LOG, SOL 1: So. The machine that makes my air just died. Reserve tanks: 8 hours.<span class="caret"></span></div>
+      </div>
+      <ul class="done"><li>The camera settles on the waypoint <i>before</i> the letterbox bars slide in</li><li>Alarm sound (Web Audio tone, no file) plays once and doesn't loop</li><li>Log types at the locked speed; a click finishes it instantly</li><li>Switch and checkpoint dots stay visible in every crisis frame</li></ul>
+    </div>
+  </article>
+
+  <article class="frame">
+    <header><span class="fid">F3</span><span class="fname">Flashback</span><code>?c=air&amp;beat=flashback</code></header>
+    <div class="body">
+      <div class="stage"><div class="stars"></div><div class="moon pole" style="opacity:.3"></div>
+        <div class="letterbox top"></div><div class="letterbox bottom"></div>
+        <div class="checkpoints"><i class="now"></i><i></i><i></i><i></i><i></i></div>
+        <button class="hud-switch" role="switch" aria-checked="true" aria-label="Timer"><span class="knob"><svg><use href="#i-timer"/></svg></span></button>
+        <div class="photo" data-el="photo"><img src="assets/img/air-co2-mailbox.jpg" alt="Apollo 13 CO2 adapter"><span class="tag">APOLLO 13 · APRIL 1970</span></div>
+        <div class="caption" data-el="caption"><div class="eyebrow">Someone’s been here before</div><p>Three men crowd into a lander built to keep two men alive for two days.</p><p class="dim">The spare CO₂ filters are square. The holes are round.</p></div>
+        <div class="audio-chip" data-el="audio-chip">♪ "Houston, we've had a problem"</div>
+      </div>
+      <ul class="done"><li>The photo pans slowly (Ken Burns); the Moon dims behind it</li><li>The audio clip plays only its trimmed 3–5 s</li><li>Caption lines appear one at a time; a Next arrow appears after the last</li></ul>
+    </div>
+  </article>
+
+  <article class="frame">
+    <header><span class="fid">F4</span><span class="fname">The price</span><code>?c=air&amp;beat=price</code></header>
+    <div class="body">
+      <div class="stage"><div class="stars"></div>
+        <div class="letterbox top"></div><div class="letterbox bottom"></div>
+        <div class="checkpoints"><i class="now"></i><i></i><i></i><i></i><i></i></div>
+        <button class="hud-switch" role="switch" aria-checked="true" aria-label="Timer"><span class="knob"><svg><use href="#i-timer"/></svg></span></button>
+        <div class="photo" data-el="photo" style="width:34cqw;left:8cqw;top:20cqw;bottom:20cqw"><img src="assets/img/air-soyuz11-crew.jpg" alt="Soyuz 11 crew" style="filter:grayscale(1)"></div>
+        <div class="caption" data-el="caption" style="left:48cqw"><div class="eyebrow" style="color:var(--dim)">June 1971 · Soyuz 11</div><p>On the way home a valve opened and the cabin’s air leaked into space.</p><p class="dim">Georgy Dobrovolsky, Vladislav Volkov and Viktor Patsayev are still the only people ever to die in space.</p></div>
+      </div>
+      <ul class="done"><li>Silence: no music or sound on this beat</li><li>Greyscale photo, slower text; no skipping for the first 2 s</li><li>Tone is respectful: no jokes on this frame</li></ul>
+    </div>
+  </article>
+
+  <article class="frame">
+    <header><span class="fid">F5a</span><span class="fname">Your move · timer full</span><code>?c=air&amp;beat=move</code></header>
+    <div class="body">
+      <div class="stage"><div class="stars"></div><div class="moon pole"></div>
+        <div class="letterbox top"></div><div class="letterbox bottom"></div>
+        <div class="checkpoints"><i class="now"></i><i></i><i></i><i></i><i></i></div>
+        <button class="hud-switch" role="switch" aria-checked="true" aria-label="Timer" data-el="hud-switch"><span class="knob"><svg><use href="#i-timer"/></svg></span></button>
+        <div class="status" data-el="status">OXYGEN GENERATOR: OFFLINE</div>
+        <button class="qte" data-el="qte"><svg class="qte-border" data-el="qte-border" preserveAspectRatio="none" viewBox="0 0 100 30"><rect class="track" width="100" height="30" rx="4" pathLength="100"/><rect class="fuse" width="100" height="30" rx="4" pathLength="100"/></svg>COOK THE ROCKS</button>
+        <div class="qte-hint">CLICK · ENTER · TAP</div>
+      </div>
+      <ul class="done"><li>The border starts full, in cyan</li><li>Keyboard focus lands on the button automatically; Enter triggers it</li><li>The timer starts only once the button is fully on screen</li></ul>
+    </div>
+  </article>
+
+  <article class="frame">
+    <header><span class="fid">F5b</span><span class="fname">Your move · almost out</span><code>?c=air&amp;beat=move&amp;t=80</code></header>
+    <div class="body">
+      <div class="stage"><div class="stars"></div><div class="moon pole"></div>
+        <div class="letterbox top"></div><div class="letterbox bottom"></div>
+        <div class="checkpoints"><i class="now"></i><i></i><i></i><i></i><i></i></div>
+        <button class="hud-switch" role="switch" aria-checked="true" aria-label="Timer"><span class="knob"><svg><use href="#i-timer"/></svg></span></button>
+        <div class="status blink" data-el="status">OXYGEN GENERATOR: OFFLINE</div>
+        <button class="qte" data-el="qte"><svg class="qte-border" data-el="qte-border" preserveAspectRatio="none" viewBox="0 0 100 30"><rect class="track" width="100" height="30" rx="4" pathLength="100"/><rect class="fuse" width="100" height="30" rx="4" pathLength="100" style="stroke-dashoffset:80;stroke:var(--danger)"/></svg>COOK THE ROCKS</button>
+        <div class="qte-hint">CLICK · ENTER · TAP</div>
+      </div>
+      <ul class="done"><li>The remaining border is red past the "turns red at" knob</li><li><code>?t=80</code> freezes the border at 80% gone, so it can be screenshotted</li><li>The status line starts blinking during the red phase</li></ul>
+    </div>
+  </article>
+
+  <article class="frame">
+    <header><span class="fid">F5c</span><span class="fname">Your move · timer off</span><code>?c=air&amp;beat=move&amp;timer=off</code></header>
+    <div class="body">
+      <div class="stage"><div class="stars"></div><div class="moon pole"></div>
+        <div class="letterbox top"></div><div class="letterbox bottom"></div>
+        <div class="checkpoints"><i class="now"></i><i></i><i></i><i></i><i></i></div>
+        <button class="hud-switch" role="switch" aria-checked="false" aria-label="Timer" data-el="hud-switch"><span class="knob"><svg><use href="#i-timer"/></svg></span></button>
+        <button class="qte" data-el="qte" style="box-shadow:0 0 0 .25cqw var(--accent2) inset">COOK THE ROCKS</button>
+        <div class="qte-hint">NO RUSH · CLICK WHEN READY</div>
+      </div>
+      <ul class="done"><li>Switch: knob at the bottom, red track, ⏱ struck through</li><li>No draining border; a steady outline instead</li><li>Turning the switch off mid-countdown cancels it immediately; the choice persists after a reload</li></ul>
+    </div>
+  </article>
+
+  <article class="frame">
+    <header><span class="fid">F6</span><span class="fname">Fail → checkpoint</span><code>?c=air&amp;beat=fail</code></header>
+    <div class="body">
+      <div class="stage"><div class="stars"></div><div class="moon pole"></div>
+        <div class="letterbox top"></div><div class="letterbox bottom"></div>
+        <div class="flash" data-el="flash"><div><b>O₂ DEPLETED</b><span>Restoring checkpoint…</span><br><a href="#frames">↺ replay scene from the alarm</a></div></div>
+      </div>
+      <ul class="done"><li>Red flash for ~1.2 s, then back to F5a (<i>not</i> the start of the crisis)</li><li>"Replay scene" link jumps back to F2</li><li>Miss counter +1; the audio doesn't restart</li><li>The timer switch stays above the red flash and can still be clicked</li></ul>
+    </div>
+  </article>
+
+  <article class="frame">
+    <header><span class="fid">F7</span><span class="fname">3rd miss · prompt</span><code>?c=air&amp;beat=move&amp;misses=2</code></header>
+    <div class="body">
+      <div class="stage"><div class="stars"></div><div class="moon pole"></div>
+        <div class="letterbox top"></div><div class="letterbox bottom"></div>
+        <div class="checkpoints"><i class="now"></i><i></i><i></i><i></i><i></i></div>
+        <button class="hud-switch" role="switch" aria-checked="true" aria-label="Timer"><span class="knob"><svg><use href="#i-timer"/></svg></span></button>
+        <div class="toast" data-el="toast">Want to read at your own pace? Turn off the timer.</div>
+        <button class="qte"><svg class="qte-border" preserveAspectRatio="none" viewBox="0 0 100 30"><rect class="track" width="100" height="30" rx="4" pathLength="100"/><rect class="fuse" width="100" height="30" rx="4" pathLength="100"/></svg>COOK THE ROCKS</button>
+      </div>
+      <ul class="done"><li>Appears once per session, on the 3rd miss, pointing at the switch</li><li>Goes away when the visitor flips the switch, or after 6 s</li><li><code>?misses=2</code> sets things up so the next miss shows it</li></ul>
+    </div>
+  </article>
+
+  <article class="frame">
+    <header><span class="fid">F8</span><span class="fname">Payoff + sci-fi meter</span><code>?c=air&amp;beat=payoff</code></header>
+    <div class="body">
+      <div class="stage"><div class="stars"></div><div class="moon pole" style="opacity:.35"></div>
+        <div class="letterbox top"></div><div class="letterbox bottom"></div>
+        <div class="checkpoints" data-el="checkpoints"><i class="done"></i><i></i><i></i><i></i><i></i></div>
+        <button class="hud-switch" role="switch" aria-checked="true" aria-label="Timer"><span class="knob"><svg><use href="#i-timer"/></svg></span></button>
+        <div class="photo" data-el="photo"><img src="assets/img/finale-moxie.jpg" alt="MOXIE"><span class="tag" style="color:var(--accent2)">TODAY</span></div>
+        <div class="stamp" data-el="stamp">✓ OXYGEN RESTORED</div>
+        <div class="caption" style="top:19cqw;bottom:22cqw;justify-content:flex-start"><p>Moon dirt is 40–45% oxygen by weight. Melt it, run a current through it, and oxygen bubbles out.</p></div>
+        <div class="meter" data-el="meter"><div class="bar"><span class="on"></span><span class="on"></span><span></span><span></span></div><div class="names"><span class="on">SCI-FI</span><span class="on">LAB-PROVEN</span><span>FLOWN</span><span>ROUTINE</span></div><div class="note">Making O₂: routine on the ISS · From Moon rock: proven in labs</div></div>
+      </div>
+      <ul class="done"><li>The stamp lands with a click sound; the meter fills left to right up to its level</li><li>The first checkpoint dot fills in; completed dots can be clicked to go back</li><li>Next → the camera flies to the next crisis's waypoint</li></ul>
+    </div>
+  </article>
+</div>
+
+<div class="act">Finale</div>
+<div class="frames">
+  <article class="frame">
+    <header><span class="fid">F9</span><span class="fname">The gap is closing</span><code>?screen=finale</code></header>
+    <div class="body">
+      <div class="stage"><div class="stars"></div><div class="moon far" style="opacity:.35"></div>
+        <div class="gap" data-el="gap">
+          <h4>THE GAP IS CLOSING</h4>
+          <div class="row"><span>1865 · Verne: 3 men fired at the Moon from Florida</span><span>1969 · Apollo 11: 3 men, from Florida, down in the Pacific</span><b>104 y</b></div>
+          <div class="row"><span>1920 · NYT: rockets can’t work in a vacuum</span><span>1969 · “The Times regrets the error.”</span><b>49 y</b></div>
+          <div class="row"><span>1945 · Clarke: relay satellites above Earth</span><span>1964 · Syncom 3</span><b>19 y</b></div>
+          <div class="row"><span>1950s · sci-fi rockets land on their tails</span><span>2015 · Falcon 9 lands itself</span><b>~60 y</b></div>
+          <div class="row"><span>2011 · a novel grows food and makes oxygen on another world</span><span>2015 · space lettuce · 2021 · oxygen on Mars</span><b>4–10 y</b></div>
+          <div class="row last pending"><span>Today · “A Moon base is science fiction.”</span><span>20__?</span><b>you decide</b></div>
+        </div>
+      </div>
+      <ul class="done"><li>Rows reveal one at a time, ~1.5 s apart; the gap number counts up</li><li>The last row stays faded until the others have finished</li><li>JFK "We choose" clip under the final row</li></ul>
+    </div>
+  </article>
+
+  <article class="frame">
+    <header><span class="fid">F10</span><span class="fname">20__?</span><code>?screen=finale&amp;step=end</code></header>
+    <div class="body">
+      <div class="stage"><div class="stars"></div><div class="moon pole"></div><div class="earth" style="right:18cqw;top:16cqw"></div>
+        <div class="year" data-el="year"><small>MOON BASE</small>20__?</div>
+        <div class="closing" data-el="closing">If you’re under 25, humans have lived in space every single day of your life.<br><b style="color:var(--hi)">We’ve done harder things.</b></div>
+      </div>
+      <ul class="done"><li>The camera ends on Shackleton, "right about here"</li><li>The cursor blinks in the blank "__"</li><li>Credits link bottom-right; this is where the demo ends</li></ul>
+    </div>
+  </article>
+
+  <article class="frame">
+    <header><span class="fid">F11</span><span class="fname">Credits &amp; memorial</span><code>?screen=credits</code></header>
+    <div class="body">
+      <div class="stage"><div class="stars"></div>
+        <div class="credits" data-el="credits"><h5>IN MEMORY</h5><p>Apollo 1 · Soyuz 1 · Soyuz 11 · Challenger · Columbia, including Kalpana Chawla</p><h5 style="margin-top:1.5cqw">SOURCES &amp; MEDIA</h5><p>Every fact is sourced. Photos: NASA (public domain), ISRO (GODL-India), SpaceX (CC0). Audio: NASA. Textures © Solar System Scope, CC BY 4.0. Starship model by MOJackal, CC BY 4.0.</p><p>Built at Cafe Cursor Hyderabad, 12 Sep 2026.</p></div>
+      </div>
+      <ul class="done"><li>Generated from <code>content.js</code> memorial + CREDITS.md, not typed by hand</li><li>Every CC BY credit present (required by the licences)</li></ul>
+    </div>
+  </article>
+
+  <article class="frame">
+    <header><span class="fid">M1</span><span class="fname">Phone · your move</span><code>?c=air&amp;beat=move</code> <span class="note">at 390×844</span></header>
+    <div class="body">
+      <div class="stage phone"><div class="stars"></div><div class="moon pole" style="width:260cqw;height:260cqw;left:-80cqw;top:95cqw"></div>
+        <div class="letterbox top" style="height:14cqw"></div><div class="letterbox bottom" style="height:14cqw"></div>
+        <button class="hud-switch" role="switch" aria-checked="true" aria-label="Timer" style="width:9cqw;height:16cqw;border-radius:5cqw;top:18cqw;right:5cqw"><span class="knob" style="width:7.6cqw;height:7.6cqw;left:.7cqw;top:.7cqw"><svg><use href="#i-timer"/></svg></span></button>
+        <div class="status" style="font-size:4.4cqw;top:30cqw;left:6cqw;right:6cqw">OXYGEN GENERATOR: OFFLINE</div>
+        <button class="qte" style="font-size:6cqw;padding:5cqw 8cqw;top:62%"><svg class="qte-border" preserveAspectRatio="none" viewBox="0 0 100 30"><rect class="track" width="100" height="30" rx="4" pathLength="100"/><rect class="fuse" width="100" height="30" rx="4" pathLength="100" style="stroke-dashoffset:35"/></svg>COOK THE ROCKS</button>
+      </div>
+      <ul class="done"><li>The action button is at least 44 px tall and within thumb reach (lower half)</li><li>The switch stays top-right, clear of the notch</li><li>Photo and caption stack vertically on flashback frames</li></ul>
+    </div>
+  </article>
+</div>
+
+<!-- ═════════════════ CONTRACT ═════════════════ -->
+<h2 id="contract"><span class="kicker">Part 3</span>Build contract: how Saturday avoids the test-and-explain loop</h2>
+<p class="sub">Paste this into Cursor as the first message, along with PLAN.md and content.js. Build the direct links and the debug overlay in the first 15 minutes; every test after that uses them.</p>
+
+<div class="two">
+  <div class="table-wrap"><table>
+    <thead><tr><th>Link parameter</th><th>Does</th></tr></thead>
+    <tbody>
+      <tr><td><code>?screen=title|opener|result|finale|credits</code></td><td>Jump to a non-crisis screen</td></tr>
+      <tr><td><code>?c=air|cold|water|food|home</code></td><td>Jump to a crisis (camera snaps to its waypoint)</td></tr>
+      <tr><td><code>&amp;beat=alarm|flashback|price|move|fail|payoff</code></td><td>Jump to a beat inside it</td></tr>
+      <tr><td><code>&amp;t=0–100</code></td><td>Freeze the timer border at N% gone (for screenshots)</td></tr>
+      <tr><td><code>&amp;timer=off</code> · <code>&amp;misses=N</code></td><td>Start with the timer off / N misses already counted</td></tr>
+      <tr><td><code>&amp;speed=4</code></td><td>Fast-forward typing, camera and animations 4×</td></tr>
+      <tr><td><code>&amp;debug=1</code></td><td>Label every element with its name (toggle at the top of this page to preview)</td></tr>
+    </tbody></table></div>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Element name</th><th>What it is</th></tr></thead>
+    <tbody>
+      <tr><td><code>hud-switch</code></td><td>Timer switch, top-right</td></tr>
+      <tr><td><code>checkpoints</code></td><td>5 crisis dots, top-centre</td></tr>
+      <tr><td><code>letterbox</code></td><td>Black cinematic bars</td></tr>
+      <tr><td><code>status</code> · <code>log</code></td><td>Red alarm line · typed log text</td></tr>
+      <tr><td><code>photo</code> · <code>caption</code> · <code>audio-chip</code></td><td>Flashback image, text, clip label</td></tr>
+      <tr><td><code>qte</code> · <code>qte-border</code></td><td>Action button · its draining border</td></tr>
+      <tr><td><code>flash</code> · <code>toast</code></td><td>Fail overlay · 3rd-miss prompt</td></tr>
+      <tr><td><code>stamp</code> · <code>meter</code></td><td>Payoff stamp · sci-fi meter</td></tr>
+    </tbody></table></div>
+</div>
+
+<div class="two" style="margin-top:18px">
+  <div>
+    <h3 style="font:700 18px var(--label);letter-spacing:.08em;color:var(--hi);margin:0 0 8px">Cursor checks its own work (paste after each section)</h3>
+<pre>Open each URL in the direct-links table for the frames we just built,
+with &amp;debug=1. Check the console for errors first. Screenshot each one.
+Compare it with the matching frame in storyboard.html and its
+"done when" checklist.
+List every mismatch as:  F#  ·  element-name  ·  expected  →  actual
+Fix them all, re-screenshot, and repeat until the list is empty.
+Only then show me the screenshots.</pre>
+    <p class="note" style="margin-top:8px"><b>If Cursor's agent can't open a browser</b>, you click the same links yourself. It still takes seconds, not minutes.</p>
+  </div>
+  <div>
+    <h3 style="font:700 18px var(--label);letter-spacing:.08em;color:var(--hi);margin:0 0 8px">When you do spot something: one line</h3>
+<pre>F5b · qte-border · expected red from 70% → actual red from start
+F3  · photo      · expected slow pan     → actual static
+F7  · toast      · expected once         → shows every miss</pre>
+    <p class="note" style="margin-top:8px">Frame ID + element name + expected → actual. That's the whole bug report, with no screenshots or long explanations needed.</p>
+  </div>
+</div>
+
+<div class="panel" style="margin-top:18px;border-color:var(--warn)">
+  <h3 style="color:var(--warn)">Known traps: all 5 hit while building this storyboard</h3>
+  <p class="hint">Paste these into Cursor's rules so it doesn't rediscover them at 2pm.</p>
+  <ul class="done" style="font-size:14px">
+    <li><b>Timer border never looks full:</b> <code>vector-effect: non-scaling-stroke</code> + <code>pathLength</code> breaks SVG dashes in Chrome. Drop non-scaling-stroke, or set the SVG <code>viewBox</code> to the button's pixel size.</li>
+    <li><b>Overlays show when they shouldn't:</b> <code>display: grid/flex</code> beats the <code>hidden</code> attribute. Add <code>[hidden]{display:none!important}</code> on line 1.</li>
+    <li><b>“’” and “—” turn into â€”:</b> missing <code>&lt;meta charset="utf-8"&gt;</code>. Every page needs it; content.js is full of curly quotes.</li>
+    <li><b>Timer misbehaves in background or hidden tabs:</b> <code>setInterval</code> gets throttled. Drive the timer with a CSS animation + <code>animationend</code> (as here), not JS timers.</li>
+    <li><b>Script dies silently on load:</b> a <code>const</code> used before it's declared throws a TDZ error and nothing after it runs. Cursor's self-check must read the console for errors, not just take screenshots.</li>
+  </ul>
+</div>
+
+<form class="panel" style="margin-top:28px" data-lavish-question="storyboard-signoff" id="signoff">
+  <h3>Sign off</h3>
+  <p class="hint">Annotate anything that's wrong first. Then send the sign-off, and I'll fold the locked values and your changes into PLAN.md and content.js.</p>
+  <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" name="ok" value="yes"> Frames without annotations are approved as drawn</label>
+  <div class="btns"><button class="btn primary" type="submit">Queue sign-off</button><span class="queued" id="signoff-queued" hidden>✓ Queued</span></div>
+</form>
+</div>
+
+<script>
+  const $ = (s, r = document) => r.querySelector(s);
+
+  // element-name overlay
+  $('#names').addEventListener('change', e => document.body.classList.toggle('show-names', e.target.checked));
+
+  // all switches in frames are real switches (keyboard + click)
+  document.querySelectorAll('.hud-switch').forEach(sw => sw.addEventListener('click', () => {
+    sw.setAttribute('aria-checked', sw.getAttribute('aria-checked') === 'true' ? 'false' : 'true');
+    if (sw.id === 'lab-switch') onSwitch();
+  }));
+
+  // ── knobs ──
+  const K = { secs: 7, warn: 70, cps: 45, miss: 3 };
+  const fmt = { secs: v => (+v).toFixed(1) + ' s', warn: v => v + ' %', cps: v => v + ' ch/s', miss: v => v + (v == 1 ? ' miss' : ' misses') };
+  // drain keyframes rebuilt from the warn knob (CSS can't use a var as a keyframe offset)
+  const kf = document.createElement('style'); document.head.append(kf);
+  for (const k of Object.keys(K)) {
+    const input = $('#k-' + k);
+    const sync = () => { K[k] = +input.value; $('#o-' + k).textContent = fmt[k](input.value); applyKnobs(); };
+    input.addEventListener('input', sync); sync();
+  }
+  function applyKnobs() {
+    const w = K.warn;
+    kf.textContent = `@keyframes drain { 0% { stroke-dashoffset: 0; stroke: var(--accent2); } ${Math.max(w - 12, 1)}% { stroke: var(--accent2); } ${w}% { stroke: var(--warn); } ${Math.min(w + 6, 99)}% { stroke: var(--danger); } 100% { stroke-dashoffset: 100; stroke: var(--danger); } }`;
+    $('#lab-qte').style.setProperty('--qte-s', K.secs + 's');
+  }
+
+  // ── live YOUR MOVE demo: the real checkpoint / miss logic ──
+  const qte = $('#lab-qte'), fuse = qte.querySelector('rect.fuse'), sw = $('#lab-switch');
+  let misses = 0, toastShown = false, state = 'idle', flashT;
+  const timerOn = () => sw.getAttribute('aria-checked') === 'true';
+  const readout = msg => $('#lab-readout').innerHTML = `Misses: <b>${misses}</b> · Timer: <b>${timerOn() ? 'ON' : 'OFF'}</b> · ${msg}`;
+
+  function play() {
+    clearTimeout(flashT); $('#lab-flash').hidden = true; qte.style.visibility = $('#lab-hint').style.visibility = '';
+    qte.classList.remove('running'); void fuse.getBoundingClientRect();
+    state = 'running';
+    if (timerOn()) qte.classList.add('running');
+    $('#lab-hint').textContent = timerOn() ? 'CLICK · ENTER · TAP' : 'NO RUSH · CLICK WHEN READY';
+    qte.focus({ preventScroll: true });
+    readout(timerOn() ? `Clock running: ${K.secs.toFixed(1)} s.` : 'Timer off: take your time.');
+  }
+  fuse.addEventListener('animationend', () => {
+    if (state !== 'running') return;
+    state = 'failed'; misses++; qte.classList.remove('running'); qte.style.visibility = $('#lab-hint').style.visibility = 'hidden';
+    $('#lab-flash').hidden = false;
+    readout('Missed. Restoring checkpoint…');
+    if (misses >= K.miss && !toastShown) { toastShown = true; $('#lab-toast').hidden = false; setTimeout(() => $('#lab-toast').hidden = true, 6000); }
+    flashT = setTimeout(play, 1200);
+  });
+  qte.addEventListener('click', () => {
+    if (state !== 'running') return;
+    const left = timerOn() ? (1 - (parseFloat(getComputedStyle(fuse).strokeDashoffset) || 0) / 100) * K.secs : null;
+    state = 'done'; qte.classList.remove('running');
+    readout(left === null ? '✓ Saved (timer off).' : `✓ Saved with ${left.toFixed(1)} s to spare.`);
+  });
+  function onSwitch() {
+    $('#lab-toast').hidden = true;
+    if (state === 'running' && !timerOn()) { qte.classList.remove('running'); $('#lab-hint').textContent = 'NO RUSH · CLICK WHEN READY'; }
+    readout(timerOn() ? 'Timer back on: press Play.' : 'Timer off: the countdown was cancelled.');
+  }
+  $('#lab-run').addEventListener('click', play);
+  $('#lab-reset').addEventListener('click', () => { misses = 0; toastShown = false; readout('Misses reset.'); });
+  readout('Press Play.');
+
+  // ── typewriter ──
+  const LOG = 'LOG, SOL 1: So. The machine that makes my air just died. Reserve tanks: 8 hours. The nearest breathable air is 384,400 km away, and it’s attached to Earth.';
+  let typeT;
+  function type() {
+    clearInterval(typeT); const el = $('#type-demo'); let i = 0; el.textContent = '';
+    typeT = setInterval(() => { el.textContent = LOG.slice(0, ++i); if (i >= LOG.length) clearInterval(typeT); }, 1000 / K.cps);
+  }
+  $('#type-run').addEventListener('click', type);
+  $('#k-cps').addEventListener('change', type);
+  type();
+
+  // ── lavish handoff ──
+  function queue(text, opts) {
+    if (window.lavish?.queuePrompt) { window.lavish.queuePrompt(text, opts); return true; }
+    alert('Open this page with lavish to send feedback.\n\n' + text);
+    return false;
+  }
+  $('#feel-form').addEventListener('submit', e => {
+    e.preventDefault();
+    const data = { qteSeconds: K.secs, turnsRedAtPercent: K.warn, typeCharsPerSec: K.cps, promptAfterMisses: K.miss, notes: $('#feel-notes').value.trim() };
+    if (queue(`Lock feel values into content.js and PLAN.md: action timer ${data.qteSeconds}s, border turns red at ${data.turnsRedAtPercent}%, typing ${data.typeCharsPerSec} chars/s, switch prompt after ${data.promptAfterMisses} misses.${data.notes ? ' Notes: ' + data.notes : ''}`,
+      { tag: 'feel-values', text: 'Feel values locked', element: e.currentTarget, queueKey: 'feel-values', data })) $('#feel-queued').hidden = false;
+  });
+  $('#signoff').addEventListener('submit', e => {
+    e.preventDefault();
+    const ok = new FormData(e.currentTarget).get('ok') === 'yes';
+    if (queue(ok ? 'Storyboard signed off: frames without annotations are approved as drawn. Apply all annotations, then fold the frames, link scheme and done-when checks into PLAN.md.' : 'Storyboard reviewed, not yet approved: apply my annotations and show me v2.',
+      { tag: 'storyboard-signoff', text: ok ? 'Storyboard approved' : 'Storyboard needs v2', element: e.currentTarget, queueKey: 'signoff', data: { approved: ok } })) $('#signoff-queued').hidden = false;
+  });
+</script>

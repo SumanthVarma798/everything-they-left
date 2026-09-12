@@ -14,7 +14,7 @@ so you can both commit all afternoon without stepping on each other.
 |---|---|---|
 | **A · game** | `index.html`, `lib/engine.js` | `lib/hangar.*`, `hangar.html` |
 | **B · hangar** | `lib/hangar.js`, `lib/hangar.css`, `hangar.html` | `index.html`, `lib/engine.js` |
-| **both, read-only** | `content.js`, `data/`, `assets/`, `lib/{stage3d,hud,interactions,notebook,era,archive-map,attempt-map}.js`, `check.mjs` | — |
+| **both, read-only** | `content.js`, `data/` (incl. `data/archive.js`), `assets/`, `lib/{stage3d,hud,interactions,notebook,era,archive-map,attempt-map}.js`, `check.mjs` | — |
 | **shared, edit only by agreement** | `lib/progress.js` | — |
 
 If you think you need a change in a read-only file, say so in chat first. It's almost always avoidable.
@@ -47,7 +47,9 @@ document.addEventListener('etl:unlock', e => { /* e.detail = { id, kind, count }
 | `mission:Chandrayaan-3` (17) | the salvage map scrub passes its beat |
 | `screen:map` · `screen:epilogue` | that screen is reached |
 
-**Catalogue kinds:** `moment` 23 · `find` 18 · `mission` 17 · `chapter` 6 · `fix` 6 · `artifact` 4 · `screen` 1.
+**Catalogue kinds (107 entries):** `event` 31 · `moment` 23 · `find` 18 · `mission` 17 · `chapter` 6 · `fix` 6 ·
+`artifact` 4 · `screen` 2. Call it as `PROGRESS.entries(CONTENT, missions, ARCHIVE)` — `ARCHIVE` is
+`data/archive.js`, read-only like the rest of the data.
 Every entry carries `title, text, year, img, audio, sources`, plus `mission` (the real data row) on artifacts/missions,
 and `projected + basis` where it applies. Persistence: `localStorage['etl-progress']`.
 
@@ -71,7 +73,7 @@ and `projected + basis` where it applies. Persistence: `localStorage['etl-progre
    the same catalogue (what you've found so far, read or listen, resume).
 3. **Live updates:** listen for `etl:unlock` and light up the new entry (a badge, a soft flash). Never poll.
 
-**Acceptance (run these yourself):** `node check.mjs` passes · console clean · `hangar.html?unlock=all` shows all 75 ·
+**Acceptance (run these yourself):** `node check.mjs` passes · console clean · `hangar.html?unlock=all` shows all 107 ·
 `?unlock=none` shows all locked · audio plays on click, never on load · works at 390×844 · no frameworks, no build step.
 
 ---
@@ -87,6 +89,59 @@ and `projected + basis` where it applies. Persistence: `localStorage['etl-progre
 A CC-BY Starship glTF exists in the old prep folder if B wants a 3D piece in the stage:
 `cp -R ~/myWorkshop/Projects/hold-your-breath/assets/models/starship assets/models/`
 Credit required, exactly: *"SpaceX Starship - Spaceship" by MOJackal (sketchfab.com/MOJackal), CC BY 4.0*. Add it to CREDITS.md.
+
+---
+
+## How the hangar is designed
+
+**One idea:** the hangar is not a menu, it is *what she has and what she now knows*. It has three rooms, and each
+room already has a rendering style built for it — so this is assembly, not invention.
+
+### 1 · SALVAGE BAY — what she physically has (`artifact` 4, `fix` 6)
+The artemis3-dashboard treatment: list left, big stage right, spec grid under it. These are the only entries that
+get the full three-column spec panel, because they're the only ones that are *objects*.
+
+Every artifact card answers four questions in this order, and nothing else:
+
+| Row | Source |
+|---|---|
+| **THE OBJECT** — what it is, what it's made of | `entry.title` + `entry.text` |
+| **THE MISSION** — year · country · outcome · why it stopped | `entry.mission` (the real row from `data/missions.json`) |
+| **HOW IT GOT THERE** — the failure that left it on the ground | `entry.text` (salvage beat log) |
+| **WHAT SHE DID WITH IT** — the fix it became | the matching `fix:<chapter>` entry |
+
+One control: a **dead ⇄ alive** toggle. Dead = the wreck, shown through `eraFrame()` in its own year's camera
+(IM-2 2025 is HD, Apollo 11 1970 is film). Alive = her pencil sketch of the same object doing its new job,
+through `ensurePencil()`. That single toggle *is* the story of the game in one gesture; it's worth more than any
+3D model, so build it before you even think about `<model-viewer>`.
+
+### 2 · THE LOG — what she saw (`moment` 23, `find` 18, `mission` 17, `chapter` 6, `screen` 2)
+Chronological by chapter, not by year — this is her run, in order. `moment` entries keep their era camera
+(`eraFrame`), `find` entries stay pencil (`ensurePencil`), `mission` entries are one-line rows with the data
+behind them. This room is a reading view: text, sources, and a play button wherever `entry.audio` exists.
+
+### 3 · THE LUNAR LIBRARY — what she read (`event` 31, `data/archive.js`)
+The 31 things that never happen in the six chapters: Salyut 7 thawed by hand, Skylab's parasol, the Mars picture
+coloured in with pastels, Hayabusa's two broken engines wired into one, Voyager 1 patched from 24 billion km,
+MOXIE, Venera 7, Polaris Dawn, PSLV's 104, Pushpak, the 2040 Indian landing her great-grandmother beat by a year.
+
+**These have no photographs, by design** — in-story she is reading the Lunar Library, 30 million pages etched on
+nickel plates. So render them as *plates*: etched type on metal, no images, ever (`check.mjs` enforces `img: null`).
+Under each plate, her own line about it in Caveat handwriting (`entry.why`) — the record is theirs, the margin note
+is hers.
+
+**They unlock by rhyme, not by list.** Each archive entry names one story id in `entry.with`; it appears the moment
+that id unlocks. Salyut 7 arrives when she survives the lunar night. Hayabusa arrives when she fixes the rover.
+So the library visibly grows *because* of what she just did — that's the whole "unlock more detailed versions"
+mechanic, and it costs you no state of your own: `unlocked` is already computed for you.
+
+### Locked entries
+Show the plate, not the fact: correct size, title replaced by a row of struck-through blocks, and one grey line —
+`Found in Chapter 3`. Never render the text or the `why` of a locked entry; the hangar must not spoil a chapter
+nobody has played. A newly unlocked entry (from the `etl:unlock` event) gets one soft flash and a `NEW` dot.
+
+### Counts on the shell
+`WHAT I'VE FOUND · 12 / 107` at the top, and per-room counts in the left rail. The number climbing is the reward.
 
 ---
 
@@ -118,9 +173,11 @@ Do NOT edit: index.html, lib/engine.js, content.js, data/, assets/, check.mjs, o
 either his or shared read-only. If you think you need a change in one, say so instead of making it.
 
 The contract between the two halves is one file, lib/progress.js (read it now, don't edit it):
-  PROGRESS.entries(CONTENT, missions) -> 75 catalogue entries, each { id, kind, unlocked, title, text, year,
-    img, audio, sources } and, on artifacts and missions, the real `mission` row from data/missions.json.
-    kinds: moment 23, find 18, mission 17, chapter 6, fix 6, artifact 4, screen 1.
+  PROGRESS.entries(CONTENT, missions, ARCHIVE) -> 107 catalogue entries, each { id, kind, unlocked, title, text,
+    year, img, audio, sources } and, on artifacts and missions, the real `mission` row from data/missions.json.
+    kinds: event 31, moment 23, find 18, mission 17, chapter 6, fix 6, artifact 4, screen 2.
+    data/archive.js is the Lunar Library: 31 real events that never appear in the six chapters, each unlocking
+    alongside the story beat named in its `with` field.
   document 'etl:unlock' event -> fires when the game unlocks something; detail = { id, kind, count }.
 His engine calls PROGRESS.unlock(id); you only read and listen. Because of that you never need his build to
 test yours: hangar.html?unlock=all shows everything, ?unlock=none shows it all locked.
@@ -136,10 +193,12 @@ Read HANDOFF.md and .cursor/rules first. You own lib/hangar.js, lib/hangar.css a
 index.html, lib/engine.js, content.js or any other lib/*.js (another person is building the game in those).
 
 Build hangar.html + lib/hangar.js + lib/hangar.css: a full-screen catalogue of everything Bhoomi has discovered.
-Data comes from PROGRESS.entries(CONTENT, missions) in lib/progress.js — 75 entries of kind moment/find/mission/
-chapter/fix/artifact/screen, each with { id, kind, unlocked, title, text, year, img, audio, sources } and, on
-artifacts and missions, a real `mission` row from data/missions.json. Load missions with
-fetch('data/missions.json'). Develop against hangar.html?unlock=all (?unlock=none clears).
+Data comes from PROGRESS.entries(CONTENT, missions, ARCHIVE) in lib/progress.js — 107 entries of kind
+event/moment/find/mission/chapter/fix/artifact/screen, each with { id, kind, unlocked, title, text, year, img,
+audio, sources } and, on artifacts and missions, a real `mission` row from data/missions.json. Import ARCHIVE
+from data/archive.js; load missions with fetch('data/missions.json'). Develop against hangar.html?unlock=all
+(?unlock=none clears). Build the three rooms exactly as the "How the hangar is designed" section above describes
+— salvage bay (with the dead/alive toggle), the log, and the Lunar Library of etched plates.
 
 Layout, modelled on the artemis3-dashboard hangar: left a scrollable list grouped by kind with filter chips;
 right a stage with the big visual, the title, the year, the text, the spec grid and the source links.
@@ -147,13 +206,15 @@ right a stage with the big visual, the title, the year, the text, the spec grid 
   its own camera look (engraving / 16mm / film / VHS / early digital / HD).
 - find entries: <img class="sketch"> plus ensurePencil() from lib/notebook.js (pencil look). Render ≥320px wide.
 - artifact entries are the deep ones: the object, its mission row (year · country · outcome · note), what Bhoomi
-  used it for. These are the "more detailed versions" that unlock as she finds things.
+  used it for, and the dead/alive toggle (wreck through eraFrame ⇄ her pencil sketch of its new job).
+- event entries (the Lunar Library) are etched nickel plates: no images ever, her `why` line under the record in
+  Caveat. They unlock by their `with` field — the catalogue has already worked that out for you.
 - entries with `audio`: a play button (never autoplay). Everything: its text + sources, so it can be read.
 - locked entries: silhouette + where it's found ("Chapter 3"), never the spoiler text.
 Export mountHangar(root, { filter, onClose }) so the game can mount it later. Listen for document 'etl:unlock'
 and light up newly unlocked entries live. Plain HTML/CSS/ES modules, no framework, no build step.
 
-Self-check before you say done: node check.mjs passes · console clean · ?unlock=all shows all 75 and every image
+Self-check before you say done: node check.mjs passes · console clean · ?unlock=all shows all 107 and every image
 loads · ?unlock=none shows everything locked · audio only on click · works at 390×844.
 ```
 ### Prompt H2: the pause view
