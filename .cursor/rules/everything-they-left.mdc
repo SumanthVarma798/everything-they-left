@@ -15,6 +15,12 @@ A static, single-page story game. The full plan is `RUNBOOK.md`: read it before 
 - Reuse `lib/` APIs (stage3d, hud, interactions, notebook, era, archive-map, attempt-map). `prototypes.html` shows
   each one working; copy its patterns. Extend a lib module rather than duplicating it.
 
+## Two workstreams (see HANDOFF.md)
+- The game owns `index.html` + `lib/engine.js`. The hangar/pause UI owns `lib/hangar.*` + `hangar.html`.
+- They share exactly one file, `lib/progress.js`: the game calls `PROGRESS.unlock(id)`, the hangar renders
+  `PROGRESS.entries(CONTENT, missions)` and listens for the `etl:unlock` event. Don't edit the other side's files.
+- `content.js`, `data/`, `assets/`, `check.mjs` and the other `lib/*.js` modules are read-only for both.
+
 ## Content
 - **All story text, facts, interaction configs, waypoints and sources live in `content.js`.** Never hard-code
   story text in HTML/JS. If a line must change, change it in `content.js`.
