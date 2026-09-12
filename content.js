@@ -92,6 +92,12 @@ export const CONTENT = {
       'finale:3':  { lesson: 220, line: 'Waiting for a ride. You have been living in this lesson for two days.' },
       'finale:4':  { lesson: 400, line: 'Lesson four hundred. The last one anybody recorded. Nobody added a lesson after this one.' },
     },
+    // The reversal, in the prologue: the first thing she did in this game was switch it off.
+    wake: {
+      before: 'Everything with a chip in it is dead. The lights, the scrubber, the rover, my suit’s own computer. And forty metres down the east spur there is one machine too old to have anything in it worth killing.',
+      cta: '▮ SWITCH IT BACK ON',
+      after: 'It takes eleven seconds to come up. I have never once waited for it before.',
+    },
     // The end: the damaged plate it has been failing to reach all game.
     lessonOne: {
       cue: 'Bhoomi. My index is still damaged. But you cleaned the reader. I can try lesson one.',
@@ -105,6 +111,37 @@ export const CONTENT = {
       ],
     },
     sources: [['Sarathi / charioteer', 'https://en.wikipedia.org/wiki/Parthasarathy'], ['Lunar Library (Arch Mission)', 'https://www.archmission.org/lunar-library']],
+  },
+
+  // ── INTRO · Nine Days ─────────────────────────────────────────────────────────────────────
+  // The ordinary day before the storm. It exists to do three things before anything goes wrong:
+  // establish that she has never cared about Earth, establish SARATHI-7 as furniture she switches off
+  // out of habit, and walk her past the wall of names she will need in chapter 1. The player's first
+  // action in the whole game is switching the teaching unit off. The second, in the prologue, is
+  // switching it back on. Everything after that is her learning why that was a mistake.
+  intro: {
+    title: 'NINE DAYS',
+    place: 'SHACKLETON OUTPOST 7 · 89.7°S · DAY 3,287',
+    mood: 'despair',
+    beats: [
+      { text: 'Day three thousand two hundred and eighty-seven of Shackleton Outpost 7. Nine days to the Mars transfer window. My bag has been packed for six weeks.' },
+      { text: 'I was born here. Seventeen years, forty metres under the regolith, in a corridor that smells of hot metal and other people’s dinners. Two hundred and six of us. Nobody new since I was four.' },
+      { text: 'Everyone older than me talks about Earth like it is a parent. I have never been. I have seen it out of a window my whole life: a blue thing in the way of the stars I actually want.',
+        img: 'assets/img/watcher-earthset-limb.jpg' },
+      { text: 'My great-grandmother was born down there and named for the Moon. She came up in the first crew and named her daughter for the Moon too. They named me Bhoomi. The Earth. It is a family joke that stopped being funny around the time I learned to read.' },
+      { text: 'There is a wall by the airlock with names cut into it. Everyone who came before. I walk past it four times a day, and I could not tell you one name on it.' },
+      { text: 'The schoolroom is down the east spur. Nobody has taught a class in it for eleven years — there are no children left to teach. The lights still come on when you walk in.' },
+      { text: 'And the teaching unit in the corner is still running. A hundred and nine years old. It reads its lessons off etched metal plates, the way a museum does. It taught me to count.',
+        sarathi: 'Good morning, children. Lesson one hundred twelve—' },
+      { text: 'It says that every morning, to an empty room, and it has said it every morning since before I was born. I stopped listening when I was eleven.' },
+      { text: 'I switch it off on my way past. Every single day. It is the only thing on this outpost that still wants to tell me something.',
+        cta: '▮ SWITCH IT OFF',
+        after: 'It gets as far as “Good mor—” and stops. It always stops mid-word. Somebody should have recycled it decades ago.' },
+      { text: 'Nine days. Then the transfer, then eight months, then Mars — the first thing in my life I will have chosen. I am going to be on the second ship of people who were never from Earth at all.' },
+      { text: 'At 04:12, the Sun-watcher out at L1 sends the outpost a single number.', img: 'assets/img/era-2023-aditya-l1.jpg' },
+      { text: 'Eleven minutes.' },
+    ],
+    sources: [['Shackleton crater', 'https://en.wikipedia.org/wiki/Shackleton_(crater)'], ['Sun–Earth L1 space-weather warning', 'https://en.wikipedia.org/wiki/Advanced_Composition_Explorer']],
   },
 
   // ── PROLOGUE · Eleven Minutes ─────────────────────────────────────────────────────────────

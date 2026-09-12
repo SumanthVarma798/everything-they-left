@@ -32,6 +32,26 @@ then open `http://localhost:8765/prototypes.html` (working pieces) and `http://l
 | Ch 2–4 | **curiosity** | She starts to *want* to know how they did it; the library |
 | Ch 5, Ch 6, Epilogue | **inspiration** | Failures became parts; they failed in public and came back; so will she |
 
+### The opening: NINE DAYS (`CONTENT.intro`)
+The storm used to hit in the first ten seconds, which left the player with no idea who she was or why an old
+school computer was talking to them. Twelve beats, about 360 words, now come first, and they do exactly three
+jobs — nothing decorative:
+
+1. **She has never cared about Earth.** Born here, 17, bag packed for six weeks, nine days from the Mars transfer.
+   *"I have seen it out of a window my whole life: a blue thing in the way of the stars I actually want."*
+2. **She walks past the wall of names** she will be reading desperately in chapter 1. *"I could not tell you one
+   name on it."*
+3. **SARATHI is furniture.** The schoolroom with no children in it for eleven years, a 109-year-old unit reading
+   lessons off metal plates, still saying *"Good morning, children"* to an empty room. It taught her to count. She
+   stopped listening at eleven.
+
+**The player's first action in the entire game is switching it off.** One button: `▮ SWITCH IT OFF`. It gets as far
+as "Good mor—" and stops. Then the L1 warning arrives: eleven minutes.
+
+**The second action, in the prologue, is `▮ SWITCH IT BACK ON`** (`CONTENT.companion.wake`) — the only machine on
+the outpost too old to have anything in it worth killing. Those two clicks are the whole arc in miniature, and they
+cost one new beat field each: `cta` + `after` on an intro beat, and `sarathi` for the line it speaks.
+
 ### SARATHI-7 — why the past keeps interrupting
 The relived scenes are not Bhoomi daydreaming. **SARATHI-7** is the outpost school's teaching unit: four hundred
 lessons, ages six to fourteen, commissioned in 2041 with the first crew. It survived the storm because it was never
@@ -134,7 +154,7 @@ The checkpoint chip flashes `CHECKPOINT SET · Ch 3 · Night falls` for 2 s when
 
 ### Screen flow (the engine plays this list top to bottom)
 ```
-title → prologue → opener(HOLD) → relive×2 → wonder → motivation → notebook (first paper card: CONTENT.notebook)
+title → intro (12 beats, one ▮ SWITCH IT OFF) → prologue (▮ SWITCH IT BACK ON) → opener(HOLD) → relive×2 → wonder → motivation → notebook (first paper card: CONTENT.notebook)
   → [chapter ×6: fly → alarm(+plan sketch) → finds → act → payoff(+SOLVED BEFORE) → relive×2–3 → wonder → hook]
       (after chapter 4: salvage map — paper page → "Look up ▸" → cinematic)
   → epilogue: reply → montage(4 × 4 s) → impossible-things page → plaque → choice → closing → credits
@@ -378,6 +398,40 @@ git pull. In lib/engine.js: Esc (or the ⏸ button) pauses — freeze the timer,
 mountPause(#cut, { onResume }) from lib/hangar.js so she can read or listen to everything found so far;
 a "Hangar ▸" button inside it calls mountHangar(...). Import both lazily (await import) and no-op if the
 module isn't there yet, so the game never breaks if that work isn't merged. Don't edit lib/hangar.*.
+```
+### Prompt R: the opening, and giving the player the pace
+```
+Two things, both small, both about the first minute of the game.
+
+1 · TEXT PACE (do this first — it affects every beat)
+Right now text types at a fixed 45 ch/s and cannot be controlled, which is too fast to read and too slow to skip.
+Change typeInto so that:
+- The first click / Enter / Space during a typing line COMPLETES that line instantly instead of advancing. The
+  second one advances. This is the standard visual-novel contract and it is what people will try first.
+- ArrowLeft / ArrowRight step text speed through 20 · 30 · 45 · 70 · instant (ch/s), and so does a new
+  "⏩ SPEED" button in the control bar next to ⏭ SKIP — the key alone is undiscoverable. Show the new value as a
+  brief toast: "TEXT SPEED · 30 ch/s". Persist it in localStorage under 'etl-textspeed' and apply it on load.
+- It scales CPS_BHOOMI and CPS_SARATHI together and stays independent of the existing ?speed= debug divisor.
+- prefers-reduced-motion defaults to instant.
+
+2 · THE OPENING (CONTENT.intro — read RUNBOOK §1 "The opening: NINE DAYS" first)
+The game currently throws the player into the storm with no idea who Bhoomi is or why an old school computer is
+talking to them. Insert CONTENT.intro between the title and the prologue: 12 beats, rendered like `line` beats
+(letterbox, typed) with three additions —
+- `beat.img` → full-bleed behind the text, dimmed, slow Ken Burns, same treatment as a relive frame but with no
+  era tag (this is her present, not a memory).
+- `beat.sarathi` → the line goes in the SARATHI companion band instead of the letterbox, in SARATHI's voice, with
+  no lesson number (its index still works at this point in the story).
+- `beat.cta` (exactly one beat has it) → after the text finishes, show a single centred button with that label;
+  clicking it plays `beat.after` and then continues. That click is the player switching the teaching unit off.
+Then in the prologue, once everything is dead, play CONTENT.companion.wake: its `before` line, a
+`▮ SWITCH IT BACK ON` button from `wake.cta`, then `wake.after`. Same button treatment as the intro cta, so the
+player recognises the reversal. SARATHI's existing `boot` lines follow it.
+
+Also add ?screen=intro to the router so the opening can be tested on its own.
+
+Keep every word in content.js — check.mjs enforces the intro shape and will fail if a beat loses its text or the
+cta beat disappears. Console clean, and check the cta button is reachable by keyboard.
 ```
 ### Prompt Z: everything that is left (one prompt — sync, reconcile, finish, polish, ship)
 ```

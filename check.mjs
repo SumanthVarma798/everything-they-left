@@ -59,6 +59,14 @@ check(C.salvageMap.summary.includes(`${tries} tries`) && C.salvageMap.summary.in
 
 C.finale.rows.forEach((r, i) => { const y = +(r.real.match(/^(\d{4})/) || [])[1]; if (y > 2026 && y < 2150) check(r.projected && r.basis, `finale row ${i}: "${r.real.slice(0, 40)}" needs projected:true + basis`); });
 
+// 4a. the intro: it must establish her, the wall and SARATHI, and hand the player exactly one action
+const I = C.intro;
+check(I && Array.isArray(I.beats) && I.beats.length >= 8, 'intro: needs at least 8 beats');
+check(I?.beats.every(b => typeof b.text === 'string' && b.text.trim().length > 3), 'intro: every beat needs text');  // short beats are the point: "Eleven minutes."
+check(I?.beats.filter(b => b.cta).length === 1, 'intro: exactly one cta beat (switching SARATHI off)');
+check(I?.beats.some(b => b.sarathi), 'intro: SARATHI must speak before the storm, or its survival reads as random');
+check(C.companion?.wake?.cta, 'companion: needs wake.cta — the player turns it back on in the prologue');
+
 // 4b. SARATHI: every relived scene needs a reason to surface, and no cue may point at a scene that isn't there
 const S = C.companion;
 check(S && S.name && S.unit && Array.isArray(S.boot) && S.lessons > 0 && S.lessonOne, 'companion: block is incomplete');
@@ -89,4 +97,4 @@ check(ARCHIVE.length >= 24, `archive is thin: ${ARCHIVE.length} events`);
 for (const k of ['reply', 'relive', 'rows', 'plaque', 'choice', 'closing', 'last', 'sources']) check(C.finale[k] != null, `finale: missing ${k}`);
 
 if (bad.length) { console.error(`✗ ${bad.length} problem(s):\n- ` + bad.join('\n- ')); process.exit(1); }
-console.log(`✓ content.js ok · ${C.crises.length} chapters · ${ARCHIVE.length} library events · ${Object.keys(C.companion.cues).length} SARATHI cues · ${[C.opener, ...C.crises, C.finale].reduce((a, p) => a + (p.relive?.length || 0), 0)} relive scenes · ${tries} Moon-bound missions (${fails} failed)`);
+console.log(`✓ content.js ok · ${C.intro.beats.length}-beat intro · ${C.crises.length} chapters · ${ARCHIVE.length} library events · ${Object.keys(C.companion.cues).length} SARATHI cues · ${[C.opener, ...C.crises, C.finale].reduce((a, p) => a + (p.relive?.length || 0), 0)} relive scenes · ${tries} Moon-bound missions (${fails} failed)`);
