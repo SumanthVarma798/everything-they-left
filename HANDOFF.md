@@ -94,6 +94,42 @@ Credit required, exactly: *"SpaceX Starship - Spaceship" by MOJackal (sketchfab.
 
 Before prompt H1: `git clone https://github.com/SumanthVarma798/everything-they-left.git && cd everything-they-left && python3 -m http.server 8765`
 
+### Prompt H0: orientation (paste this first, before H1)
+```
+You're joining a two-person, three-hour build at Cafe Cursor Hyderabad. Read HANDOFF.md, RUNBOOK.md §0-§2 and
+.cursor/rules/everything-they-left.mdc before writing anything, then tell me in three lines what you understood
+about (a) the story, (b) which files are yours, (c) how unlocking works. Don't write code in this first step.
+
+The project: "Everything They Left". 2150 - Bhoomi, born on the Moon, named for the Earth she has never cared
+about. A solar superstorm kills every chip on the Moon; to survive long enough to call Earth she has to use
+humanity's space history as her survival manual and its 56 failed Moon missions as her parts catalogue. Six
+chapters: air, move, night, library, water, signal. Every historical fact is real and sourced (content.js);
+anything dated after Sept 2026 is flagged projected:true and is drawn, never photographed.
+
+Stack: plain HTML + CSS + ES modules. No framework, no bundler, no build step, no npm install. Serve over http
+(python3 -m http.server 8765) - ES modules break on file://. three.js and rough.js are already vendored.
+
+The split: Sumanth is building the game (index.html + lib/engine.js). YOU are building the second half - the
+pause view and the hangar: everything the player can read or listen to about what Bhoomi has discovered so far,
+and the deeper versions that unlock as she finds more. You own exactly three files:
+lib/hangar.js, lib/hangar.css, hangar.html. Create them; they don't exist yet.
+
+Do NOT edit: index.html, lib/engine.js, content.js, data/, assets/, check.mjs, or any other lib/*.js. Those are
+either his or shared read-only. If you think you need a change in one, say so instead of making it.
+
+The contract between the two halves is one file, lib/progress.js (read it now, don't edit it):
+  PROGRESS.entries(CONTENT, missions) -> 75 catalogue entries, each { id, kind, unlocked, title, text, year,
+    img, audio, sources } and, on artifacts and missions, the real `mission` row from data/missions.json.
+    kinds: moment 23, find 18, mission 17, chapter 6, fix 6, artifact 4, screen 1.
+  document 'etl:unlock' event -> fires when the game unlocks something; detail = { id, kind, count }.
+His engine calls PROGRESS.unlock(id); you only read and listen. Because of that you never need his build to
+test yours: hangar.html?unlock=all shows everything, ?unlock=none shows it all locked.
+
+Git: work on a branch called `hangar`, `git pull --rebase` before every push, and run `node check.mjs` before
+every push (it validates content and assets with no browser). Small commits.
+
+Then do Prompt H1, then Prompt H2, both in HANDOFF.md.
+```
 ### Prompt H1: the hangar page
 ```
 Read HANDOFF.md and .cursor/rules first. You own lib/hangar.js, lib/hangar.css and hangar.html — do not edit
