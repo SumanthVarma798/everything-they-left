@@ -379,6 +379,59 @@ mountPause(#cut, { onResume }) from lib/hangar.js so she can read or listen to e
 a "Hangar ▸" button inside it calls mountHangar(...). Import both lazily (await import) and no-op if the
 module isn't there yet, so the game never breaks if that work isn't merged. Don't edit lib/hangar.*.
 ```
+### Prompt Z: everything that is left (one prompt — sync, reconcile, finish, polish, ship)
+```
+You are finishing a game that is already most-built. Work through these phases in order. Do not skip the survey.
+Run `node check.mjs` after every phase; it is a node-only validator and it is fast. Keep the browser console clean
+— a silent TDZ error kills a whole module (RUNBOOK §7 trap 5).
+
+PHASE 0 · SURVEY (do this first, report before coding)
+git pull. Read RUNBOOK §1 "SARATHI-7", §2 "The page (scroll spine)" and "Beat renderers", §4, and HANDOFF.md.
+Then tell me, in a short list: which beat types index.html/lib/engine.js already render, whether the page is the
+four-section scroll spine or still one full-screen game, and whether SARATHI's cue band exists. Earlier prompts
+ran before those specs were in the repo, so assume parts were improvised and must be reconciled, not rebuilt.
+
+PHASE 1 · RECONCILE
+Bring anything improvised onto the spec. In particular: every word on screen comes from content.js — if any
+story text, SARATHI line or lesson number is hard-coded in engine.js or index.html, replace it with the
+content.js value (CONTENT.companion.boot / .arc / .cues[`${part}:${i}`] / .lessonOne). The page must be the
+§1 crawl / §2 play / §3 dossier / §4 hangar spine with a fixed header and footer, exactly as RUNBOOK §2 says.
+
+PHASE 2 · FINISH THE STORY (Prompt D's scope, if not already done)
+Camera: stage.flyTo(chapter.waypoint, 3) on each chapter's first beat; snap on deep links.
+Audio: unlocked by the title hold; relive beats with `audio` play the first 5 s; never autoplay anywhere else.
+After chapter 4's payoff: the salvage map beat via mountSalvageMap(#cut, {...CONTENT.salvageMap, missions from
+data/missions.json, moonTexture 'assets/textures/moon_2k.jpg', earthTexture 'assets/textures/earth_day.jpg'}).
+Epilogue: reply → montage (finale.relive, 4 s each) → impossible-things page (finale.rows) → plaque →
+CONTENT.companion.lessonOne → choice → closing + last → credits (memorial, every sources[] link, CREDITS.md).
+Unlocks (lib/progress.js, import { PROGRESS, ids }): alarm → ids.chapter(c.id) · finds → ids.find(c.id,i) ·
+interaction win → ids.fix(c.id) · each relive shown → ids.moment(part,i) · map beat → ids.screen('map') and, as
+the scrub passes each salvage beat, ids.mission(name) / ids.artifact(beat.salvage) · epilogue →
+ids.screen('epilogue'). Never edit content.js, data/, check.mjs, lib/progress.js or lib/hangar.*.
+
+PHASE 3 · THE OTHER HALF (only if lib/hangar.js exists after the pull; otherwise skip and say so)
+Mount §3 with mountDossier(root, { onBack }) and §4 with mountHangar(root, { onClose }), both via
+`await import('./lib/hangar.js')` inside try/catch so a missing file changes nothing. Esc or ⏸ pauses and opens
+mountPause(#cut, { onResume }). Scrolling to §3 pauses the game and never auto-resumes: show
+"▶ CONTINUE · Ch N · <title>" and wait for a click.
+
+PHASE 4 · POLISH
+Open every direct link in RUNBOOK §4 with &debug=1: ?screen=title|prologue|opener|map|epilogue|credits,
+?c=air|move|night|library|water|signal&beat=alarm|finds|act|payoff|relive, &timer=off, &misses=3, &speed=4.
+Fix what breaks. Then: 390×844 phone layout (interaction panel full width, SARATHI band clear of the HUD,
+nothing overlaps); a ⏭ skip control; keyboard focus lands on each interaction and every control is reachable by
+Tab; prefers-reduced-motion disables the crawl, Ken Burns and grain; pointer-coarse targets ≥ 44 px.
+
+PHASE 5 · SHIP
+node check.mjs green · console clean on a full playthrough · commit · push to main · confirm the GitHub Pages URL
+loads on a phone. Then play it twice yourself, once with the timer on and once off, and give me a numbered list
+of what is still wrong in the form `beat · element · expected → actual`. Do not fix anything in that pass; just
+report, so I can choose.
+
+IF YOU ARE SHORT OF TIME, cut in this order and tell me what you cut: epilogue montage down to 2 frames · one
+relive per chapter · salvage map without the "Look up" lift · stage.snap instead of flyTo · audio. Never cut: the
+hold-your-breath opener, the six interactions, SARATHI's cues, the plaque, lesson one.
+```
 ### Prompt E: polish
 ```
 Run the self-check from .cursor/rules on every direct link in RUNBOOK §4 with &debug=1. Then: phone layout

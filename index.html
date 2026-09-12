@@ -26,7 +26,7 @@
   #site-header .brand span { color: var(--accent2); margin-right: .4em; }
   #site-header nav { display: flex; gap: 18px; flex-wrap: wrap; }
   #site-header nav a {
-    font: 600 13px/1 var(--label); letter-spacing: .16em; color: var(--dim); text-decoration: none;
+    font: 600 13px/1 var(--label); letter-spacing: .16em; color: var(--text); text-decoration: none;
   }
   #site-header nav a[aria-current="page"] { color: var(--accent2); }
 
@@ -52,8 +52,8 @@
     background: url('assets/img/watcher-earthset-limb.jpg') center / cover;
   }
   #hud-root { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
-  .sticky-stage.is-play #hud-root { pointer-events: auto; }
-  .sticky-stage:not(.is-play) #hud-root { opacity: 0; }
+  .sticky-stage.is-started #hud-root { pointer-events: auto; }
+  .sticky-stage:not(.is-started) #hud-root { opacity: 0; }
   #cut { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
   #cut > * { pointer-events: auto; }
   #dev { position: absolute; inset: 0; z-index: 9; pointer-events: none; }
@@ -129,7 +129,6 @@
     margin: 28px 0 0; font: 600 italic 22px/1.4 var(--display); color: var(--hi);
   }
 
-  body.debug [data-debug] { position: relative; }
   body.debug [data-debug]::after {
     content: attr(data-debug); position: absolute; left: 4px; top: 4px; z-index: 30;
     font: 10px/1 var(--mono); color: #8f8; background: rgba(0, 0, 0, .65);
@@ -262,20 +261,26 @@
   };
   const hideContinue = () => { $('#continue-cta').hidden = true; };
 
+  const jumpPlay = Q.get('screen') || Q.get('c');
+  if (jumpPlay && 'scrollRestoration' in history) history.scrollRestoration = 'manual';
+
+  let leftPlay = false;
   $('#play-cta').addEventListener('click', () => {
+    leftPlay = false;
     $('#play-cta').hidden = true;
     hideContinue();
     game.start();
     updatePips();
     $('#controls').hidden = false;
+    root.classList.add('is-started');
   });
-  $('#continue-cta').addEventListener('click', () => { hideContinue(); game.resume(); });
-  $('#btn-pause').addEventListener('click', () => { if (!game.state.started) return; game.pause(); showContinue(); });
+  $('#continue-cta').addEventListener('click', () => { leftPlay = false; hideContinue(); game.resume(); });
+  $('#btn-pause').addEventListener('click', () => { if (!game.state.started) return; game.pause(); leftPlay = true; showContinue(); });
   $('#btn-checkpoint').addEventListener('click', () => game.replayCheckpoint());
   $('#btn-skip').addEventListener('click', () => game.skip());
   $('#back-surface').addEventListener('click', () => $('#play').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }));
 
-  let dirty = true;
+  let dirty = true, wasPlaying = false;
   addEventListener('scroll', () => { dirty = true; }, { passive: true });
   addEventListener('resize', () => { dirty = true; }, { passive: true });
 
@@ -297,15 +302,17 @@
     }
     const playing = t >= 1;
     root.classList.toggle('is-play', playing);
-    if (playing && !game.state.started) $('#play-cta').hidden = false;
     if (!playing) {
       $('#play-cta').hidden = true;
       $('#controls').hidden = true;
-      if (game.state.started && !game.state.paused) { game.pause(); leftPlay = true; }
+      if (game.state.started) { game.pause(); leftPlay = true; }
     } else if (game.state.started) {
       $('#controls').hidden = false;
-      if (leftPlay) showContinue();
+      if (leftPlay && !wasPlaying) showContinue();
+    } else {
+      $('#play-cta').hidden = false;
     }
+    wasPlaying = playing;
 
     if (!game.state.started) {
       const wp = reduce ? WP0 : {
@@ -321,11 +328,10 @@
   dirty = true;
   requestAnimationFrame(loop);
 
-  let leftPlay = false;
   new IntersectionObserver(([e]) => {
     if (e.intersectionRatio < 0.6) {
       game.pause();
-      leftPlay = true;
+      if (game.state.started) leftPlay = true;
     } else if (leftPlay && game.state.started) {
       showContinue();
     }
@@ -345,11 +351,6 @@
   }, { threshold: [0.35, 0.6], rootMargin: '-56px 0px 0px 0px' });
   ['play', 'dossier', 'hangar', 'sources'].forEach(id => navObs.observe($('#' + id)));
 
-  if (Q.get('screen') || Q.get('c')) {
-    location.hash = '#play';
-    $('#play').scrollIntoView({ behavior: 'auto' });
-  }
-
   if (Q.get('debug') === '1') {
     document.body.classList.add('debug');
     $('#dev').hidden = false;
@@ -360,6 +361,11 @@
     mountDossier?.($('#dossier-root'), { onBack: () => $('#play').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }) });
     mountHangar?.($('#hangar-root'), {});
   } catch { /* hangar not merged yet */ }
+
+  if (jumpPlay) {
+    location.hash = '#play';
+    $('#play').scrollIntoView({ behavior: 'auto' });
+  }
 </script>
 </body>
 </html>
