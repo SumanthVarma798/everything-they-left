@@ -78,7 +78,7 @@ Fiction: Bhoomi, Chandrika Devi, the family, the storm, the rescue. Real: everyt
 
 ## 2. The website: layout and flow
 
-### Layers (one full-viewport 16:9 stage, bottom to top)
+### Layers (the stage fills what the control bar leaves — never a fixed ratio, bottom to top)
 ```
 ┌──────────────────────────────────────────────────────────────┐
 │ 5  #dev        ?debug=1 element-name labels                   │
