@@ -71,6 +71,46 @@ Fiction: Bhoomi, Chandrika Devi, the family, the storm, the rescue. Real: everyt
 HUD positions: objective top-left · O₂ bar + compass top-centre · O₂ clock + **timer switch** top-right ·
 salvage radar bottom-left · power/water bottom-right. Fail = red edge pulse, never full-screen.
 
+
+### The page (scroll spine)
+The game is one section of a page, not the whole page. One scroll container, four sections, a fixed header and a footer.
+
+```
+╔═ header (fixed, 56px, always) ═══════════════════════════════════════════════╗
+║ ⟡ EVERYTHING THEY LEFT              STORY · HANGAR · ARCHIVE · SOURCES        ║  ← mode switches (anchor links)
+╚══════════════════════════════════════════════════════════════════════════════╝
+ §1 CRAWL    200vh spacer, 100vh sticky stage. The title crawls up in perspective
+             (Star Wars) while the Moon turns beneath it, ending framed on
+             Shackleton — the exact camera chapter 1 starts from.
+ §2 PLAY     100vh · scroll-snap-align:center · scroll-snap-stop:always — it
+             CLICKS into place. The 16:9 stage + HUD + the control bar.
+             Before the first start: "▶ PLAY AS BHOOMI" pulsing over the stage.
+ §3 DOSSIER  the live strip: what she just discovered, in full, with images and
+             sources. Scrolling here PAUSES the game. "↑ Back to the surface" returns.
+ §4 HANGAR   the three rooms + the timeline rail, gated by what she has found.
+ footer      memorial · every source · CREDITS · "What will you leave?"
+```
+
+**Scroll contract (get these five right and the rest is decoration):**
+1. `html { scroll-snap-type: y proximity; scroll-behavior: smooth }`; only §2 snaps (`scroll-snap-align:center;
+   scroll-snap-stop:always`). Proximity, not mandatory — mandatory fights the dossier and traps phone users.
+2. **Crawl drive:** `t = clamp(scrollY / (crawlH - innerHeight), 0, 1)`, read in a `requestAnimationFrame` loop
+   fed by a passive scroll listener (never compute layout inside the listener). Crawl text:
+   `transform: perspective(420px) rotateX(24deg) translateY(calc(100% - ${t*190}%))`, opacity fading past t=0.85.
+3. **Moon in sync:** the same `t` drives the stage — `stage.snap({ lat: lerp(-20,-89.67,t), lon: lerp(300,129.78,t),
+   alt: lerp(4.4,1.6,t), sunLon: 90 })`. At t=1 that is exactly `crises[0].waypoint`, so the handover into
+   chapter 1 is invisible. No WebGL → the still photo just parallaxes; check `stage` is non-null first.
+4. **Auto-pause:** `IntersectionObserver` on the stage, `threshold:[0, 0.6]`. Below 0.6 → `engine.pause()` always.
+   Coming back NEVER auto-resumes: show "▶ CONTINUE · Ch 3 · Night falls" over the stage and wait for a click
+   (Life is Strange). Also pause on `visibilitychange` hidden.
+5. **Never scroll-jack.** No wheel hijacking, no forced `scrollIntoView` except from the two explicit buttons.
+   `prefers-reduced-motion` → skip the crawl transform and jump the Moon straight to the waypoint.
+
+**Control bar (under the stage, inside the play section — the HUD stays uncluttered):**
+`⏸ PAUSE · ⟲ CHECKPOINT · ⏭ SKIP · ⏱ timer (mirrors the visor switch) · ● ● ● ○ ○ ○ chapter pips`
+The checkpoint chip flashes `CHECKPOINT SET · Ch 3 · Night falls` for 2 s whenever the engine sets one, and
+`⟲ CHECKPOINT` replays the current chapter's act beat — the same path a timer miss takes.
+
 ### Screen flow (the engine plays this list top to bottom)
 ```
 title → prologue → opener(HOLD) → relive×2 → wonder → motivation → notebook (first paper card: CONTENT.notebook)
@@ -203,6 +243,7 @@ Paste the prompt, let Cursor work, run the check, fix, move on. **Deploy at the 
 | **12:15–12:50** | **Engine: beat list + text renderers.** Prompt B. | Clicking through goes title → prologue → opener → chapter 1 alarm/finds/payoff/wonder with typed text; relive frames show in the right era look |
 | **12:50–13:30** | **Interactions + HUD unlocks + checkpoints.** Prompt C. | All 6 chapters playable end to end; misses replay the interaction; 3rd miss shows the toast; HUD grows chapter by chapter |
 | **13:30–13:55** | **Camera + audio + salvage map + epilogue.** Prompt D. | Camera flies between waypoints; clips play; the map appears after chapter 4; epilogue montage, plaque, credits |
+| **13:40–13:55** | **The page: header, crawl, snap, dossier, footer.** Prompt G. | The title crawls, the Moon turns to Shackleton, the play section clicks into place, scrolling away pauses |
 | **13:55–14:10** | **Pause + hangar merge.** Prompt F. | Esc pauses; the pause view lists what she's found; Hangar opens |
 | **14:10–14:25** | **Polish pass.** Prompt E + your own eye. | Skip works, phone layout works, no console errors, nothing overlaps |
 | **14:25–14:45** | **Full playthrough ×2** (timer on, timer off) + phone. | No blockers; list of nits |
@@ -253,6 +294,37 @@ choice, closing + last, then credits (memorial + every sources[] link + CREDITS.
 Unlocks: on the map beat PROGRESS.unlock(ids.screen('map')) and, as the year scrub passes each beat,
 ids.mission(beat.match-ed mission name) — plus ids.artifact(beat.salvage) for the four salvage pins;
 on the epilogue ids.screen('epilogue').
+```
+### Prompt G: the page — header, crawl, snap, dossier, footer (run after D)
+```
+Read RUNBOOK §2 "The page (scroll spine)" and follow it exactly. Restructure index.html from one full-screen game
+into one scroll container with a fixed header, four sections and a footer — the game becomes §2, unchanged.
+
+Header: thin, fixed, ⟡ EVERYTHING THEY LEFT left, anchor links STORY / HANGAR / ARCHIVE / SOURCES right, current
+section highlighted by IntersectionObserver. Footer: memorial lines from CONTENT.memorial, a source count, a link
+to CREDITS.md, and CONTENT.finale.closing as the last line.
+
+§1 crawl: 200vh spacer with a 100vh sticky stage. Drive both the crawl transform and stage.snap() from one
+scroll-derived t in a single rAF loop (passive scroll listener sets a flag, the loop reads it) — the numbers and
+the lerp endpoints are in RUNBOOK §2 point 3, ending exactly on crises[0].waypoint.
+
+§2 play: the existing stage + HUD, scroll-snap-align:center, scroll-snap-stop:always. Before the first start show
+a pulsing "▶ PLAY AS BHOOMI" button over it; the engine does not run until it is clicked. Add the control bar
+described in §2 (pause, checkpoint, skip, timer mirror, chapter pips) directly under the stage, and a checkpoint
+chip that flashes for 2 s when the engine sets a checkpoint.
+
+Pause rules: IntersectionObserver threshold [0, 0.6] — under 0.6 visible, always pause; on return show
+"▶ CONTINUE · Ch N · <title>" and wait for a click, never auto-resume. Pause on visibilitychange hidden too.
+Expose window.__game.pause() / .resume() / .onCheckpoint(cb).
+
+§3 dossier: an empty <section id="dossier"> with "↑ Back to the surface" (scrolls §2 into view). Populate it with
+`const { mountDossier } = await import('./lib/hangar.js')` inside a try/catch — if that file is not merged yet the
+section stays empty and nothing breaks. Do not create or edit lib/hangar.*; that is the other builder's file.
+
+§4 hangar: an empty <section id="hangar"> mounted the same lazy way via mountHangar.
+
+No scroll-jacking, no wheel handlers. prefers-reduced-motion skips the crawl animation. Keep the console clean and
+test ?screen= deep links still land on §2 with the page scrolled to it.
 ```
 ### Prompt F: pause + hangar (only once your partner has pushed lib/hangar.js — see HANDOFF.md)
 ```

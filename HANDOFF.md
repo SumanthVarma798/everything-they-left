@@ -224,3 +224,28 @@ paused game — dimmed backdrop, "WHAT I'VE FOUND · 23 of 75", the unlocked ent
 list (read or listen inline), a "Hangar ▸" button that calls mountHangar, and Resume. Esc resumes. Same data
 source, same files; still do not touch index.html or lib/engine.js. Test it on hangar.html?pause=1&unlock=all.
 ```
+### Prompt H3: the dossier strip + the timeline (after H1)
+```
+The game page is now a scroll spine (RUNBOOK §2 "The page"): §2 is the play window, §3 is a dossier strip
+directly below it, §4 is your hangar. Add two things to lib/hangar.js + lib/hangar.css, same ownership rules.
+
+1. mountDossier(root, { onBack }) — the live strip under the play area. The most recently unlocked entries,
+newest first, as a horizontally scrollable row of cards; click a card to expand it in place to the full record
+(image in its era frame or pencil, text, her `why` line for library plates, sources, audio button). It listens
+for document 'etl:unlock' and prepends the new entry with a flash and a NEW dot, so it updates while the player
+watches. A persistent "↑ Back to the surface" button calls onBack. Empty state before anything is unlocked:
+"Whatever she finds down there will show up here." Nothing in this strip ever autoplays audio or video.
+
+2. The timeline rail in mountHangar: a horizontal rail from 1857 to 2150. Every unlocked entry lights its year;
+everything else stays dark. Use PROGRESS.reach(catalogue) -> { count, total, years[], first, last } — years[] is
+the sorted list of years she has actually reached. Clicking a lit year filters the list to that year. Show
+"WHAT I'VE FOUND · {count} / {total}" above it.
+
+Note on why it is not a simple "everything up to year X" gate: the prologue relives 1859, 2022 and 2024 in the
+first minute, so a max-year gate would open almost the whole library before chapter 1. Lighting the years she has
+actually touched gives the same in-sync feeling and stays honest to a story told out of order.
+
+Self-check: node check.mjs · console clean · ?unlock=all lights the whole rail · ?unlock=none leaves it dark ·
+the strip grows when you fire document.dispatchEvent(new CustomEvent('etl:unlock',{detail:{id:"chapter:air"}})) ·
+390x844 works · no autoplay.
+```
