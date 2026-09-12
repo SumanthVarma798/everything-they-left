@@ -201,7 +201,8 @@ Paste the prompt, let Cursor work, run the check, fix, move on. **Deploy at the 
 | **12:15–12:50** | **Engine: beat list + text renderers.** Prompt B. | Clicking through goes title → prologue → opener → chapter 1 alarm/finds/payoff/wonder with typed text; relive frames show in the right era look |
 | **12:50–13:30** | **Interactions + HUD unlocks + checkpoints.** Prompt C. | All 6 chapters playable end to end; misses replay the interaction; 3rd miss shows the toast; HUD grows chapter by chapter |
 | **13:30–13:55** | **Camera + audio + salvage map + epilogue.** Prompt D. | Camera flies between waypoints; clips play; the map appears after chapter 4; epilogue montage, plaque, credits |
-| **13:55–14:25** | **Polish pass.** Prompt E + your own eye. | Skip works, phone layout works, no console errors, nothing overlaps |
+| **13:55–14:10** | **Pause + hangar merge.** Prompt F. | Esc pauses; the pause view lists what she's found; Hangar opens |
+| **14:10–14:25** | **Polish pass.** Prompt E + your own eye. | Skip works, phone layout works, no console errors, nothing overlaps |
 | **14:25–14:45** | **Full playthrough ×2** (timer on, timer off) + phone. | No blockers; list of nits |
 | **14:45–15:00** | **Freeze. Deploy. Rehearse the demo twice.** | Live URL works on your phone |
 
@@ -226,6 +227,9 @@ renderer per beat type from the "Beat renderers" table: line (typewriter 45 ch/s
 <img class="sketch">, call ensurePencil()), payoff (+ SOLVED BEFORE stamp), relive (eraFrame(img, year, {date, live})
 full-bleed with slow Ken Burns + caption; text-only relive = caption card), wonder, hook. Click/Enter/Space
 advances; Esc skips remaining relive beats of the chapter. Keep all text in content.js — never hard-code story text.
+Import { PROGRESS, ids } from './progress.js' and unlock as beats are SHOWN, so the pause/hangar view fills up as
+she discovers things: alarm → PROGRESS.unlock(ids.chapter(c.id)); finds → ids.find(c.id, i) for each find;
+relive → ids.moment(part, i) where part is 'opener' | the chapter id | 'finale'. Never edit content.js or lib/progress.js.
 ```
 ### Prompt C: interactions + HUD + checkpoints
 ```
@@ -233,7 +237,8 @@ Wire the act beat: mountInteraction(hud.panel, chapter.interaction, { timerOn: h
 onMiss }) (see prototypes.html crisis view for the exact pattern). onMiss: hud.fail(); count misses; on the 3rd
 miss hud.toast('Want to read at your own pace? Turn off the timer ↗'); the interaction restarts itself
 (checkpoint). hud.onTimer → active.setTimer(on). On payoff call hud.unlock(chapter.hudUnlock) and
-setObjective. Start with the HUD dead except o2-gauge (after the opener). Support ?misses=N and ?timer=off.
+setObjective. Also PROGRESS.unlock(ids.fix(chapter.id)) on the win. Start with the HUD dead except o2-gauge
+(after the opener). Support ?misses=N and ?timer=off.
 ```
 ### Prompt D: camera, audio, map, epilogue
 ```
@@ -243,6 +248,16 @@ beat: mountSalvageMap(#cut, {...CONTENT.salvageMap, missions from data/missions.
 'assets/textures/moon_2k.jpg', earthTexture: 'assets/textures/earth_day.jpg'}). Epilogue: reply lines, montage
 (finale.relive, 4 s each, auto), impossible-things page (finale.rows, paper style), plaque (etched card),
 choice, closing + last, then credits (memorial + every sources[] link + CREDITS.md media credits).
+Unlocks: on the map beat PROGRESS.unlock(ids.screen('map')) and, as the year scrub passes each beat,
+ids.mission(beat.match-ed mission name) — plus ids.artifact(beat.salvage) for the four salvage pins;
+on the epilogue ids.screen('epilogue').
+```
+### Prompt F: pause + hangar (only once your partner has pushed lib/hangar.js — see HANDOFF.md)
+```
+git pull. In lib/engine.js: Esc (or the ⏸ button) pauses — freeze the timer, stop audio, and
+mountPause(#cut, { onResume }) from lib/hangar.js so she can read or listen to everything found so far;
+a "Hangar ▸" button inside it calls mountHangar(...). Import both lazily (await import) and no-op if the
+module isn't there yet, so the game never breaks if that work isn't merged. Don't edit lib/hangar.*.
 ```
 ### Prompt E: polish
 ```
