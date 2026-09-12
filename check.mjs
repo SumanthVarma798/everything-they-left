@@ -59,6 +59,17 @@ check(C.salvageMap.summary.includes(`${tries} tries`) && C.salvageMap.summary.in
 
 C.finale.rows.forEach((r, i) => { const y = +(r.real.match(/^(\d{4})/) || [])[1]; if (y > 2026 && y < 2150) check(r.projected && r.basis, `finale row ${i}: "${r.real.slice(0, 40)}" needs projected:true + basis`); });
 
+// 4b. SARATHI: every relived scene needs a reason to surface, and no cue may point at a scene that isn't there
+const S = C.companion;
+check(S && S.name && S.unit && Array.isArray(S.boot) && S.lessons > 0 && S.lessonOne, 'companion: block is incomplete');
+const parts = { opener: C.opener, ...Object.fromEntries(C.crises.map(c => [c.id, c])), finale: C.finale };
+for (const [k, part] of Object.entries(parts)) (part.relive || []).forEach((r, i) => {
+  const cue = S.cues?.[`${k}:${i}`];
+  check(cue && typeof cue.line === 'string' && cue.line.length > 15, `companion: no cue for relive ${k}:${i} — every memory needs a reason to surface`);
+  check(cue && cue.lesson >= 1 && cue.lesson <= S.lessons, `companion cue ${k}:${i}: lesson ${cue?.lesson} outside 1..${S.lessons}`);
+});
+for (const k of Object.keys(S.cues || {})) { const [pt, i] = k.split(':'); check(parts[pt]?.relive?.[+i], `companion cue "${k}": no such relive scene`); }
+
 // 5. the Lunar Library archive: unique ids, every `with` resolves to a real unlock id, sourced, no photos
 const { PROGRESS } = await import('./lib/progress.js');
 const known = new Set(PROGRESS.entries(C, M).map(e => e.id));
@@ -78,4 +89,4 @@ check(ARCHIVE.length >= 24, `archive is thin: ${ARCHIVE.length} events`);
 for (const k of ['reply', 'relive', 'rows', 'plaque', 'choice', 'closing', 'last', 'sources']) check(C.finale[k] != null, `finale: missing ${k}`);
 
 if (bad.length) { console.error(`✗ ${bad.length} problem(s):\n- ` + bad.join('\n- ')); process.exit(1); }
-console.log(`✓ content.js ok · ${C.crises.length} chapters · ${ARCHIVE.length} library events · ${[C.opener, ...C.crises, C.finale].reduce((a, p) => a + (p.relive?.length || 0), 0)} relive scenes · ${tries} Moon-bound missions (${fails} failed)`);
+console.log(`✓ content.js ok · ${C.crises.length} chapters · ${ARCHIVE.length} library events · ${Object.keys(C.companion.cues).length} SARATHI cues · ${[C.opener, ...C.crises, C.finale].reduce((a, p) => a + (p.relive?.length || 0), 0)} relive scenes · ${tries} Moon-bound missions (${fails} failed)`);

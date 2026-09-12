@@ -32,6 +32,27 @@ then open `http://localhost:8765/prototypes.html` (working pieces) and `http://l
 | Ch 2–4 | **curiosity** | She starts to *want* to know how they did it; the library |
 | Ch 5, Ch 6, Epilogue | **inspiration** | Failures became parts; they failed in public and came back; so will she |
 
+### SARATHI-7 — why the past keeps interrupting
+The relived scenes are not Bhoomi daydreaming. **SARATHI-7** is the outpost school's teaching unit: four hundred
+lessons, ages six to fourteen, commissioned in 2041 with the first crew. It survived the storm because it was never
+networked and is not really solid-state — it reads its curriculum optically off etched nickel plates, the same
+medium as the Lunar Library she finds in chapter 4. The storm burned its **index**, not its plates, so it can no
+longer be asked for anything. It retrieves by association: she says a word, or a gauge crosses a line, and it plays
+whatever lesson is cross-linked — often the wrong one, usually mid-sentence.
+
+That single fault does four jobs at once: it explains every flashback, it explains why the history is patchy and
+tilted toward India (it was built by ISRO's descendants), it makes the Lunar Library in chapter 4 a real
+escalation (30 million pages against its four hundred lessons), and it gives her someone to talk to.
+
+Her arc runs through it: **despair** — "a toy for eight-year-olds survived, and the water plant didn't";
+**curiosity** — she starts triggering it on purpose ("Sarathi. Say the one about the square box again.");
+**inspiration** — she asks it something that isn't a lesson at all. And the plate it keeps failing to reach all
+game is **lesson one**, recorded in 2041 by a woman named Chandrika Devi: *"Hello. I am going to teach you about
+where you came from. It is the blue one. You can see it from the door."* It plays at the very end, after the plaque.
+
+All of it lives in `CONTENT.companion`: `boot`, `arc`, `lessonOne`, and `cues` keyed `part:index`
+(`'air:0'`, `'finale:4'`) — the same shape as `ids.moment(part, i)`, so the dossier and hangar can show the cue too.
+
 **Rhythm inside every chapter:** DANGER (2150 HUD) → she searches (**pencil notebook**) → ACT (interaction) →
 BREATH (safe for now) → WONDER (relives the people behind it, **in colour, era camera**) → one line.
 People don't daydream in danger. They only wonder once they're safe.
@@ -244,7 +265,8 @@ Paste the prompt, let Cursor work, run the check, fix, move on. **Deploy at the 
 | **12:50–13:30** | **Interactions + HUD unlocks + checkpoints.** Prompt C. | All 6 chapters playable end to end; misses replay the interaction; 3rd miss shows the toast; HUD grows chapter by chapter |
 | **13:30–13:55** | **Camera + audio + salvage map + epilogue.** Prompt D. | Camera flies between waypoints; clips play; the map appears after chapter 4; epilogue montage, plaque, credits |
 | **13:40–13:55** | **The page: header, crawl, snap, dossier, footer.** Prompt G. | The title crawls, the Moon turns to Shackleton, the play section clicks into place, scrolling away pauses |
-| **13:55–14:10** | **Pause + hangar merge.** Prompt F. | Esc pauses; the pause view lists what she's found; Hangar opens |
+| **13:55–14:05** | **SARATHI.** Prompt S. | The flashbacks have a cause: a school unit reading the wrong lesson |
+| **14:05–14:15** | **Pause + hangar merge.** Prompt F. | Esc pauses; the pause view lists what she's found; Hangar opens |
 | **14:10–14:25** | **Polish pass.** Prompt E + your own eye. | Skip works, phone layout works, no console errors, nothing overlaps |
 | **14:25–14:45** | **Full playthrough ×2** (timer on, timer off) + phone. | No blockers; list of nits |
 | **14:45–15:00** | **Freeze. Deploy. Rehearse the demo twice.** | Live URL works on your phone |
@@ -325,6 +347,30 @@ section stays empty and nothing breaks. Do not create or edit lib/hangar.*; that
 
 No scroll-jacking, no wheel handlers. prefers-reduced-motion skips the crawl animation. Keep the console clean and
 test ?screen= deep links still land on §2 with the page scrolled to it.
+```
+### Prompt S: SARATHI-7 (run after G — it is the reason the flashbacks exist)
+```
+Read RUNBOOK §1 "SARATHI-7" and CONTENT.companion. Every relived scene in this game is an old school teaching
+unit malfunctioning; right now the flashbacks have no cause on screen. Give it a voice and a body.
+
+1. A companion band in the cutscene layer (#cut), bottom-centre, above the interaction panel and clear of the
+   HUD: a small ⟐ glyph that turns slowly while it speaks, "SARATHI-7 · LESSON 112 / 400" in Barlow Condensed
+   small caps, and the line typed at 30 ch/s in a lighter weight than Bhoomi's own text — it must read as a
+   different voice. It never covers the centre of the view.
+2. New beat type `cue`, inserted automatically before every relive beat: look up
+   CONTENT.companion.cues[`${part}:${i}`] where part is 'opener' | chapter id | 'finale' and i is the index in
+   that part's relive[]. Show the band, then advance into the era frame with the band still up, fading after.
+   check.mjs guarantees a cue exists for all 23 scenes, so treat a missing one as a bug, not a normal path.
+3. Boot: play CONTENT.companion.boot as four cue-styled lines in the prologue, after the storm, before she moves.
+   The second line is "Good morning, children." — let it sit alone for a beat.
+4. Mood lines: CONTENT.companion.arc.despair / .curiosity / .inspiration, once each, on the first chapter of
+   that mood (chapters carry `mood`).
+5. The ending: after the plaque beat, play CONTENT.companion.lessonOne — cue line, then the recorded 2041 line
+   attributed to Chandrika Devi rendered differently again (this is a recording inside a recording: give it the
+   era treatment of its year), then the three `after` lines. The last one is Bhoomi's, not SARATHI's.
+
+Keep every word in content.js. No new dependencies. Console clean, and the band must not overlap the HUD at
+390x844.
 ```
 ### Prompt F: pause + hangar (only once your partner has pushed lib/hangar.js — see HANDOFF.md)
 ```

@@ -120,6 +120,14 @@ Chronological by chapter, not by year — this is her run, in order. `moment` en
 (`eraFrame`), `find` entries stay pencil (`ensurePencil`), `mission` entries are one-line rows with the data
 behind them. This room is a reading view: text, sources, and a play button wherever `entry.audio` exists.
 
+### Whose voice the library is in
+`CONTENT.companion` is **SARATHI-7**, the outpost school's teaching unit: 400 lessons, a burnt index, and the
+reason every flashback happens (RUNBOOK §1). It matters to you in two places: `companion.cues['air:0']` is the
+line that surfaced that memory — show it on `moment` cards in the dossier and the log, in SARATHI's voice, so the
+player can see *why* she remembered it. And the Lunar Library room is the contrast to SARATHI: its 400 lessons
+against 30 million pages. A line at the top of that room — "SARATHI-7 had four hundred lessons. This is the rest."
+— earns the whole room.
+
 ### 3 · THE LUNAR LIBRARY — what she read (`event` 31, `data/archive.js`)
 The 31 things that never happen in the six chapters: Salyut 7 thawed by hand, Skylab's parasol, the Mars picture
 coloured in with pastels, Hayabusa's two broken engines wired into one, Voyager 1 patched from 24 billion km,

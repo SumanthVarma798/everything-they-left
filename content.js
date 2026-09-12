@@ -29,6 +29,84 @@ export const CONTENT = {
   // by 2040 — PM’s 2023 target, reaffirmed by ISRO 2026). Revealed only by the last plaque in the epilogue.
   narrator: { name: 'Bhoomi', meaning: 'the Earth', base: 'Shackleton Outpost 7', year: 2150 },
 
+  // ── SARATHI-7 · the reason the past keeps interrupting ────────────────────────────────────
+  // A teaching unit for the outpost school: four hundred lessons, ages six to fourteen. It survived the
+  // storm because it was never networked and never fully solid-state — it reads its curriculum optically
+  // off etched nickel plates, the same medium as the Lunar Library she finds in chapter 4. The storm burned
+  // its index, not its plates, so it can no longer retrieve on request: it retrieves by association. Bhoomi
+  // says a word, or a gauge crosses a line, and SARATHI plays whatever lesson is cross-linked to it —
+  // often the wrong one, usually mid-sentence. Every relived scene in this game is SARATHI malfunctioning.
+  companion: {
+    name: 'SARATHI',
+    unit: 'SARATHI-7',
+    meaning: 'the charioteer — the one who drives the chariot and counsels the person in it',
+    role: 'Teaching unit, Shackleton Outpost school. Four hundred lessons. Ages six to fourteen.',
+    lessons: 400,
+    commissioned: 2041,
+    why: 'Never networked, never fully solid-state: it reads etched plates optically, like the Lunar Library. The storm took its index, not its lessons.',
+    fault: 'It cannot be asked. It can only be reminded.',
+    // Boot, in the prologue, after the storm and before she moves.
+    boot: [
+      'SARATHI-7. Teaching unit. Shackleton Outpost school.',
+      'Good morning, children.',
+      'My index is damaged. I have four hundred lessons and no way to find the one you want.',
+      'I will do my best.',
+    ],
+    // Her relationship with it, one line per mood — the engine can drop these in at chapter boundaries.
+    arc: {
+      despair: 'A toy for eight-year-olds survived, and the water plant didn’t.',
+      curiosity: 'Sarathi. Say the one about the square box again.',
+      inspiration: 'Sarathi — how many of them failed before it worked? "That is not a lesson. But I can count."',
+    },
+    // Why each memory surfaces. Key = `${part}:${index}` into that part's relive[] — the same shape as
+    // ids.moment(part, i) in lib/progress.js, so the dossier and the hangar can show the cue too.
+    cues: {
+      'opener:0':  { lesson: 3,   line: 'Storm. You said storm. I have a lesson about storms. It is not the one you need.' },
+      'opener:1':  { lesson: 187, line: 'Also storms. I am sorry — I cannot stop at the end of a lesson any more.' },
+      'opener:2':  { lesson: 188, line: 'You said eleven minutes. Warning. Somebody built a thing whose whole job was warning.' },
+
+      'air:0':     { lesson: 112, line: 'You said square. Lesson one hundred twelve: things that did not fit.' },
+      'air:1':     { lesson: 204, line: 'This one is about coming home. You did not ask for it. I could not hold it back.' },
+      'air:2':     { lesson: 40,  line: 'The man who started it. My lesson one is scratched; I keep trying it and landing here.' },
+
+      'move:0':    { lesson: 61,  line: 'You are carrying a part by hand. Lesson sixty-one is about carrying a part by hand.' },
+      'move:1':    { lesson: 93,  line: 'Repairs made with maps and tape. Children find this one funny.' },
+      'move:2':    { lesson: 351, line: 'This lesson is recent. I only have four that are recent.' },
+
+      'night:0':   { lesson: 77,  line: 'You said alarm. Lesson seventy-seven: an alarm that did not mean stop.' },
+      'night:1':   { lesson: 209, line: 'When they would not sell it to us, and we built it anyway. I was made by their grandchildren.' },
+
+      'library:0': { lesson: 340, line: 'You said switch. Lesson three hundred forty: the switch nobody flipped.' },
+      'library:1': { lesson: 391, line: 'This lesson is nine seconds long. It is my favourite. I am not supposed to have one.' },
+
+      'water:0':   { lesson: 266, line: 'You said ice. Lesson two hundred sixty-six.' },
+      'water:1':   { lesson: 267, line: 'And two hundred sixty-seven. They are welded together now. I cannot play one without the other.' },
+
+      'signal:0':  { lesson: 2,   line: 'You said signal. Lesson two. The first thing anyone up here ever said.' },
+      'signal:1':  { lesson: 150, line: 'The man who stood up and took the blame. I was told to play this one slowly.' },
+      'signal:2':  { lesson: 399, line: 'Three hundred ninety-nine. Near the end of me.' },
+
+      'finale:0':  { lesson: 300, line: 'The picture that was not on the checklist.' },
+      'finale:1':  { lesson: 180, line: 'Every child at this outpost could recite this one. There are no children at this outpost.' },
+      'finale:2':  { lesson: 181, line: 'It follows the last one. Somebody sequenced these on purpose.' },
+      'finale:3':  { lesson: 220, line: 'Waiting for a ride. You have been living in this lesson for two days.' },
+      'finale:4':  { lesson: 400, line: 'Lesson four hundred. The last one anybody recorded. Nobody added a lesson after this one.' },
+    },
+    // The end: the damaged plate it has been failing to reach all game.
+    lessonOne: {
+      cue: 'Bhoomi. My index is still damaged. But you cleaned the reader. I can try lesson one.',
+      recorded: 2041,
+      voice: 'Chandrika Devi',
+      line: '"Hello. I am going to teach you about where you came from. It is the blue one. You can see it from the door."',
+      after: [
+        'That is my lesson one. It has been scratched since before you were born.',
+        'I only ever had four hundred lessons. You have read thirty million pages. You know more than I do now.',
+        '"You taught me where to look."',
+      ],
+    },
+    sources: [['Sarathi / charioteer', 'https://en.wikipedia.org/wiki/Parthasarathy'], ['Lunar Library (Arch Mission)', 'https://www.archmission.org/lunar-library']],
+  },
+
   // ── PROLOGUE · Eleven Minutes ─────────────────────────────────────────────────────────────
   prologue: {
     mood: 'despair',
